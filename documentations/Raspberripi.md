@@ -11,9 +11,9 @@
 This document serves as a guide for working with the Raspberry Pi. It includes the errors we encountered and the solutions we implemented to resolve them. Please note that the steps outlined are specific to our project and are not intended as general guidelines. Additionally, we provide details on general settings and the steps we took to accomplish various tasks using our Raspberry Pi.
 
 ## General Details
-Raspberrypi Name: Ainav
-Password: 1234 (this should be removed when we make the repository public) 
-Pi Wi-Fi automatically connects to: Aaminah's Wifi, 
+Raspberrypi Name: Ainav  
+Password: 1234 (this should be removed when we make the repository public)  
+Pi Wi-Fi automatically connects to: Aaminah's Wifi,   
 IP Address: (remains same as long as connected to Aaminah's Wifi) 
 
 ## Display Not Showing Error 
@@ -22,10 +22,14 @@ IP Address: (remains same as long as connected to Aaminah's Wifi)
 - **Issue:** Upon Boot, the raspbery pi loads a text console instead of the desktop screen, This makes it difficult to access chromium and upload code to our raspberry pi. 
 - **Cause:** Not Sure, Error feels random, raspbery pi was working normally few months ago.
 - **Fix Attempts:**  
-  - **Attempt 1:** [What you tried] → [Failed]  
-  - **Attempt 2:** [What you tried] → [Failed]  
-  - **Attempt 3:** [What you tried] → [Failed]  
-- **Solution:** [What finally worked]  
+  - **Attempt 1:** Start x → [Failed]  
+  - **Attempt 2:** Reinstall lightdm → [Failed]  
+  - **Attempt 3:** Change display settings in raspiconfig file → [Failed]
+  - **Attempt 4:** Chnage display settings in raspiconfig file → [Failed]
+  - **Attempt 5:** Chnage display settings in raspiconfig file → [Failed]  
+
+
+- **Solution:** Formatting the SD Card and reinstalling the imager.
 - **Notes:** [Any useful insights for future reference]  
 
 
@@ -61,21 +65,6 @@ Provide instructions on how to use the project, including command-line usage, GU
 ## Configuration Settings
 Explain configurable options, such as environment variables and configuration files.
 
-## API Reference
-If applicable, document available API endpoints, request/response structures, and authentication mechanisms.
-
-## Dependencies
-List major dependencies, their versions, and their role in the project.
-
-## Testing & Debugging
-Outline how to execute tests:
-```sh
-pytest tests/  # Example for Python
-```
-Provide debugging tips for common issues.
-
-## Common Issues & Solutions
-Document frequent problems users might face and their fixes.
 
 ## Contribution Guidelines
 Explain how others can contribute, including coding standards, issue reporting, and pull request procedures.
