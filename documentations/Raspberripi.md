@@ -3,8 +3,8 @@
 ## Table of Contents
 1. [Introduction](#introduction)
 2. [General Details](#general-details)
-3. [Display not Showing Upon Boot Error](#display-not-showing-error)
-4. [Entering Virtual Environment](#virtual-environment)
+3. [Display not Showing Upon Boot Error](#desktop-not-showing-upon-boot-error)
+4. [Entering Virtual Environment](#how-to-connect-to-virtual-environment)
 
 ---
 ## Introduction
@@ -16,59 +16,39 @@ Password: 1234 (this should be removed when we make the repository public)
 Pi Wi-Fi automatically connects to: Aaminah's Wifi,   
 IP Address: (remains same as long as connected to Aaminah's Wifi) 
 
-## Display Not Showing Error 
+## Desktop Not Showing Upon Boot Error 
 
 - **Date & Time:** 
-- **Issue:** Upon Boot, the raspbery pi loads a text console instead of the desktop screen, This makes it difficult to access chromium and upload code to our raspberry pi. 
-- **Cause:** Not Sure, Error feels random, raspbery pi was working normally few months ago.
+- **Issue:** Upon Boot, the raspberry pi loads a text console instead of the desktop screen, This makes it difficult to access Chromium and upload code to our raspberry pi. We also notice that once we reboot, lighdm fails to load as well. 
+- **Cause:** Not Sure, Error feels random, raspberry pi was working normallya  few months ago.
 - **Fix Attempts:**  
-  - **Attempt 1:** Start x → [Failed]  
-  - **Attempt 2:** Reinstall lightdm → [Failed]  
-  - **Attempt 3:** Change display settings in raspiconfig file → [Failed]
-  - **Attempt 4:** Chnage display settings in raspiconfig file → [Failed]
-  - **Attempt 5:** Chnage display settings in raspiconfig file → [Failed]  
-
+  - **Attempt 1:** Start x → [Failed] : (X started but upon reboot console still shows)
+  - **Attempt 2:** Reinstall lightdm → [Failed]  : (lightdm reinstalls and reconfigure but lightdm still fails to load)
+  - **Attempt 3:** Change display settings in raspiconfig file → [Failed] : (console still shows upon boot)
+  - **Attempt 4:** Changing the boot setting from raspi configuration  → [Failed] : (despite changed setting, console still shows upon boot)
+  - **Attempt 5:** Try to reinstall Plymouth → [Failed]  :(had a difficult time reinstalling Plymouth)
 
 - **Solution:** Formatting the SD Card and reinstalling the imager.
-- **Notes:** [Any useful insights for future reference]  
+- **Notes:** 
 
 
-## Virtual Environment
-Describe the system architecture and provide diagrams where necessary. Explain how different components interact.
+## How to Connect to Virtual Environment
+Whenever we want to run a python script, it is best to run it using a virtual environment. A virtual environment helps manage dependencies and isolate project-specific Python packages, preventing conflicts with system-wide installations. Below are the steps to set up and activate a virtual environment.
 
-## Installation Guide
-### Prerequisites
-- List required software, hardware, or tools.
-- Mention any dependencies to be installed beforehand.
-
-### Steps to Install
-1. Clone the repository:
+1. Create a virtual environment named tflite1
    ```sh
-   git clone https://github.com/your-repo/project.git
+   python3 -m venv --system-site-packages tflite1-env
    ```
-2. Navigate to the project directory:
-   ```sh
-   cd project
+2. Step 2: Activate the virtual environment
+    ```sh
+   source tflite1-env/bin/activate
    ```
-3. Install required dependencies:
-   ```sh
-   pip install -r requirements.txt  # Example for Python projects
-   ```
-4. Run setup commands (if any):
-   ```sh
-   ./setup.sh
+3. Step 3: Enter the Environment 
+    ```sh
+   cd tflite1
    ```
 
-## How to Use
-Provide instructions on how to use the project, including command-line usage, GUI navigation, or API calls.
 
-## Configuration Settings
-Explain configurable options, such as environment variables and configuration files.
+## How to activate Raspberi Pi Camera 
 
-
-## Contribution Guidelines
-Explain how others can contribute, including coding standards, issue reporting, and pull request procedures.
-
-## License & Legal
-Specify the license (e.g., MIT, Apache 2.0) and include a link to the full license text.
-
+## Connecting the Ailiensense camera 
