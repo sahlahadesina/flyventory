@@ -72,9 +72,10 @@ In the configuration file, add the following to the bottom
 start_x=1
 gpu_mem=128
 ```
-
+Then you do the following in the terminal to install the modules for the camera 
+```sh
  sudo apt install libcamera-apps libcamera-dev
-
+```
    ```sh
 sudo apt install libcap-dev libatlas-base-dev ffmeg libopenjp2-7
 ```
@@ -89,18 +90,36 @@ sudo apt install libkms++-dev libfmt-dev libdrm-dev
  ```sh
 pip install wheel
 ```
-
+Check if libcamera-hello works, after this step, if it does no need to do the steps below. 
 ```sh
 pip install rpi-libcamera rpi-kms picamera2
 ```
-If you face errors with the version, you can dowgrade the version, using the commands, 
-
-
-
+If you face errors with the version, you can downgrade the version, using the commands, 
+```
+sudo apt install libcamera0=0.4.0-1~rpt1+rpi50
+```
+and
+```
+pip install rpi-libcamera
+```
 ```sh
 pip install picamera
 ```
+You can start the camera using 
+```
+libcamera-hello
+```
 
+The following libraries is needed for the QR Code. 
+
+### Installing pyzbra
+```
+pip install pyzbar opencv-python
+```
+### Installing Ultralytics
+```
+pip install ultralytics
+```
 
 ## Runnning a Python File 
 
