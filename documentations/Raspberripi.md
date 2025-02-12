@@ -78,11 +78,15 @@ sudo apt install libkms++-dev libfmt-dev libdrm-dev
 ```
 
  ```sh
-pip install wheel#
+pip install wheel
 ```
+
 ```sh
 pip install rpi-libcamera rpi-kms picamera2
 ```
+If you face errors with the version, you can dowgrade the version, using the commands, 
+
+
 
 ```sh
 pip install picamera
