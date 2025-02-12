@@ -66,6 +66,13 @@ pip install numpy==1.26.4
  pip install tensorflow
  ```
 ### Pi Camera 
+In the configuration file, add the following to the bottom 
+
+```sh
+start_x=1
+gpu_mem=128
+```
+
    ```sh
 sudo apt install libcap-dev libatlas-base-dev ffmeg libopenjp2-7
 ```
