@@ -73,6 +73,8 @@ start_x=1
 gpu_mem=128
 ```
 
+ sudo apt install libcamera-apps libcamera-dev
+
    ```sh
 sudo apt install libcap-dev libatlas-base-dev ffmeg libopenjp2-7
 ```
