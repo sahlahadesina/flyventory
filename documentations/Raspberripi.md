@@ -71,7 +71,9 @@ sudo apt install libcap-dev libatlas-base-dev ffmeg libopenjp2-7
 ```
    ```sh
 sudo apt install libcamera-dev
-```   ```sh
+```
+
+ ```sh
 sudo apt install libkms++-dev libfmt-dev libdrm-dev
 ```
 
