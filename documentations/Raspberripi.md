@@ -48,6 +48,46 @@ Whenever we want to run a python script, it is best to run it using a virtual en
    cd tflite1
    ```
 
+## Runnning a Python File 
+1. Place your Python file into the environment you created
+2. pythonfile.py 
+
+## Installing Different Modules:
+### Open CV
+   ```sh
+ pip install opencv-contrib-python
+   ```
+### Numpy 
+   ```sh
+pip install numpy==1.26.4
+ ```
+### TensorFlow
+   ```sh
+ pip install tensorflow
+ ```
+### Pi Camera 
+   ```sh
+sudo apt install libcap-dev libatlas-base-dev ffmeg libopenjp2-7
+```
+   ```sh
+sudo apt install libcamera-dev
+```   ```sh
+sudo apt install libkms++-dev libfmt-dev libdrm-dev
+```
+
+ ```sh
+pip install wheel#
+```
+```sh
+pip install rpi-libcamera rpi-kms picamera2
+```
+
+```sh
+pip install picamera
+```
+
+
+## Runnning a Python File 
 
 ## How to activate Raspberi Pi Camera 
 
