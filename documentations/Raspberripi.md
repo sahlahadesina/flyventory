@@ -90,18 +90,16 @@ sudo apt install libkms++-dev libfmt-dev libdrm-dev
  ```sh
 pip install wheel
 ```
-Check if libcamera-hello works, after this step, if it does no need to do the steps below. 
+Check if libcamera-hello works after this step, if it does, then just
 ```sh
 pip install rpi-libcamera rpi-kms picamera2
 ```
-If you face errors with the version, you can downgrade the version, using the commands, 
-```
-sudo apt install libcamera0=0.4.0-1~rpt1+rpi50
-```
-and
-```
-pip install rpi-libcamera
-```
+    If you face errors with the version, you can downgrade the version, using the commands, 
+    ```
+    sudo apt install libcamera0=0.4.0-1~rpt1+rpi50
+    ```
+The continue and 
+
 ```sh
 pip install picamera
 ```
