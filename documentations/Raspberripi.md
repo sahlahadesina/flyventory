@@ -105,10 +105,7 @@ pip install rpi-libcamera
 ```sh
 pip install picamera
 ```
-You can start the camera using 
-```
-libcamera-hello
-```
+------------------------------------- 
 
 The following libraries is needed for the QR Code. 
 
@@ -120,6 +117,10 @@ pip install pyzbar opencv-python
 ```
 pip install ultralytics
 ```
+
+### Common Errors we Run to Repeatedly 
+1.   `  **
+2.   **
 
 ## Runnning a Python File 
 
