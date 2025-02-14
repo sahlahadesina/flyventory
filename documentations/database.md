@@ -1,7 +1,7 @@
 # Database Documentation 
 
 ## Schematic Diagram 
-![Inventory Database](https://github.com/user-attachments/assets/4a240195-ba1d-4be7-a8ed-c3e499218337)
+![Inventory Database (1)](https://github.com/user-attachments/assets/0643b5da-f59a-4a92-b1d9-a24cd60e75f2)
 
 ## Explanation 
 Preconditions: 
