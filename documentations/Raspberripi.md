@@ -116,6 +116,16 @@ pip install pyzbar opencv-python
 pip install ultralytics
 ```
 
+### USB Camera 
+Below are the steps we used to check if the USB Camera is connected, and test the live feed. 
+1. Check if the camera is detected. A list of /dev/video 0 - /dev/video11 should show.
+2. List Video Devices with Details.
+   ```
+   v4l2-ctl --list-devices
+   ```
+
+4. 
+
 ### Common Errors we Run to Repeatedly 
 1.   `  **
 2.   **
