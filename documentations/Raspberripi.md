@@ -15,24 +15,8 @@ Raspberrypi Name: Ainav
 Password: 1234 (this should be removed when we make the repository public)  
 Pi Wi-Fi automatically connects to: Aaminah's Wifi,   
 IP Address: (remains same as long as connected to Aaminah's Wifi) 
-
-## Desktop Not Showing Upon Boot Error 
-
-- **Date & Time:** 
-- **Issue:** Upon Boot, the raspberry pi loads a text console instead of the desktop screen, This makes it difficult to access Chromium and upload code to our raspberry pi. We also notice that once we reboot, lighdm fails to load as well. 
-- **Cause:** Not Sure, Error feels random, raspberry pi was working normallya  few months ago.
-- **Fix Attempts:**  
-  - **Attempt 1:** Start x → [Failed] : (X started but upon reboot console still shows)
-  - **Attempt 2:** Reinstall lightdm → [Failed]  : (lightdm reinstalls and reconfigure but lightdm still fails to load)
-  - **Attempt 3:** Change display settings in raspiconfig file → [Failed] : (console still shows upon boot)
-  - **Attempt 4:** Changing the boot setting from raspi configuration  → [Failed] : (despite changed setting, console still shows upon boot)
-  - **Attempt 5:** Try to reinstall Plymouth → [Failed]  :(had a difficult time reinstalling Plymouth)
-
-- **Solution:** Formatting the SD Card and reinstalling the imager.
-- **Notes:** 
-
-
-## How to Connect to Virtual Environment
+# Useful Steps for Various Applications
+## 1. How to Connect to Virtual Environment
 Whenever we want to run a python script, it is best to run it using a virtual environment. A virtual environment helps manage dependencies and isolate project-specific Python packages, preventing conflicts with system-wide installations. Below are the steps to set up and activate a virtual environment.
 
 1. Create a virtual environment named tflite1
@@ -48,11 +32,12 @@ Whenever we want to run a python script, it is best to run it using a virtual en
    cd tflite1
    ```
 
-## Runnning a Python File 
+## 2.Runnning a Python File 
 1. Place your Python file into the environment you created
-2. pythonfile.py 
+2. pythonfile.py
+3. if it is a notebook, then python pythonnotebook.ipynb
 
-## Installing Different Modules:
+## 3. Installing Different Modules:
 ### Open CV
    ```sh
  pip install opencv-contrib-python
@@ -116,7 +101,7 @@ pip install pyzbar opencv-python
 pip install ultralytics
 ```
 
-### USB Camera 
+## 4. Using the USB Camera 
 Below are the steps we used to check if the USB Camera is connected, and test the live feed. 
 1. Check if the camera is detected. A list of /dev/video 0 - /dev/video11 should show.
 2. List Video Devices with Details.
@@ -125,13 +110,32 @@ Below are the steps we used to check if the USB Camera is connected, and test th
    ```
 
 4. 
+## 5. How to activate Raspberi Pi Camera 
 
-### Common Errors we Run to Repeatedly 
+## 6 Connecting the Ailiensense camera 
+
+# Error Logs 
+
+## 1. Desktop Not Showing Upon Boot Error 
+
+- **Date & Time:** 
+- **Issue:** Upon Boot, the raspberry pi loads a text console instead of the desktop screen, This makes it difficult to access Chromium and upload code to our raspberry pi. We also notice that once we reboot, lighdm fails to load as well. 
+- **Cause:** Not Sure, Error feels random, raspberry pi was working normallya  few months ago.
+- **Fix Attempts:**  
+  - **Attempt 1:** Start x → [Failed] : (X started but upon reboot console still shows)
+  - **Attempt 2:** Reinstall lightdm → [Failed]  : (lightdm reinstalls and reconfigure but lightdm still fails to load)
+  - **Attempt 3:** Change display settings in raspiconfig file → [Failed] : (console still shows upon boot)
+  - **Attempt 4:** Changing the boot setting from raspi configuration  → [Failed] : (despite changed setting, console still shows upon boot)
+  - **Attempt 5:** Try to reinstall Plymouth → [Failed]  :(had a difficult time reinstalling Plymouth)
+
+- **Solution:** Formatting the SD Card and reinstalling the imager.
+- **Notes:** 
+
+
+
+## 2. Common Errors we Run to Repeatedly 
 1.   `  **
 2.   **
 
-## Runnning a Python File 
 
-## How to activate Raspberi Pi Camera 
 
-## Connecting the Ailiensense camera 
