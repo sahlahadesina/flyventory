@@ -1,14 +1,28 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from rest_framework import generics
-from .serializers import UserSerializer, NoteSerializer
 from rest_framework.permissions import IsAuthenticated, AllowAny
-from .models import Note
+from rest_framework import viewsets
+from .models import Supplier, Product, Asset, Identification, Employee
+from .serializers import SupplierSerializer, ProductSerializer, AssetSerializer, IdentificationSerializer, EmployeeSerializer
 
-class NoteListCreate(generics.ListCreateAPIView):
-    serializer_class = NoteSerializer
-    permission_classes = [IsAuthenticated]
-class CreateUserView(generics.CreateAPIView):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-    permission_classes = [AllowAny]
+class SupplierViewSet(viewsets.ModelViewSet):
+    queryset = Supplier.objects.all()
+    serializer_class = SupplierSerializer
+
+class ProductViewSet(viewsets.ModelViewSet):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+
+class AssetViewSet(viewsets.ModelViewSet):
+    queryset = Asset.objects.all()
+    serializer_class = AssetSerializer
+
+class IdentificationViewSet(viewsets.ModelViewSet):
+    queryset = Identification.objects.all()
+    serializer_class = IdentificationSerializer
+
+class EmployeeViewSet(viewsets.ModelViewSet):
+    queryset = Employee.objects.all()
+    serializer_class = EmployeeSerializer
+    
