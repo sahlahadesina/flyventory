@@ -14,13 +14,18 @@
     ```sh
     env\Scripts\Activate
     ```
-
 ## Navigating to the Backend Folder
 
 4. **Once in the environment, navigate to the `backend` folder using:**
     ```sh
     cd .\backend\
     ```
+## Installing requirements
+
+5.  **Once in the backend folder install the requirements.txt**
+    ```sh
+     pip install -r requirements.txt
+     ```
 
 ## Running Migrations
 
