@@ -40,9 +40,8 @@ CREATE Table Identification (
 );
 
 CREATE Table Employee (
-	Username VARCHAR(255) NOT NULL UNIQUE, 
+	Username VARCHAR(255) PRIMARY KEY,
     Password VARCHAR(255) NOT NULL, 
-    EmployeeID INT AUTO_INCREMENT PRIMARY KEY,
     FirstName VARCHAR(255) NOT NULL,
     LastName VARCHAR(255) NOT NULL,
     Role ENUM('Manager', 'Worker', 'Drone Operator') NOT NULL 

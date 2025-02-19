@@ -4,63 +4,77 @@ from django.contrib.auth.models import User
 from django.db import models
 
 class Supplier(models.Model):
-    supplier_name = models.CharField(max_length=255)
-    contact_info = models.CharField(max_length=255)
+    SupplierID = models.AutoField(primary_key=True)
+    SupplierName = models.CharField(max_length=255)
+    ContactInfo = models.CharField(max_length=255)
+    class Meta:
+        db_table = "supplier"  
 
     def __str__(self):
-        return self.supplier_name
+        return self.SupplierName
 
 class Product(models.Model):
-    ProductID = models.AutoField(primary_key=True)  # Set primary key properly
-    supplier = models.ForeignKey(Supplier, on_delete=models.SET_NULL, null=True, blank=True)
-    product_name = models.CharField(max_length=255)
-    product_category = models.CharField(max_length=255, null=True, blank=True)
-    product_description = models.TextField(null=True, blank=True)
-    total_quantity = models.IntegerField()
-    product_price = models.DecimalField(max_digits=10, decimal_places=2)
+    ProductID = models.AutoField(primary_key=True, db_column="ProductID")
+    SupplierID = models.ForeignKey(Supplier, on_delete=models.SET_NULL, null=True, blank=True, db_column="SupplierID")
+    ProductName = models.CharField(max_length=255, db_column="ProductName")
+    ProductCategory = models.CharField(max_length=255, null=True, blank=True)
+    ProductDescription = models.TextField(null=True, blank=True)
+    TotalQuantity = models.IntegerField()
+    ProductPrice = models.DecimalField(max_digits=10, decimal_places=2)
     
     class Meta:
-        db_table = "product"  # Ensure Django maps to the correct MySQL table
+        db_table = "product"  
 
     def __str__(self):
-        return self.product_name
+        return self.ProductName
 
 class Asset(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    asset_location = models.CharField(max_length=255)
-    asset_condition = models.CharField(
+    AssetID = models.AutoField(primary_key=True)
+    ProductID = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True, blank=True, db_column="ProductID")
+    AssetLocation = models.CharField(max_length=255)
+    AssetCondition = models.CharField(
         max_length=10, 
         choices=[('Good', 'Good'), ('Damaged', 'Damaged'), ('Missing', 'Missing')],
         default='Good'
     )
-    date_added = models.DateField()
-    asset_found = models.BooleanField(default=False)
-    asset_dispatched = models.BooleanField(default=False)
+    DateAdded = models.DateField()
+    AssetFound = models.BooleanField(default=False)
+    AssetDispatched = models.BooleanField(default=False)
+    
+    class Meta:
+        db_table = "asset"  
 
     def __str__(self):
-        return f"{self.product.product_name} - {self.asset_location}"
+        return f"{self.ProductID.ProductName} - {self.AssetLocation}"
 
 class Identification(models.Model):
-    asset = models.ForeignKey(Asset, on_delete=models.CASCADE)
-    identifier_type = models.CharField(
+    ScanID = models.AutoField(primary_key=True)
+    AssetID = models.ForeignKey(Asset, on_delete=models.CASCADE, null=True, blank=True, db_column="AssetID")
+    IdentifierType = models.CharField(
         max_length=10, 
         choices=[('Barcode', 'Barcode'), ('QRCode', 'QRCode')]
     )
-    identifier_value = models.CharField(max_length=255, unique=True)
+    IdentifierValue = models.CharField(max_length=255, unique=True)
+    
+    class Meta:
+        db_table = "identification"  
 
     def __str__(self):
-        return f"{self.identifier_type}: {self.identifier_value}"
+        return f"{self.IdentifierType}: {self.IdentifierValue}"
 
 # Employee Table
 class Employee(models.Model):
-    username = models.CharField(max_length=255, unique=True)
-    password = models.CharField(max_length=255)  # Ideally, use Django's User model for authentication
-    first_name = models.CharField(max_length=255)
-    last_name = models.CharField(max_length=255)
-    role = models.CharField(
+    Username = models.CharField(max_length=255, primary_key=True)  
+    Password = models.CharField(max_length=255)  
+    FirstName = models.CharField(max_length=255)
+    LastName = models.CharField(max_length=255)
+    Role = models.CharField(
         max_length=20,
         choices=[('Manager', 'Manager'), ('Worker', 'Worker'), ('Drone Operator', 'Drone Operator')]
     )
 
+    class Meta:
+        db_table = "employee"  
+
     def __str__(self):
-        return f"{self.first_name} {self.last_name} - {self.role}"
+        return f"{self.FirstName} {self.LastName} - {self.role}"
