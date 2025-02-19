@@ -10,22 +10,19 @@ class SupplierSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class ProductSerializer(serializers.ModelSerializer):
-    supplier = SupplierSerializer()
-
+    # supplier = SupplierSerializer()
     class Meta:
         model = Product
         fields = '__all__'
 
 class AssetSerializer(serializers.ModelSerializer):
-    product = ProductSerializer()
-
+    # product = ProductSerializer()
     class Meta:
         model = Asset
         fields = '__all__'
 
 class IdentificationSerializer(serializers.ModelSerializer):
-    asset = AssetSerializer()
-
+    # asset = AssetSerializer()
     class Meta:
         model = Identification
         fields = '__all__'
