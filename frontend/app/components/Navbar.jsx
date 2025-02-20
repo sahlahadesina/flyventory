@@ -22,7 +22,7 @@ const Navbar = () => {
             <Image  src={assets.Drone_website} alt="Logo" className='w-150' quality={100}q   />
         </a>
 
-        <ul className='hidden md:flex items-center gap-6 lg:gap-8 rounded-full px-12 py-3 bg-white shadow-sm bg-opacity-50 border border-grey-500 rounded-full'>
+        <ul className='hidden md:flex items-center gap-6 lg:gap-8 rounded-full px-12 py-3 bg-white shadow-sm bg-opacity-50 border border-grey-500'>
 
          
           <li><a className='font-Ovo text-lg' href="#top">Home</a></li>

@@ -16,7 +16,7 @@ export default {
         
       },
       fontFamily: {
-        Outfit: ["Outfil", "sans-serif"],
+        Outfit: ["Outfit", "sans-serif"],
         Ovo: ["Ovo", "serif"]
       }
     },
