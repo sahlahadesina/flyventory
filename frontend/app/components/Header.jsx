@@ -2,7 +2,7 @@ import React from 'react';
 
 const Header = () => {
   return (
-    <div className='w-11/12 max-w-3xl text-left mx-auto h-screen flex flex-col items-start justify-center gap-2 pl-8 -ml-4'>
+    <div className='w-11/12 max-w-3xl text-left mx-auto h-screen flex flex-col items-start justify-center gap-2 pl-8 -ml-4 pt-20'>
       {/* Title */}
       <h3 className='flex items-end gap-2 text-4xl md:text-5xl mb-2 font-Ovo text-blue-950'>
         Revolutionizing Warehouse Management with AI-Powered Drones

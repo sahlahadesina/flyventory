@@ -14,29 +14,47 @@
     ```sh
     env\Scripts\Activate
     ```
-
 ## Navigating to the Backend Folder
 
 4. **Once in the environment, navigate to the `backend` folder using:**
     ```sh
     cd .\backend\
     ```
+## Installing requirements
+
+5.  **Once in the backend folder install the requirements.txt**
+    ```sh
+     pip install -r requirements.txt
+     ```
 
 ## Running Migrations
 
-5. **If any changes are made to the backend, make sure to run migrations:**
+6. **If any changes are made to the backend, make sure to run migrations:**
     ```sh
     python manage.py makemigrations
     ```
 
-6. **Then, apply the migrations:**
+7. **Then, apply the migrations:**
     ```sh
     python manage.py migrate
     ```
 
 ## Running the Backend
 
-7. **To run the backend, use the following command:**
+8. **To run the backend, use the following command:**
     ```sh
     python manage.py runserver
     ```
+## Integrating Backend with Frontend
+
+9. **To integrate with frontend do the following:**
+    1. **Enter the frontend directory**
+        ```sh
+        cd .\frontend\
+        ```
+    2. **Install Axios**
+        ```sh
+        npm install axios
+        ```
+    
+    
