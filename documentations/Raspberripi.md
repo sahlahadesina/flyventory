@@ -24,7 +24,7 @@ IP Address: (remains same as long as connected to Aaminah's Wifi)
 ## 1. How to Connect to Virtual Environment
 Whenever we want to run a python script, it is best to run it using a virtual environment. A virtual environment helps manage dependencies and isolate project-specific Python packages, preventing conflicts with system-wide installations. Below are the steps to set up and activate a virtual environment.
 
-1. Create a virtual environment named tflite1
+1. Create a virtual environment named tflite1, If there is already a virtual environment, skip to step 2. 
    ```sh
    python3 -m venv --system-site-packages tflite1-env
    ```
