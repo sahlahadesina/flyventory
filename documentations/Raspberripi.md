@@ -3,8 +3,12 @@
 ## Table of Contents
 1. [Introduction](#introduction)
 2. [General Details](#general-details)
-3. [Display not Showing Upon Boot Error](#desktop-not-showing-upon-boot-error)
-4. [Entering Virtual Environment](#how-to-connect-to-virtual-environment)
+3. [Connecting to Virtual Environment](#1-how-to-connect-to-virtual-environment)
+4. [Running a Python File](#2runnning-a-python-file)
+5. [Installing Multiple Modules](#3-installing-different-modules)
+6. [Using USB Camera](#4-using-the-usb-camera)
+7. [Activating the RaspberryPi Camera](#5-how-to-activate-raspberry-pi-camera)
+8. [Error Logs](#error-logs)
 
 ---
 ## Introduction
@@ -15,6 +19,7 @@ Raspberrypi Name: Ainav
 Password: 1234 (this should be removed when we make the repository public)  
 Pi Wi-Fi automatically connects to: Aaminah's Wifi,   
 IP Address: (remains same as long as connected to Aaminah's Wifi) 
+
 # Useful Steps for Various Applications
 ## 1. How to Connect to Virtual Environment
 Whenever we want to run a python script, it is best to run it using a virtual environment. A virtual environment helps manage dependencies and isolate project-specific Python packages, preventing conflicts with system-wide installations. Below are the steps to set up and activate a virtual environment.
@@ -99,7 +104,7 @@ Installing pyzbra: library used for barcodes and qrcodes
 ```
 pip install pyzbar opencv-python
 ```
-Installing Ultralytics used for YOLO
+### YOLO Module
 ```
 pip install ultralytics
 ```
@@ -134,26 +139,26 @@ mplayer tv:// -tv driver=v4l2:device=/dev/video1
 ## 5. How to activate Raspberry Pi Camera 
 1. Install [libcamera modules](#pi-camera)
 2. Capture Frames in python using libcamera, Sample Code below. 
-   ```python
+```python
 import libcamera
 import cv2
 import numpy as np
 from picamera2 import Picamera2
 
-# Initialize the camera
+#Initialize the camera
 picam2 = Picamera2()
 picam2.configure(picam2.create_still_configuration())
 
-# Capture an image
+#Capture an image
 frame = picam2.capture_array()
 
-# Convert frame to an OpenCV format
+#Convert frame to an OpenCV format
 image = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
 
-# Save the image
+#Save the image
 cv2.imwrite("captured_frame.jpg", image)
 
-# Display the image (optional)
+#Display the image (optional)
 cv2.imshow("Captured Frame", image)
 cv2.waitKey(0)
 cv2.destroyAllWindows()
@@ -176,13 +181,7 @@ cv2.destroyAllWindows()
   - **Attempt 5:** Try to reinstall Plymouth → [Failed]  :(had a difficult time reinstalling Plymouth)
 
 - **Solution:** Formatting the SD Card and reinstalling the imager.
-- **Notes:** 
 
-
-
-## 2. Common Errors we Run to Repeatedly 
-1.   `  **
-2.   **
 
 
 
