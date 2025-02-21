@@ -29,6 +29,7 @@ const items = [
         value: "category_id"
     }
 ]
+
 const SortBy = () => {
   const [sortBy, setSortBy] = React.useState("scanned_at")
 
