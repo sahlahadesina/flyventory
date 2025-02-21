@@ -1,28 +1,23 @@
-import React from 'react'
-import SearchInput from './search-input'
-import LayoutSwitch from './layout-switch'
-import SortBy from './sort-by'
-import Filters from './filters'
-
+import React from "react";
+import SearchInput from "./search-input";
+import LayoutSwitch from "./layout-switch";
+import SortBy from "./sort-by";
 
 const FilterHeading = () => {
   return (
-    <div className='flex p-4 items-center justify-between'>
-      <div className = "flex items-center w-full" >
-      <SearchInput/>
-      </div>
-      <div className='flex items-center w-full justify-end space-x-5'>
-
-      <LayoutSwitch/>
-
-      <SortBy/>
-
-      <Filters/>
-      
+    <div className="flex p-4 items-center justify-between gap-4">
+      {/* Search Input takes most of the space */}
+      <div className="flex flex-grow">
+        <SearchInput />
       </div>
 
+      {/* LayoutSwitch and SortBy are grouped together */}
+      <div className="flex items-center space-x-2">
+        <SortBy />
+        <LayoutSwitch />
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default FilterHeading
+export default FilterHeading;
