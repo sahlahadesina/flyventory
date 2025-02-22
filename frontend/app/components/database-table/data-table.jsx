@@ -53,6 +53,7 @@ const DataTable = () => {
   const [productData, setProductData] = useState([])
   const [assetData, setAssetData] = useState([])
   const [data, setData] = useState([])
+  const [productQuantity, setProductQuantity] = useState([])
 
   // axios.get() sends an HTTP GET request to DJI api 
   // If the request is successful then the server sends back data 
@@ -88,6 +89,13 @@ const DataTable = () => {
     }).catch((error) => {
     console.error("Error fetching data:", error)
     })
+
+    axios.get("http://localhost:8000/api/quantity/").then((response) => {
+      setProductQuantity(response.data.results)
+      }).catch((error) => {
+      console.error("Error fetching data:", error)
+      })
+
   }
 
     useEffect(() => {
@@ -96,23 +104,33 @@ const DataTable = () => {
         fetchData()
       }, 5000)
     },[])
+
   // Now merging the data
   useEffect(() => {
     if (!Array.isArray(assetData) || !Array.isArray(productData)) return;
-      const productMap = {};
+    // Creating a dictionary   
+    const productMap = {}
+    // For each product we store the product details in the productMap and the key is the product id
     productData.forEach((product) => {
-      productMap[product.ProductID] = product; 
-    });
+      productMap[product.ProductID] = product
+    })
+    const quantityMap = {};
+    productQuantity.forEach((quantity) => {
+      quantityMap[quantity.ProductID] = quantity
+    })
   
     // Merge assets with their corresponding product
+    // .map() creates a new array that includes both asset and product data
     const mergedData = assetData.map((asset) => {
-      const product = productMap[asset.ProductID] || {}; 
+      // For each asset we find the product since they are linked via foreign keys
+      const product = productMap[asset.ProductID] || {}
+      const quantity = quantityMap[asset.ProductID] || {}
       return {
         product_name: product.ProductName || "-",
         product_category: product.ProductCategory || "-",
         product_description: product.ProductDescription || "-",
         location: asset.AssetLocation || "-",
-        quantity: product.TotalQuantity || "-",
+        quantity: quantity.TotalQuantity || "-",
         condition: asset.AssetCondition || "-",
         date_scanned: asset.DateAdded || "-",
         asset_found: asset.AssetFound ? "Yes" : "No",
@@ -125,11 +143,6 @@ const DataTable = () => {
     setData(mergedData);
   }, [productData, assetData]);
 
-  // Using websockets for real time updates
-  // useEffect(() => {
-  //   const ws = new WebSocket("ws")
-  // })
-    
   // Asset Dispatched checkbox
 return (
     <div className="overflow-x-auto">
