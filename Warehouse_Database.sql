@@ -15,7 +15,6 @@ CREATE Table Product (
     ProductName VARCHAR(255) NOT NULL,
     ProductCategory VARCHAR(255),
     ProductDescription TEXT,
-    TotalQuantity INT,
     ProductPrice DECIMAL(10,2) NOT NULL,
     FOREIGN KEY (SupplierID) REFERENCES Supplier(SupplierID) ON DELETE SET NULL
 );
@@ -65,12 +64,12 @@ INSERT INTO Supplier (SupplierName, ContactInfo) VALUES
 ('Engineering Tools Co.', 'info@engtools.com');
 
 INSERT INTO Product (SupplierID, ProductName, ProductCategory, ProductDescription, TotalQuantity, ProductPrice) VALUES
-(1, 'Oscilloscope', 'Testing Equipment', '100MHz digital storage oscilloscope', 15, 599.99),
-(1, 'Function Generator', 'Testing Equipment', 'Arbitrary waveform function generator', 10, 349.99),
-(2, 'Soldering Station', 'Assembly Tools', 'Temperature-controlled soldering station', 25, 129.99),
-(2, 'Multimeter', 'Testing Equipment', 'True RMS digital multimeter with auto-ranging', 30, 89.50),
-(3, 'Power Supply', 'Power Equipment', 'Adjustable DC power supply (0-30V, 5A)', 20, 199.99),
-(3, 'Logic Analyzer', 'Testing Equipment', '16-channel USB logic analyzer for digital circuits', 12, 249.99);
+(1, 'Oscilloscope', 'Testing Equipment', '100MHz digital storage oscilloscope',  599.99),
+(1, 'Function Generator', 'Testing Equipment', 'Arbitrary waveform function generator', 349.99),
+(2, 'Soldering Station', 'Assembly Tools', 'Temperature-controlled soldering station', 129.99),
+(2, 'Multimeter', 'Testing Equipment', 'True RMS digital multimeter with auto-ranging', 89.50),
+(3, 'Power Supply', 'Power Equipment', 'Adjustable DC power supply (0-30V, 5A)', 199.99),
+(3, 'Logic Analyzer', 'Testing Equipment', '16-channel USB logic analyzer for digital circuits', 249.99);
 
 INSERT INTO Asset (ProductID, AssetLocation, AssetCondition, DateAdded, AssetFound, AssetDispatched) VALUES
 (1, 'Shelf A', 'Good', '2024-02-01', TRUE, FALSE),
