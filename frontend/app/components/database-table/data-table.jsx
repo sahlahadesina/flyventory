@@ -1,8 +1,8 @@
 "use client";
 import React, { useState, useEffect } from "react"
 import axios from "axios"
-import { useReactTable } from "@tanstack/react-table"
-import { Description } from "@radix-ui/react-dialog";
+import {SquareCheck} from "lucide-react"
+import { Button } from "../ui/button";
 
 // Initializing the columns of the table
 const columns = [
@@ -47,13 +47,18 @@ const columns = [
     accessorKey: "asset_dispatched",
     header: "Asset Dispatched",
   },
+  
 ]
+
 
 const DataTable = () => {
   const [productData, setProductData] = useState([])
   const [assetData, setAssetData] = useState([])
   const [data, setData] = useState([])
   const [productQuantity, setProductQuantity] = useState([])
+  const [activeView, setActiveView] = useState([]); 
+  
+
 
   // axios.get() sends an HTTP GET request to DJI api 
   // If the request is successful then the server sends back data 
@@ -61,25 +66,10 @@ const DataTable = () => {
   // setData(response.data) updates the state 
 
   // Getting the data seperately first
-  // useEffect(() => {
-  //   axios.get("http://localhost:8000/api/products/").then((response) => {
-  //     setProductData(response.data.results)
-  //   }).catch((error) => {
-  //     console.error("Error fetching data:", error)
-  //   })
-  // },[])
-
-  // useEffect(() => {
-  //   axios.get("http://localhost:8000/api/assets/").then((response) => {
-  //     setAssetData(response.data.results)
-  //   }).catch((error) => {
-  //     console.error("Error fetching data:", error)
-  //   })
-  // },[])
-
   const fetchData = () => {
     axios.get("http://localhost:8000/api/products/").then((response) => {
     setProductData(response.data.results)
+
     }).catch((error) => {
       console.error("Error fetching data:", error)
     })
@@ -118,7 +108,7 @@ const DataTable = () => {
     productQuantity.forEach((quantity) => {
       quantityMap[quantity.ProductID] = quantity
     })
-  
+
     // Merge assets with their corresponding product
     // .map() creates a new array that includes both asset and product data
     const mergedData = assetData.map((asset) => {
@@ -135,16 +125,40 @@ const DataTable = () => {
         date_scanned: asset.DateAdded || "-",
         asset_found: asset.AssetFound ? "Yes" : "No",
         price: product.ProductPrice || "-",
-        asset_dispatched: asset.AssetDispatched ? "Yes" : "No",
+        asset_dispatched: asset.AssetDispatched || false,
+        asset_id: asset.AssetID || "-",
       };
     });
   
-    console.log("Merged Data:", mergedData); 
     setData(mergedData);
   }, [productData, assetData]);
 
+  useEffect(() => {
+    const initialState = {};
+    data.forEach(row => {
+      initialState[row.asset_id] = row.asset_dispatched; 
+    });
+    setActiveView(initialState);
+  }, [data]);
+  
   // Asset Dispatched checkbox
-return (
+  const handleCheckboxClick = async (assetID, assetDispatched) => {
+    const newCheckedState = !activeView[assetID]; 
+    setActiveView((prev) => ({
+      ...prev,
+      [assetID]: newCheckedState,
+    }));
+  
+    try {
+      await axios.patch(`http://localhost:8000/api/assets/${assetID}/`, {
+        AssetDispatched: newCheckedState,
+      });
+    } catch (error) {
+      console.error("Error updating asset:", error);
+    }
+  };
+  
+  return (
     <div className="overflow-x-auto">
       <table className="min-w-full border border-gray-300">
         <thead>
@@ -166,7 +180,21 @@ return (
               <td className="p-2 border">{row.date_scanned}</td>
               <td className="p-2 border">{row.asset_found}</td>
               <td className="p-2 border">{row.price}</td>
-              <td className="p-2 border">{row.asset_dispatched}</td>
+              <td className="p-2 border"> 
+                <div className="flex justify-center items-center">
+                  <Button
+                  variant={activeView[row.asset_id]  ? "bg-transparent" : "bg-transparent"}
+                  size="icon"
+                  onClick={() => handleCheckboxClick(row.asset_id)}
+                  >
+                  {activeView[row.asset_id] ? ( 
+                    <SquareCheck className="h-4 w-4" /> // Show checked icon
+                  ) : (
+                    <div className="h-4 w-4 border border-gray-500 " /> // Show empty square
+                  )}
+                  </Button>
+                </div>
+              </td>
             </tr>
           ))}
         </tbody>

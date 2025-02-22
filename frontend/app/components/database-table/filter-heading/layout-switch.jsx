@@ -1,11 +1,11 @@
 "use client";
 
 import React, { useState } from "react";
-import { Button } from "../../ui/button";
 import { AlignJustify, Grid2X2 } from "lucide-react";
+import { Button } from "../../ui/button";
 
 const LayoutSwitch = () => {
-  const [activeView, setActiveView] = useState("list"); // ✅ Fixed (removed TypeScript syntax)
+  const [activeView, setActiveView] = useState("list"); 
 
   return (
     <div>
