@@ -4,6 +4,7 @@ import axios from "axios"
 import { useReactTable } from "@tanstack/react-table"
 import { Description } from "@radix-ui/react-dialog";
 
+// Initializing the columns of the table
 const columns = [
   {
     accessorKey: "product_name",
@@ -59,22 +60,42 @@ const DataTable = () => {
   // setData(response.data) updates the state 
 
   // Getting the data seperately first
-  useEffect(() => {
-    axios.get("http://localhost:8000/api/products/").then((response) => {
-      setProductData(response.data.results)
-    }).catch((error) => {
-      console.error("Error fetching data:", error)
-    })
-  },[])
+  // useEffect(() => {
+  //   axios.get("http://localhost:8000/api/products/").then((response) => {
+  //     setProductData(response.data.results)
+  //   }).catch((error) => {
+  //     console.error("Error fetching data:", error)
+  //   })
+  // },[])
 
-  useEffect(() => {
-    axios.get("http://localhost:8000/api/assets/").then((response) => {
-      setAssetData(response.data.results)
+  // useEffect(() => {
+  //   axios.get("http://localhost:8000/api/assets/").then((response) => {
+  //     setAssetData(response.data.results)
+  //   }).catch((error) => {
+  //     console.error("Error fetching data:", error)
+  //   })
+  // },[])
+
+  const fetchData = () => {
+    axios.get("http://localhost:8000/api/products/").then((response) => {
+    setProductData(response.data.results)
     }).catch((error) => {
       console.error("Error fetching data:", error)
     })
-  },[])
-    
+
+    axios.get("http://localhost:8000/api/assets/").then((response) => {
+    setAssetData(response.data.results)
+    }).catch((error) => {
+    console.error("Error fetching data:", error)
+    })
+  }
+
+    useEffect(() => {
+      fetchData()
+      const interval = setInterval(() => {
+        fetchData()
+      }, 5000)
+    },[])
   // Now merging the data
   useEffect(() => {
     if (!Array.isArray(assetData) || !Array.isArray(productData)) return;
@@ -103,7 +124,13 @@ const DataTable = () => {
     console.log("Merged Data:", mergedData); 
     setData(mergedData);
   }, [productData, assetData]);
+
+  // Using websockets for real time updates
+  // useEffect(() => {
+  //   const ws = new WebSocket("ws")
+  // })
     
+  // Asset Dispatched checkbox
 return (
     <div className="overflow-x-auto">
       <table className="min-w-full border border-gray-300">
