@@ -11,7 +11,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 # ]
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from api.views import SupplierViewSet, ProductViewSet, AssetViewSet, IdentificationViewSet, EmployeeViewSet
+from api.views import SupplierViewSet, ProductViewSet, AssetViewSet, IdentificationViewSet, EmployeeViewSet, QuantityViewSet
 
 router = DefaultRouter()
 router.register(r'suppliers', SupplierViewSet)
@@ -19,6 +19,7 @@ router.register(r'products', ProductViewSet)
 router.register(r'assets', AssetViewSet)
 router.register(r'identification', IdentificationViewSet)
 router.register(r'employees', EmployeeViewSet)
+router.register(r'quantity', QuantityViewSet)
 
 urlpatterns = [
     path('api/', include(router.urls)),  # Exposes endpoints like /api/products/

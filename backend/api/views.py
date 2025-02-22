@@ -3,8 +3,8 @@ from django.contrib.auth.models import User
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework import viewsets
-from .models import Supplier, Product, Asset, Identification, Employee
-from .serializers import SupplierSerializer, ProductSerializer, AssetSerializer, IdentificationSerializer, EmployeeSerializer
+from .models import Supplier, Product, Asset, Identification, Employee, ProductQuantity
+from .serializers import SupplierSerializer, ProductSerializer, AssetSerializer, IdentificationSerializer, EmployeeSerializer, QuantitySerializer
 
 class SupplierViewSet(viewsets.ModelViewSet):
     queryset = Supplier.objects.all()
@@ -25,4 +25,9 @@ class IdentificationViewSet(viewsets.ModelViewSet):
 class EmployeeViewSet(viewsets.ModelViewSet):
     queryset = Employee.objects.all()
     serializer_class = EmployeeSerializer
+
+class QuantityViewSet(viewsets.ModelViewSet):
+    queryset = ProductQuantity.objects.all()
+    serializer_class = QuantitySerializer
+
     

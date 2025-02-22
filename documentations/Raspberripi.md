@@ -3,8 +3,12 @@
 ## Table of Contents
 1. [Introduction](#introduction)
 2. [General Details](#general-details)
-3. [Display not Showing Upon Boot Error](#desktop-not-showing-upon-boot-error)
-4. [Entering Virtual Environment](#how-to-connect-to-virtual-environment)
+3. [Connecting to Virtual Environment](#1-how-to-connect-to-virtual-environment)
+4. [Running a Python File](#2runnning-a-python-file)
+5. [Installing Multiple Modules](#3-installing-different-modules)
+6. [Using USB Camera](#4-using-the-usb-camera)
+7. [Activating the RaspberryPi Camera](#5-how-to-activate-raspberry-pi-camera)
+8. [Error Logs](#error-logs)
 
 ---
 ## Introduction
@@ -15,11 +19,12 @@ Raspberrypi Name: Ainav
 Password: 1234 (this should be removed when we make the repository public)  
 Pi Wi-Fi automatically connects to: Aaminah's Wifi,   
 IP Address: (remains same as long as connected to Aaminah's Wifi) 
+
 # Useful Steps for Various Applications
 ## 1. How to Connect to Virtual Environment
 Whenever we want to run a python script, it is best to run it using a virtual environment. A virtual environment helps manage dependencies and isolate project-specific Python packages, preventing conflicts with system-wide installations. Below are the steps to set up and activate a virtual environment.
 
-1. Create a virtual environment named tflite1
+1. Create a virtual environment named tflite1, If there is already a virtual environment, skip to step 2. 
    ```sh
    python3 -m venv --system-site-packages tflite1-env
    ```
@@ -75,28 +80,31 @@ sudo apt install libkms++-dev libfmt-dev libdrm-dev
  ```sh
 pip install wheel
 ```
+
 Check if libcamera-hello works after this step, if it does, then just
+
 ```sh
 pip install rpi-libcamera rpi-kms picamera2
 ```
-    If you face errors with the version, you can downgrade the version, using the commands, 
-    ```
-    sudo apt install libcamera0=0.4.0-1~rpt1+rpi50
-    ```
-The continue and 
+If you face errors with the version, you can downgrade the version, using the commands, 
+    
+```
+sudo apt install libcamera0=0.4.0-1~rpt1+rpi50
+ ```
+    
+The continue and install picamera and picamera2
 
 ```sh
 pip install picamera
 ```
-------------------------------------- 
 
-The following libraries is needed for the QR Code. 
+### QR Code
 
-### Installing pyzbra
+Installing pyzbra: library used for barcodes and qrcodes
 ```
 pip install pyzbar opencv-python
 ```
-### Installing Ultralytics
+### YOLO Module
 ```
 pip install ultralytics
 ```
@@ -104,13 +112,57 @@ pip install ultralytics
 ## 4. Using the USB Camera 
 Below are the steps we used to check if the USB Camera is connected, and test the live feed. 
 1. Check if the camera is detected. A list of /dev/video 0 - /dev/video11 should show.
-2. List Video Devices with Details.
-   ```
-   v4l2-ctl --list-devices
-   ```
+2. List Video Devices with Details. 
+```
+ v4l2-ctl --list-devices
+ ```
+This should output something like:
+```
+USB Camera Name (usb-0000:01:00.0):
+    /dev/video0
 
-4. 
-## 5. How to activate Raspberi Pi Camera 
+Other Device Name (platform:...):
+    /dev/video1
+    /dev/video2
+...
+```
+Look for the device that corresponds to the USB camera, and use that device when capturing frames in python. 
+
+3. Play the live feed of the camera using for example: (you can also use other moder alternatives)
+
+```bash
+sudo apt update
+sudo apt install mplayer -y
+mplayer tv:// -tv driver=v4l2:device=/dev/video1
+```
+ 
+## 5. How to activate Raspberry Pi Camera 
+1. Install [libcamera modules](#pi-camera)
+2. Capture Frames in python using libcamera, Sample Code below. 
+```python
+import libcamera
+import cv2
+import numpy as np
+from picamera2 import Picamera2
+
+#Initialize the camera
+picam2 = Picamera2()
+picam2.configure(picam2.create_still_configuration())
+
+#Capture an image
+frame = picam2.capture_array()
+
+#Convert frame to an OpenCV format
+image = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
+
+#Save the image
+cv2.imwrite("captured_frame.jpg", image)
+
+#Display the image (optional)
+cv2.imshow("Captured Frame", image)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+```
 
 ## 6 Connecting the Ailiensense camera 
 
@@ -129,13 +181,7 @@ Below are the steps we used to check if the USB Camera is connected, and test th
   - **Attempt 5:** Try to reinstall Plymouth → [Failed]  :(had a difficult time reinstalling Plymouth)
 
 - **Solution:** Formatting the SD Card and reinstalling the imager.
-- **Notes:** 
 
-
-
-## 2. Common Errors we Run to Repeatedly 
-1.   `  **
-2.   **
 
 
 

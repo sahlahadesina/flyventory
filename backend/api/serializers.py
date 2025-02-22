@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
-from .models import Supplier, Product, Asset, Identification, Employee
+from .models import Supplier, Product, Asset, Identification, Employee, ProductQuantity
 
 # Serialization allows the data to be translated into a format that can be transmitted
 
@@ -30,4 +30,9 @@ class IdentificationSerializer(serializers.ModelSerializer):
 class EmployeeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Employee
+        fields = '__all__'
+
+class QuantitySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProductQuantity
         fields = '__all__'

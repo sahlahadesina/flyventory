@@ -19,7 +19,7 @@ class Product(models.Model):
     ProductName = models.CharField(max_length=255, db_column="ProductName")
     ProductCategory = models.CharField(max_length=255, null=True, blank=True)
     ProductDescription = models.TextField(null=True, blank=True)
-    TotalQuantity = models.IntegerField()
+    # TotalQuantity = models.IntegerField()
     ProductPrice = models.DecimalField(max_digits=10, decimal_places=2)
     
     class Meta:
@@ -29,7 +29,7 @@ class Product(models.Model):
         return self.ProductName
 
 class Asset(models.Model):
-    AssetID = models.AutoField(primary_key=True)
+    AssetID = models.AutoField(primary_key=True, db_column="AssetID")
     ProductID = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True, blank=True, db_column="ProductID")
     AssetLocation = models.CharField(max_length=255)
     AssetCondition = models.CharField(
@@ -78,3 +78,13 @@ class Employee(models.Model):
 
     def __str__(self):
         return f"{self.FirstName} {self.LastName} - {self.role}"
+
+class ProductQuantity(models.Model):
+    ProductID = models.IntegerField(primary_key=True)
+    TotalQuantity = models.IntegerField()
+    
+    class Meta:
+        managed = False
+        db_table = "ProductQuantities"  
+
+
