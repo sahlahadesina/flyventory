@@ -29,8 +29,8 @@ const About = () => {
 
         {/* List */}
         <ul className='w-full'>
-          <li className='flex items-start gap-4 mb-6'>
-            <Image src={assets.light} alt="light" width={200} height={100} className="flex-none" />
+          <li className='flex items-start gap-4 mb-6 font-Ovo'>
+            <Image src={assets.problem} alt="light" width={200} height={100} className="flex-none" />
             <div>
               <h3>Problem Statement</h3>
               <p>
@@ -41,10 +41,12 @@ const About = () => {
             </div>
           </li>
           <li className='flex items-start gap-4 mb-6'>
-            <Image src={assets.admin3} alt="Image description 2" width={100} height={100} className="flex-none" />
+            <Image src={assets.light} alt="Image description 2" width={200} height={100} className="flex-none" />
             <div>
-              <h3>Your Title 2</h3>
-              <p>Your paragraph text for the second item goes here.</p>
+              <h3>Our Solution</h3>
+              <p>To promote safer working envivronments for warehouse workers we are proposing 
+                an AI-based program to detect, count, and classify inventory, mounted on an automated UAV.
+              </p>
             </div>
           </li>
           <li className='flex items-start gap-4 mb-6'>
