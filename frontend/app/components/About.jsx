@@ -8,7 +8,7 @@ const About = () => {
       <h4 className='text-left mb-2 text-lg font-Ovo'>Introduction of our team</h4>
       <h2 className='text-left text-5xl font-Ovo'>About Us</h2>
       <div>
-        <div className='flex w-full flex-col lg:flex-row items-center gap-20 my-20'>
+        <div className='flex w-full flex-col lg:flex-row items-left gap-20 my-20'>
           <div className='w-64 sm:w-80 rounded-3xl max-w-none'>
             <Image 
               src={assets.group} 
@@ -19,33 +19,44 @@ const About = () => {
             />
         </div>
         </div>
-        <div className='flex-1'>
-          <p className='mb-10 max-w-2xl font-Ovo'>
-            We are a multidiciplinary team of two Electrical engineering students and two Computer Engineering students. 
-            For our Senior Design Project we have developed an integrated warehousing data collection system mounted on a UAV. 
-            Our main goal is to automate the data collection and counting processes in warehouses to promote safer work environments.
-          </p>
+        <div className='w-11/12 max-w-3xl text-left mx-auto h-screen flex flex-col items-start justify-left gap-2 pl-8 -ml-4 pt-20'>
+        {/* Description */}
+        <p className='mb-10 max-w-2xl font-Ovo'>
+          We are a multidisciplinary team of two Electrical Engineering students and two Computer Engineering students. 
+          For our Senior Design Project, we have developed an integrated warehousing data collection system mounted on a UAV. 
+          Our main goal is to automate the data collection and counting processes in warehouses to promote safer work environments.
+        </p>
 
-            <ul className='flex-1'>
-              <li>
-                <Image src={assets.admin3} alt="Image description 1" width={100} height={100} />
-                <h3>Your Title 1</h3>
-                <p>Your paragraph text for the first item goes here.</p>
-              </li>
-              <li>
-                <Image src={assets.admin3} alt="Image description 2" width={100} height={100} />
-                <h3>Your Title 2</h3>
-                <p>Your paragraph text for the second item goes here.</p>
-              </li>
-              <li>
-                <Image src={assets.admin3} alt="Image description 3" width={100} height={100} />
-                <h3>Your Title 3</h3>
-                <p>Your paragraph text for the third item goes here.</p>
-              </li>
-              {/* Add more list items as needed */}
-            </ul>
-
-        </div>
+        {/* List */}
+        <ul className='w-full'>
+          <li className='flex items-start gap-4 mb-6'>
+            <Image src={assets.light} alt="light" width={200} height={100} className="flex-none" />
+            <div>
+              <h3>Problem Statement</h3>
+              <p>
+                Some warehouse operations are heavily reliant on manual processes
+                such as manual scanning and climbing elevated storage areas. Which 
+                impose safety risks, increase labor costs, and introduce preventable downtime.
+              </p>
+            </div>
+          </li>
+          <li className='flex items-start gap-4 mb-6'>
+            <Image src={assets.admin3} alt="Image description 2" width={100} height={100} className="flex-none" />
+            <div>
+              <h3>Your Title 2</h3>
+              <p>Your paragraph text for the second item goes here.</p>
+            </div>
+          </li>
+          <li className='flex items-start gap-4 mb-6'>
+            <Image src={assets.admin3} alt="Image description 3" width={100} height={100} className="flex-none" />
+            <div>
+              <h3>Your Title 3</h3>
+              <p>Your paragraph text for the third item goes here.</p>
+            </div>
+          </li>
+          {/* Add more list items as needed */}
+        </ul>
+      </div>
       </div>
     </div>
   )

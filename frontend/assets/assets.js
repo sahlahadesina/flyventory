@@ -39,8 +39,10 @@ import Drone_website from './Drone_website.png';
 import admin3 from './admin3.jpg';
 import stack from './stack.png';
 import group from './group.jpg';
+import light from './light.png';
 
 export const assets = {
+    light,
     admin3,
     user_image,
     code_icon,
