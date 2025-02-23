@@ -41,7 +41,7 @@ const About = () => {
             </div>
           </li>
           <li className='flex items-start gap-4 mb-6'>
-            <Image src={assets.light} alt="Image description 2" width={200} height={100} className="flex-none" />
+            <Image src={assets.solution} alt="Image description 2" width={200} height={100} className="flex-none" />
             <div>
               <h3>Our Solution</h3>
               <p>To promote safer working envivronments for warehouse workers we are proposing 
@@ -50,10 +50,12 @@ const About = () => {
             </div>
           </li>
           <li className='flex items-start gap-4 mb-6'>
-            <Image src={assets.admin3} alt="Image description 3" width={100} height={100} className="flex-none" />
+            <Image src={assets.Tools} alt="Image description 3" width={200} height={100} className="flex-none" />
             <div>
-              <h3>Your Title 3</h3>
-              <p>Your paragraph text for the third item goes here.</p>
+              <h3>Our Tools</h3>
+              <p>We have used a wide collection of tools to approach this project. Some of which include
+                 Python, TensorFlow, MobileSSD, Node.js and Next.js, CSS, HTML, and Ardupilot.
+              </p>
             </div>
           </li>
           {/* Add more list items as needed */}
