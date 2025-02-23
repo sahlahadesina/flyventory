@@ -1,8 +1,29 @@
 
+#if you get a qtplugin error run the folowing in the temrinal b4 running 
+#export QT_QPA_PLATFORM=xcb
+
 import cv2
 import numpy as np
 import time
 from pyzbar.pyzbar import decode
+
+def enhance_roi(roi):
+    """Enhance the region of interest (ROI) for better barcode detection."""
+    gray = cv2.cvtColor(roi, cv2.COLOR_BGR2GRAY)
+
+    # Increase contrast and brightness (alpha=contrast, beta=brightness)
+    enhanced = cv2.convertScaleAbs(gray, alpha=1.5, beta=15)  # Adjust values if needed
+
+    # Apply adaptive thresholding
+    enhanced = cv2.adaptiveThreshold(enhanced, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
+                                     cv2.THRESH_BINARY, 11, 2)
+
+    # Apply morphological operations to reduce noise
+    #kernel = np.ones((1, 1), np.uint8)
+    #enhanced = cv2.morphologyEx(enhanced, cv2.MORPH_CLOSE, kernel)
+
+    return enhanced
+
 
 def decode_image(enhanced_roi):
     """Decode barcode from an enhanced region of interest (ROI) and return the most confident result."""
@@ -62,15 +83,13 @@ while True:
 
             if roi.size == 0:
                 continue  # Skip invalid ROI
-
+                
             # Enhance the ROI for better barcode detection
-            gray = cv2.cvtColor(roi, cv2.COLOR_BGR2GRAY)
-            contrast_enhanced = cv2.adaptiveThreshold(gray, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
-                                                      cv2.THRESH_BINARY, 11, 2)
+            enhanced_roi = enhance_roi(roi)
 
             # Time the decoding process
             start_time = time.time()
-            decoded_value = decode_image(contrast_enhanced)
+            decoded_value = decode_image(enhanced_roi)
             end_time = time.time()
             decode_time = end_time - start_time
 
@@ -86,8 +105,8 @@ while True:
 
             # Ensure we don't show an empty ROI
             if roi.shape[0] > 0 and roi.shape[1] > 0:
-                cv2.imshow("ROI", roi)
-
+                cv2.imshow("ROI", enhanced_roi)
+    #print(f"Decoded from enhanced ROI: {decoded_value}")
     cv2.imshow("FrameOut", frame)
 
     if cv2.waitKey(1) & 0xFF == ord('q'):
