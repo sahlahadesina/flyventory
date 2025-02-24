@@ -39,10 +39,10 @@ const columns = [
     accessorKey: "asset_found",
     header: "Asset Found",
   },
-  {
-    accessorKey: "price",
-    header: "Price",
-  },
+  // {
+  //   accessorKey: "price",
+  //   header: "Price",
+  // },
   {
     accessorKey: "asset_dispatched",
     header: "Asset Dispatched",
@@ -116,7 +116,7 @@ const DataTable = ({searchQuery, onSummaryChange}) => {
         product_category: product.ProductCategory || "-",
         product_description: product.ProductDescription || "-",
         location: asset.AssetLocation || "-",
-        quantity: quantity.TotalQuantity || "-",
+        quantity: quantity.TotalQuantity || "0",
         condition: asset.AssetCondition || "-",
         date_scanned: asset.DateAdded || "-",
         asset_found: asset.AssetFound ? "Yes" : "No",
@@ -214,7 +214,7 @@ return (
               <td className="p-2 border font-Ovo">{getConditionBadge(row.condition)}</td>
               <td className="p-2 border font-Ovo">{row.date_scanned}</td>
               <td className="p-2 border font-Ovo">{getAssetFoundBadge(row.asset_found)}</td>
-              <td className="p-2 border font-Ovo">{row.price}</td>
+              {/* <td className="p-2 border font-Ovo">{row.price}</td> */}
               <td className="p-2 border font-Ovo"> 
                 <div className="flex justify-center items-center">
                   <Button
