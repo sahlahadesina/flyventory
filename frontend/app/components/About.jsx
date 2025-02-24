@@ -1,10 +1,10 @@
 import React from 'react'
-import { assets, infoList } from '@/assets/assets'
+import { assets, infoList } from '../../assets/assets'
 import Image from 'next/image'
 
 const About = () => {
   return (
-    <div id='about' className='w-full px-[12%] py-10 scroll-mt-20'>
+    <div id='about' className='w-full px-[3%] py-10 scroll-mt-20 '>
       <h4 className='text-left mb-2 text-lg font-Ovo'>Introduction of our team</h4>
       <h2 className='text-left text-5xl font-Ovo'>About Us</h2>
       <div>
@@ -49,7 +49,7 @@ const About = () => {
               </p>
             </div>
           </li>
-          <li className='flex items-start gap-4 mb-6'>
+          <li className='flex items-start gap-4 mb-4'>
             <Image src={assets.Tools} alt="Image description 3" width={200} height={100} className="flex-none" />
             <div>
               <h3>Our Tools</h3>
