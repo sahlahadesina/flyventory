@@ -3,11 +3,13 @@ import React, { useState, useEffect } from "react";
 import FilterHeading from "./filter-heading";
 import DataTable from "./data-table";
 
-const CompleteTable = () => {
+const CompleteTable = ({ onSummaryChange }) => {
+  const [searchQuery, setSearchQuery] = useState("");
+
   return (
     <div className="flex flex-col w-full h-full bg-white shadow-md p-4">
-      <FilterHeading />
-      <DataTable /> 
+      <FilterHeading searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+      <DataTable searchQuery={searchQuery} onSummaryChange={onSummaryChange} />
     </div>
   );
 };

@@ -1,14 +1,17 @@
-import { Input } from '../../ui/input'
-import React from 'react'
+import { Input } from '../../ui/input';
+import React from 'react';
 
-const SearchInput = () => {
+const SearchInput = ({ searchQuery, setSearchQuery }) => {
   return (
     <div className='w-full'>
-        <Input
-        placeholder = "Search for a Product"
-        className =  "bg-gray-50 w-full"/>
+      <Input
+        placeholder="Search for a Product"
+        className="bg-gray-50 w-full text-xl  !text-lg font-Ovo"
+        value={searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)} 
+      />
     </div>
-  )
-}
+  );
+};
 
-export default SearchInput
+export default SearchInput;

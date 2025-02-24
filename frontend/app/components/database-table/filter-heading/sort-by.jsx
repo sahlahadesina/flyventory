@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Label } from "@radix-ui/react-dropdown-menu"
 import { ChevronDown } from "lucide-react"
+// import { DropdownMenu } from "@/components/ui/dropdown-menu"
 
 const items = [
     {
@@ -36,12 +37,12 @@ const SortBy = () => {
   return (
     <DropdownMenu>
       <div className="flex items-center space-x-1">
-        <p className="text-sm font-semibold">
+        <p className="text-md font-semibold font-Ovo text-[#102258]">
             Sort By:
         </p>
         <DropdownMenuTrigger asChild>
         <div className = "flex items-center space-x-1 cursor-pointer">
-            <p className="text-primary font-semibold">
+            <p className="text-primary font-semibold text-[#1c4de3] tex-md font-Ovo">
                 {items.find(item => item.value == sortBy)?.label}
             </p>
                 <ChevronDown className="ml-2 h-4 w-4" />
@@ -59,7 +60,7 @@ const SortBy = () => {
             Sort By
         </DropdownMenuLabel>
         <DropdownMenuSeparator /> */}
-        <DropdownMenuRadioGroup value={sortBy} onValueChange={setSortBy}>
+        <DropdownMenuRadioGroup value={sortBy} onValueChange={setSortBy} className="font-Ovo text-[#102258]">
             {items.map(item => <DropdownMenuRadioItem value ={item.value}
                 key = {item.value}
             >
