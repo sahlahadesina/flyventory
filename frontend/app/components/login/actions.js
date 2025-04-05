@@ -1,27 +1,18 @@
 "use server";
 
 import { z } from "zod";
+import axios from "axios";
 import { createSession, deleteSession } from "../../../lib/session";
 import { redirect } from "next/navigation";
 
-// Test user (replace this with a real database check)
-const testUser = {
-  id: "1",
-  email: "aaminah.arif@flyventory.io",
-  password: "12345678",
-};
-
-// Zod schema for validation
+// Zod validation schema
 const loginSchema = z.object({
-  email: z.string().email({ message: "Invalid email address" }).trim(),
+  username: z.string().trim(),
   password: z.string().min(8, { message: "Password must be at least 8 characters" }).trim(),
 });
 
 /**
- * Handles user login
- * @param {Object} prevState - The previous state (optional)
- * @param {FormData} formData - The login form data
- * @returns {Object} - Error messages (if any)
+ * Login action (server-side)
  */
 export async function login(prevState, formData) {
   const result = loginSchema.safeParse(Object.fromEntries(formData));
@@ -34,23 +25,37 @@ export async function login(prevState, formData) {
 
   const { email, password } = result.data;
 
-  if (email !== testUser.email || password !== testUser.password) {
+  try {
+    const response = await axios.post("http://localhost:8000/api/employee/", {
+      email,
+      password,
+    });
+
+    const { token, user } = response.data;
+
+    // Store token in session or cookie (adjust depending on your auth strategy)
+    await createSession({
+      token,
+      userId: user.id,
+      email: user.email,
+    });
+
+    return redirect("/database-table");
+  } catch (error) {
+    console.error("Login error:", error.response?.data || error.message);
+
     return {
       errors: {
         email: ["Invalid email or password"],
       },
     };
   }
-
-  await createSession(testUser.id);
-
-  return redirect("/database-table"); // Ensure this return statement is used
 }
 
 /**
- * Handles user logout
+ * Logout action
  */
 export async function logout() {
   await deleteSession();
-  return redirect("/database-table"); // Ensure this return statement is used
+  return redirect("/login");
 }
