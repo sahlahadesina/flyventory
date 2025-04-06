@@ -1,61 +1,49 @@
-"use server";
-
-import { z } from "zod";
 import axios from "axios";
+import { z } from "zod";
 import { createSession, deleteSession } from "../../../lib/session";
 import { redirect } from "next/navigation";
+import { useRouter } from 'next/router';
 
-// Zod validation schema
+// Validation schema for username/password
 const loginSchema = z.object({
-  username: z.string().trim(),
-  password: z.string().min(8, { message: "Password must be at least 8 characters" }).trim(),
+  username: z.string().min(1, { message: "Username is required" }),
+  password: z.string().min(1, { message: "Password is required" }),
 });
 
-/**
- * Login action (server-side)
- */
-export async function login(prevState, formData) {
-  const result = loginSchema.safeParse(Object.fromEntries(formData));
-
+export async function login(formData) {
+  // Validate the form data with Zod directly
+  const result = loginSchema.safeParse(formData);
   if (!result.success) {
-    return {
-      errors: result.error.flatten().fieldErrors,
-    };
+    return { errors: result.error.flatten().fieldErrors };  // Return errors if validation fails
   }
 
-  const { email, password } = result.data;
+  const { username, password } = result.data;
 
   try {
-    const response = await axios.post("http://localhost:8000/api/employee/", {
-      email,
-      password,
+    const res = await axios.post("http://localhost:8000/api/login/", {
+      Username: username,  // Correctly map the username to "Username"
+      Password: password,  // Correctly map the password to "Password"
     });
 
-    const { token, user } = response.data;
+    const { user } = res.data;
 
-    // Store token in session or cookie (adjust depending on your auth strategy)
-    await createSession({
-      token,
-      userId: user.id,
-      email: user.email,
-    });
+    // Create session after successful login
+    await createSession(user.username);
 
-    return redirect("/database-table");
-  } catch (error) {
-    console.error("Login error:", error.response?.data || error.message);
+    const router = useRouter();
+    router.push('/database-table');
 
+  } catch (err) {
+    console.error("Login failed:", err?.response?.data || err.message);
     return {
       errors: {
-        email: ["Invalid email or password"],
+        username: ["Invalid username or password"],
       },
     };
   }
 }
 
-/**
- * Logout action
- */
 export async function logout() {
-  await deleteSession();
-  return redirect("/login");
+  await deleteSession();  // Remove session on logout
+  return redirect("/login");  // Redirect to login page after logout
 }

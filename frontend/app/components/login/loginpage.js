@@ -1,12 +1,50 @@
 "use client";
 
-import { useActionState } from "react";
-import { useFormStatus } from "react-dom";
-import { login } from "./actions";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { z } from "zod";
+import { login } from "./actions";
+
+// Zod validation schema
+const loginSchema = z.object({
+  username: z.string().min(1, { message: "Username is required" }),
+  password: z.string().min(1, { message: "Password is required" }),
+});
 
 export function Login() {
-  const [state, loginAction] = useActionState(login, undefined);
+  const router = useRouter(); // ✅ Safe! Top-level call
+  const [formData, setFormData] = useState({ username: "", password: "" });
+  const [errors, setErrors] = useState({ username: "", password: "" });
+  const [loginError, setLoginError] = useState("");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const result = loginSchema.safeParse(formData);
+    if (!result.success) {
+      const newErrors = {};
+      result.error.errors.forEach((err) => {
+        newErrors[err.path[0]] = err.message;
+      });
+      setErrors(newErrors);
+      return;
+    }
+
+    try {
+      const response = await login(formData);
+
+      if (response?.errors) {
+        setLoginError(response.errors.username?.[0] || "Login failed.");
+      } else {
+        console.log("Login successful!");
+        router.push("/database-table"); // ✅ Safe client-side redirect
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      setLoginError(error.message || "Unexpected error.");
+    }
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[url('/Drone_website.jpg')] bg-cover bg-center">
@@ -15,52 +53,47 @@ export function Login() {
           <Image src="/imgs.png" alt="Logo" width={250} height={120} />
         </div>
 
-        <form action={loginAction} className="mt-6 space-y-4">
-          {/* Email Input */}
-          <div className="mt-6 space-y-4">
+        <form onSubmit={handleSubmit} className="mt-6 space-y-4">
+          <div className="space-y-2">
             <input
-              id="email"
-              name="email"
-              placeholder="Email"
+              id="username"
+              name="username"
+              placeholder="Username"
               className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500"
+              value={formData.username}
+              onChange={(e) =>
+                setFormData({ ...formData, username: e.target.value })
+              }
             />
-            {state?.errors?.email && <p className="text-red-500">{state.errors.email}</p>}
+            {errors.username && <p className="text-red-500">{errors.username}</p>}
           </div>
 
-          {/* Password Input */}
-          <div className="mt-6 space-y-4">
+          <div className="space-y-2">
             <input
               id="password"
               name="password"
               type="password"
               placeholder="Password"
-              className= "w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500"
+              className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500"
+              value={formData.password}
+              onChange={(e) =>
+                setFormData({ ...formData, password: e.target.value })
+              }
             />
-            {state?.errors?.password && <p className="text-red-500">{state.errors.password}</p>}
+            {errors.password && <p className="text-red-500">{errors.password}</p>}
           </div>
 
-          {/* Drone ID Input */}
-          <div className="mt-6 space-y-4">
-            <input
-              id="droneID"
-              name="droneID"
-              type="text"
-              placeholder="Drone ID"
-              className=   "w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
+          {loginError && <p className="text-red-500 mt-2">{loginError}</p>}
 
-          {/* Buttons */}
           <div className="flex justify-between mt-4 space-x-4">
             <SubmitButton />
-              <button    type="button"    className="w-auto px-8 py-4 text-lg rounded-full bg-[#2D63B3] text-white hover:bg-[#2557AD] transition"
-  >
-                 Sign Up
-              </button>
+            <button
+              type="button"
+              className="w-auto px-8 py-4 text-lg rounded-full bg-[#2D63B3] text-white hover:bg-[#2557AD] transition"
+            >
+              Sign Up
+            </button>
           </div>
-
-
-          
         </form>
       </div>
     </div>
@@ -68,15 +101,12 @@ export function Login() {
 }
 
 function SubmitButton() {
-  const { pending } = useFormStatus();
-
   return (
     <button
-      disabled={pending}
       type="submit"
       className="w-auto px-8 py-4 text-lg rounded-full bg-[#2D63B3] text-white hover:bg-[#2557AD] transition"
     >
-      {pending ? "Logging in..." : "Login"}
+      Login
     </button>
   );
 }

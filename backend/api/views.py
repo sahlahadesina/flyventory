@@ -30,4 +30,3 @@ class QuantityViewSet(viewsets.ModelViewSet):
     queryset = ProductQuantity.objects.all()
     serializer_class = QuantitySerializer
 
-    
