@@ -1,4 +1,3 @@
-✅ Key Steps to Modify Your Code for the AI Camera:
 Install the AI Camera SDK on Raspberry Pi
 Run:
 sudo apt install imx500-all
