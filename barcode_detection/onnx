@@ -1,0 +1,11 @@
+import onnx
+from onnx import optimizer
+
+# Load your ONNX model
+model = onnx.load("model.onnx")
+
+# Perform some optimizations (e.g., removing unused nodes, fusing layers)
+optimized_model = optimizer.optimize(model)
+
+# Save the optimized model
+onnx.save(optimized_model, "optimized_model.onnx")
