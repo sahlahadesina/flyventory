@@ -19,14 +19,14 @@ Run the following Python code to export the model to ONNX format with quantizati
 ```python
 import torch
 from ultralytics import YOLO
-
+```
 # Load the trained model
 model = YOLO("best.pt")
 
 # Export to ONNX with quantization (int8)
 model.export(format="onnx", dynamic=False, int8=True)
 
-## 2. Install IMX500 Converter and Model Compression Toolkit (MCT)
+## **2. Install IMX500 Converter and Model Compression Toolkit (MCT)**
 
 ### Install IMX500 Converter
 To convert the ONNX model to a format suitable for the IMX500 camera, we need to install the IMX500 Converter.
@@ -35,7 +35,7 @@ Install it using the following command:
 
 ```bash
 pip install imx500-converter[pt]
-
+```
 ### Install Model Compression Toolkit (MCT)
 
 The Model Compression Toolkit (MCT) is needed for quantization. However, it requires TensorFlow/Keras, and since we’ve already quantized the model during the ONNX export, this step is optional.
@@ -44,8 +44,8 @@ To install MCT, use:
 
 ```bash
 pip install model-compression-toolkit
-
-## 3. Convert the ONNX Model Using IMX500 Converter
+```
+## **3. Convert the ONNX Model Using IMX500 Converter**
 
 Now that we have our `best.onnx` file, we will convert it using the IMX500 Converter.
 
@@ -53,7 +53,7 @@ Run the following command to convert the model:
 
 ```bash
 imxconv-pt -i best.onnx -o model_output --no-input-persistency
-
+```
 ### Explanation of flags:
 
 *   `-i`: Path to your quantized ONNX model (`best.onnx`)
@@ -61,14 +61,14 @@ imxconv-pt -i best.onnx -o model_output --no-input-persistency
 
 The output from the converter will be a `packerOut.zip` file, which contains the model ready for deployment.
 
-### 4. Unzip the Output File
+### **4. Unzip the Output File**
 
 Once the conversion is complete, unzip the `packerOut.zip` file:
 
 ```bash
 unzip packerOut.zip
-
-### 5. Install the Aitrios SDK on the Raspberry Pi
+```
+### **5. Install the Aitrios SDK on the Raspberry Pi**
 
 To integrate the IMX500 camera with your custom model, you need to install the Aitrios SDK.
 
@@ -76,38 +76,38 @@ To integrate the IMX500 camera with your custom model, you need to install the A
 
 ```bash
 git clone https://github.com/SonySemiconductorSolutions/aitrios-sdk-vision-sensing-app.git
-
+```
 #### Install Dependencies
 
 Navigate to the cloned repository:
 
 ```bash
 cd aitrios-sdk-vision-sensing-app
-
+```
 Install the required dependencies:
 
 ```bash
 pip3 install -r requirements.txt
-
+```
 Install the SDK
 ```bash
 python3 setup.py install
-
-### 6. Test the Camera
+```
+### **6. Test the Camera**
 
 After installing the SDK, test the IMX500 camera by running:
 
 ```bash
 picamera2 -t 1000
-
-### 7. Deploy the Model on IMX500 Camera
+```
+### **7. Deploy the Model on IMX500 Camera***
 
 Now that the SDK is installed, and your model is ready, deploy the model to the IMX500 camera:
 
 ```bash
 aitrios-cli deploy --model /home/pi/packerOut.zip
-
-### 8. Modify Your Code for Inference
+```
+### **8. Modify Your Code for Inference**
 
 Finally, modify your existing Python code to start running inferences using the IMX500 camera. The camera will process frames using the custom model you just deployed, and you can get results directly from the camera in real time.
 
