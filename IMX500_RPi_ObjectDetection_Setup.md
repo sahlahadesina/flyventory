@@ -20,10 +20,10 @@ Run the following Python code to export the model to ONNX format with quantizati
 import torch
 from ultralytics import YOLO
 ```
-# Load the trained model
+### Load the trained model
 model = YOLO("best.pt")
 
-# Export to ONNX with quantization (int8)
+### Export to ONNX with quantization (int8)
 model.export(format="onnx", dynamic=False, int8=True)
 
 ## **2. Install IMX500 Converter and Model Compression Toolkit (MCT)**
@@ -61,23 +61,23 @@ imxconv-pt -i best.onnx -o model_output --no-input-persistency
 
 The output from the converter will be a `packerOut.zip` file, which contains the model ready for deployment.
 
-### **4. Unzip the Output File**
+## **4. Unzip the Output File**
 
 Once the conversion is complete, unzip the `packerOut.zip` file:
 
 ```bash
 unzip packerOut.zip
 ```
-### **5. Install the Aitrios SDK on the Raspberry Pi**
+## **5. Install the Aitrios SDK on the Raspberry Pi**
 
 To integrate the IMX500 camera with your custom model, you need to install the Aitrios SDK.
 
-#### Clone the SDK Repository
+### Clone the SDK Repository
 
 ```bash
 git clone https://github.com/SonySemiconductorSolutions/aitrios-sdk-vision-sensing-app.git
 ```
-#### Install Dependencies
+### Install Dependencies
 
 Navigate to the cloned repository:
 
@@ -93,27 +93,27 @@ Install the SDK
 ```bash
 python3 setup.py install
 ```
-### **6. Test the Camera**
+## **6. Test the Camera**
 
 After installing the SDK, test the IMX500 camera by running:
 
 ```bash
 picamera2 -t 1000
 ```
-### **7. Deploy the Model on IMX500 Camera***
+## **7. Deploy the Model on IMX500 Camera***
 
 Now that the SDK is installed, and your model is ready, deploy the model to the IMX500 camera:
 
 ```bash
 aitrios-cli deploy --model /home/pi/packerOut.zip
 ```
-### **8. Modify Your Code for Inference**
+## **8. Modify Your Code for Inference**
 
 Finally, modify your existing Python code to start running inferences using the IMX500 camera. The camera will process frames using the custom model you just deployed, and you can get results directly from the camera in real time.
 
 ---
 
-### Additional Notes
+## Additional Notes
 
 - Ensure that you are using a fully quantized model to avoid errors during conversion.
 - If you encounter any issues with the MCT, you can skip that step and continue with the ONNX conversion.
