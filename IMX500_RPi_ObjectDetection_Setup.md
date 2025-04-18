@@ -21,10 +21,13 @@ import torch
 from ultralytics import YOLO
 ```
 ### Load the trained model
+```python
 model = YOLO("best.pt")
-
+```
 ### Export to ONNX with quantization (int8)
+```python
 model.export(format="onnx", dynamic=False, int8=True)
+```
 
 ## **2. Install IMX500 Converter and Model Compression Toolkit (MCT)**
 
