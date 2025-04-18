@@ -1,6 +1,7 @@
 # **Step by Step Guide for Setting Up a Custom Object Detection Model on Raspberry Pi with IMX500 Camera**
 
 This guide will walk you through the process of setting up a custom object detection model using the **Raspberry Pi IMX500 AI Camera** and deploying your trained YOLOv8 model.
+
 The following resources were used:
 - https://developer.aitrios.sony-semicon.com/en/raspberrypi-ai-camera/documentation/imx500-converter?version=3.16.1&progLang=
 
