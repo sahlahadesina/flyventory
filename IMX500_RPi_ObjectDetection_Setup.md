@@ -4,8 +4,10 @@ This guide will walk you through the process of setting up a custom object detec
 
 The following resources were used:
 - https://developer.aitrios.sony-semicon.com/en/raspberrypi-ai-camera/documentation/imx500-converter?version=3.16.1&progLang=
+- https://developer.aitrios.sony-semicon.com/en/raspberrypi-ai-camera/develop/ai-tutorials/prepare-and-deploy-ai-models-tutorial?version=2024-11-21&progLang=#_compile_with_imx500_converter
 ## **Workflow**
 ![image](https://github.com/user-attachments/assets/661ff0cd-0568-4a17-864f-1f86e8a7894a)
+
 
 ## **Prerequisites**
 - Raspberry Pi 4 with Raspberry Pi OS installed
