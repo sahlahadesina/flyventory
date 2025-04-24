@@ -1,0 +1,236 @@
+import cv2
+import math
+import csv
+from pyzbar.pyzbar import decode
+from ultralytics import YOLO
+from picamera2 import Picamera2
+import numpy as np
+import time
+
+# Initialize Picamera2
+picam2 = Picamera2()
+camera_config = picam2.create_preview_configuration(main={"format": 'RGB888', "size": (640, 480)})
+picam2.configure(camera_config)
+picam2.start()
+time.sleep(1)  # Allow camera to warm up
+
+
+# Barcode Detector Class
+class BarcodeDetector:
+    def __init__(self):
+        self.saved_data = set()
+        self.detection_count = 0
+
+    def decode_barcodes(self, img, roi):
+        barcodes = decode(roi)
+        for barcode in barcodes:
+            data = barcode.data.decode('utf-8')
+            barcode_type = barcode.type
+            (x, y, w, h) = barcode.rect
+
+            # Draw a rectangle around the barcode
+            cv2.rectangle(img, (x, y), (x + w, y + h), (0, 255, 0), 2)
+            text = f"{data} ({barcode_type})"
+            cv2.putText(img, text, (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
+
+            # Save unique barcode data
+            if data and data not in self.saved_data:
+                print("Data found:", data)
+                self.saved_data.add(data)
+                self.detection_count += 1
+                with open("Database.csv", mode='a') as csvfile:
+                    csvfileWriter = csv.writer(csvfile, delimiter=',', quotechar='"', quoting=csv.QUOTE_ALL)
+                    csvfileWriter.writerow([data, self.detection_count])
+
+class QRCodeDetector:
+    def __init__(self):
+        self.saved_data = set()
+        self.detection_count = 0
+
+    def decode_qrcodes(self, img, roi):
+        detector = cv2.QRCodeDetector()
+        data, bbox, _ = detector.detectAndDecode(roi)
+
+
+        print(f"Decoded Data: {data}")  # Debugging output
+        if bbox is not None:
+            print("Bounding box detected for QR code.")
+        else:
+            print("No bounding box detected.")
+
+        if data:
+            print(f"QR Code Data: {data}")
+        else:
+            print("No data found in QR code.")
+
+
+
+        
+
+        if bbox is not None:
+            bbox = bbox.astype(int)
+            for i in range(len(bbox)):
+                start_point = tuple(bbox[i][0])
+                end_point = tuple(bbox[(i + 1) % len(bbox)][0])
+                cv2.line(img, start_point, end_point, color=(255, 0, 0), thickness=2)
+            cv2.putText(img, data, (int(bbox[0][0][0]), int(bbox[0][0][1]) - 10), 
+                        cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 250, 120), 2)
+
+            if data and data not in self.saved_data:
+                print("Data found:", data)
+                self.saved_data.add(data)
+                self.detection_count += 1
+                with open("Database.csv", mode='a') as csvfile:
+                    csvfileWriter = csv.writer(csvfile, delimiter=',', quotechar='"', quoting=csv.QUOTE_ALL)
+                    csvfileWriter.writerow([data, self.detection_count])
+import csv
+def initialize_csv():
+    with open("Database.csv", mode='w') as csvfile:
+        csvfileWriter = csv.writer(csvfile, delimiter=',', quotechar='"', quoting=csv.QUOTE_ALL)
+        csvfileWriter.writerow(["Data", "Detection Count"])
+
+def main():
+    print("Choose Detection Mode:")
+    print("1. QR Code Detection")
+    print("2. Barcode Detection")
+
+    # Initialize the BarcodeDetector and QRCodeDetector
+    barcode_detector = BarcodeDetector()
+    qrcode_detector = QRCodeDetector()
+    
+    # Load your custom-trained YOLO model
+    model = YOLO('best.pt')  # Replace with your custom model's path
+
+    # Define the classes for your custom dataset
+    classNames = ['barcode', 'qrcode']  # Replace with your custom class names
+    
+
+
+
+    choice = input("Enter 1 or 2: ")
+
+    if choice == "1":
+        
+        initialize_csv()  # Optionally reset CSV for fresh runs
+        qrcode_detector = QRCodeDetector()
+
+# Capture Loop
+        print("Starting detection. Press 'q' to exit.")
+        while True:
+            img = picam2.capture_array()
+
+    # Perform object detection using YOLO
+            results = model(img, stream=True)
+
+    # Loop over detected objects
+            for r in results:
+                boxes = r.boxes  # Get bounding boxes
+                for box in boxes:
+                    x1, y1, x2, y2 = box.xyxy[0]  # Get bounding box coordinates
+                    x1, y1, x2, y2 = map(int, [x1, y1, x2, y2])  # Convert to int
+
+            # Detect the class name of the object
+                    cls = int(box.cls[0])
+                    classname = classNames[cls]
+
+            # Calculate the confidence of the detected object
+                    confidence = math.ceil(box.conf[0] * 100)
+                    print(f'{classname}: {confidence}%')
+
+            # Draw the bounding box on the image
+                    color = (0, 255, 0)  # Default color: green
+                    if classname == 'barcode':
+                        color = (255, 0, 0)  # Blue for barcode
+                        # Add barcode processing here if needed
+
+                    elif classname == 'qrcode':
+                        color = (0, 0, 255)  # Red for qrcode
+                        # Extract the Region of Interest (ROI) for QR code decoding
+                        roi = img[y1:y2, x1:x2]
+                        padding = 10  # Adjust padding as needed
+                        roi = img[max(0, y1 - padding):min(img.shape[0], y2 + padding), max(0, x1 - padding):min(img.shape[1], x2 + padding)]
+    
+
+
+                
+                        qrcode_detector.decode_qrcodes(img, roi)
+
+                    cv2.rectangle(img, (x1, y1), (x2, y2), color, 3)
+                # Write the class name and confidence on the image
+                    org = (x1, y1 - 10)  # Position the text above the bounding box
+                    font = cv2.FONT_HERSHEY_SIMPLEX
+                    cv2.putText(img, f"{classname} {confidence:.2f}%", org, font, 0.5, color, 2)
+
+    # Display the processed image
+            cv2.imshow("Detection", img)
+
+    # Exit loop
+            if cv2.waitKey(1) & 0xFF == ord('q'):
+                break
+
+        
+        cv2.destroyAllWindows()
+
+
+    elif choice == "2":
+        initialize_csv()  # Optionally reset CSV for fresh runs
+        barcode_detector = BarcodeDetector()
+      
+        # Capture Loop
+        while True:
+            img = picam2.capture_array()
+
+            results = model(img, stream=True)  # Send the image to YOLO for detection
+
+            # Loop over detected objects
+            for r in results:
+                boxes = r.boxes  # Get bounding boxes
+                for box in boxes:
+                    x1, y1, x2, y2 = box.xyxy[0]  # Get bounding box coordinates
+                    x1, y1, x2, y2 = map(int, [x1, y1, x2, y2])  # Convert to int
+
+                    # Detect the class name of the object
+                    cls = int(box.cls[0])
+                    classname = classNames[cls]
+
+                    # Calculate the confidence of the detected object
+                    confidence = math.ceil(box.conf[0] * 100)
+                    print(f'{classname}: {confidence}%')
+
+                    # Draw the bounding box on the image
+                    color = (0, 255, 0)  # Default color: green
+                    if classname == 'barcode':
+                        color = (255, 0, 0)  # Blue for barcode
+
+                        # Extract the Region of Interest (ROI) for barcode decoding
+                        roi = img[y1:y2, x1:x2]
+
+                        barcode_detector.decode_barcodes(img, roi)
+
+                    elif classname == 'qrcode':
+                        color = (0, 0, 255)  # Red for qrcode
+
+                    cv2.rectangle(img, (x1, y1), (x2, y2), color, 3)
+
+                    # Write the class name and confidence on the image
+                    org = (x1, y1 - 10)  # Position the text above the bounding box
+                    font = cv2.FONT_HERSHEY_SIMPLEX
+                    cv2.putText(img, f"{classname} {confidence:.2f}%", org, font, 0.5, color, 2)
+
+            # Create a window to display the image
+            cv2.imshow("Detection", img)
+
+            # Exit loop
+            if cv2.waitKey(1) & 0xFF == ord('q'):
+                break
+
+       
+        cv2.destroyAllWindows()
+
+    else:
+        print("Invalid choice. Exiting.")
+
+
+if __name__ == "__main__":
+    main()
+

@@ -1,0 +1,11 @@
+import onnx
+import onnxoptimizer
+
+# Load the ONNX model
+model = onnx.load('best.onnx')
+
+# Apply optimizations
+optimized_model = onnxoptimizer.optimize(model)
+
+# Save the optimized model
+onnx.save_model(optimized_model, 'optimized_best.onnx')
