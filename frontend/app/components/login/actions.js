@@ -21,12 +21,12 @@ export async function login(formData) {
 
   try {
     const res = await axios.post("http://localhost:8000/api/login/", {
-      Username: username,  // Correctly map the username to "Username"
-      Password: password,  // Correctly map the password to "Password"
+      Username: username,  
+      Password: password,  
     });
 
     const { user } = res.data;
-
+    console.log("username:",username)
     // Create session after successful login
     await createSession(user.username);
 
