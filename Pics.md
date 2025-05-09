@@ -1,1 +1,4 @@
-https://drive.google.com/file/d/1NzgfRKg7VDYmRz4tdOCQjPPJo5oMbEN6/view?usp=sharing
+git clone https://github.com/raspberrypi/picamera2
+cd picamera2
+pip install -e . --break-system-packages
+cd examples/imx500
