@@ -1,3 +1,10 @@
+
+What to do next for ai camera:
+1. fix code so barcode and qrcode detextion is seperate
+2. check distances of decode
+3. link to database again
+4. test full system
+
 To enable selecting either QR code or barcode detection (but not both at once), you can modify your code to:
 
 Store the user’s choice (choice == "1" for QR, "2" for barcode).
