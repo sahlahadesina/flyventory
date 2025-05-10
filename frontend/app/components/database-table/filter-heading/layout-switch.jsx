@@ -12,7 +12,7 @@ const LayoutSwitch = () => {
       <Button
         variant={activeView === "list" ? "default" : "outline"}
         size="icon"
-        className="rounded-r-none"
+        className="rounded-r-none bg-blue-600"
         onClick={() => setActiveView("list")}
       >
         <AlignJustify className="h-4 w-4" />

@@ -5,8 +5,8 @@ import Image from 'next/image'
 const About = () => {
   return (
     <div id='about' className='w-full px-[3%] py-10 scroll-mt-20 '>
-      <h4 className='text-left mb-2 text-lg font-Ovo'>Introduction of our team</h4>
-      <h2 className='text-left text-5xl font-Ovo'>About Us</h2>
+      <h4 className='text-left mb-2 text-lg font-serif'>Introduction of our team</h4>
+      <h2 className='text-left text-5xl font-serif'>About Us</h2>
       <div>
         <div className='flex w-full flex-col lg:flex-row items-left gap-20 my-20'>
           <div className='w-64 sm:w-80 rounded-3xl max-w-none'>
@@ -21,7 +21,7 @@ const About = () => {
         </div>
         <div className='w-11/12 max-w-3xl text-left mx-auto h-screen flex flex-col items-start justify-left gap-2 pl-8 -ml-4 pt-20'>
         {/* Description */}
-        <p className='mb-10 max-w-2xl font-Ovo'>
+        <p className='mb-10 max-w-2xl font-serif'>
           We are a multidisciplinary team of two Electrical Engineering students and two Computer Engineering students. 
           For our Senior Design Project, we have developed an integrated warehousing data collection system mounted on a UAV. 
           Our main goal is to automate the data collection and counting processes in warehouses to promote safer work environments.
@@ -29,7 +29,7 @@ const About = () => {
 
         {/* List */}
         <ul className='w-full'>
-          <li className='flex items-start gap-4 mb-6 font-Ovo'>
+          <li className='flex items-start gap-4 mb-6 font-serif'>
             <Image src={assets.problem} alt="light" width={200} height={100} className="flex-none" />
             <div>
               <h3>Problem Statement</h3>

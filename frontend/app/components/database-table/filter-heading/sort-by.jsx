@@ -37,12 +37,12 @@ const SortBy = () => {
   return (
     <DropdownMenu>
       <div className="flex items-center space-x-1">
-        <p className="text-md font-semibold font-Ovo text-[#102258]">
+        <p className="text-md font-semibold font-serif text-[#102258]">
             Sort By:
         </p>
         <DropdownMenuTrigger asChild>
         <div className = "flex items-center space-x-1 cursor-pointer">
-            <p className="text-primary font-semibold text-[#1c4de3] tex-md font-Ovo">
+            <p className="text-primary font-semibold text-[#1c4ee3] tex-md font-serif">
                 {items.find(item => item.value == sortBy)?.label}
             </p>
                 <ChevronDown className="ml-2 h-4 w-4" />
@@ -60,7 +60,7 @@ const SortBy = () => {
             Sort By
         </DropdownMenuLabel>
         <DropdownMenuSeparator /> */}
-        <DropdownMenuRadioGroup value={sortBy} onValueChange={setSortBy} className="font-Ovo text-[#102258]">
+        <DropdownMenuRadioGroup value={sortBy} onValueChange={setSortBy} className="font-serif text-[#102258]">
             {items.map(item => <DropdownMenuRadioItem value ={item.value}
                 key = {item.value}
             >

@@ -53,7 +53,7 @@ export function Login() {
               id="username"
               name="username"
               placeholder="Username"
-              className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500"
+              className="w-full font-serif p-3 border rounded-lg focus:ring-2 focus:ring-blue-500"
               value={formData.username}
               onChange={(e) =>
                 setFormData({ ...formData, username: e.target.value })
@@ -68,7 +68,7 @@ export function Login() {
               name="password"
               type="password"
               placeholder="Password"
-              className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500"
+              className="w-full font-serif p-3 border rounded-lg focus:ring-2 focus:ring-blue-500"
               value={formData.password}
               onChange={(e) =>
                 setFormData({ ...formData, password: e.target.value })
@@ -83,7 +83,7 @@ export function Login() {
             <SubmitButton />
             <button
               type="button"
-              className="w-auto px-8 py-4 text-lg rounded-full bg-[#2D63B3] text-white hover:bg-[#2557AD] transition"
+              className="w-auto px-8 font-serif py-4 text-lg rounded-full bg-[#2D63B3] text-white hover:bg-[#2557AD] transition"
             >
               Sign Up
             </button>
@@ -98,7 +98,7 @@ function SubmitButton() {
   return (
     <button
       type="submit"
-      className="w-auto px-8 py-4 text-lg rounded-full bg-[#2D63B3] text-white hover:bg-[#2557AD] transition"
+      className="w-auto px-8 py-4 text-lg font-serif rounded-full bg-[#2D63B3] text-white hover:bg-[#2557AD] transition"
     >
       Login
     </button>

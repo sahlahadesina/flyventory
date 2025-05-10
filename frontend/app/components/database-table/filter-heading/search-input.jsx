@@ -6,7 +6,7 @@ const SearchInput = ({ searchQuery, setSearchQuery }) => {
     <div className='w-full'>
       <Input
         placeholder="Search for a Product"
-        className="bg-gray-50 w-full text-xl  !text-lg font-Ovo"
+        className="bg-gray-50 w-full text-xl  !text-lg font-serif"
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)} 
       />

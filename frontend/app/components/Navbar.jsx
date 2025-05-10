@@ -42,10 +42,10 @@ const Navbar = () => {
 
         <ul className={`hidden md:flex items-center gap-6 lg:gap-8 rounded-full px-12 py-3 order border-grey-500 bg-blue bg-opacity-50 shadow-sm`}>
          
-          <li><a className='font-Ovo text-lg' href="#top">Home</a></li>
-          <li><a className='font-Ovo text-lg' href="#features">Features</a></li>
-          <li><a className='font-Ovo text-lg' href="#about">About Us</a></li>    
-          <li><a className='font-Ovo text-lg' href="#how">How it Works</a></li>    
+          <li><a className='font-serif text-lg' href="#top">Home</a></li>
+          <li><a className='font-serif text-lg' href="#features">Features</a></li>
+          <li><a className='font-serif text-lg' href="#about">About Us</a></li>    
+          <li><a className='font-serif text-lg' href="#how">How it Works</a></li>    
         </ul>
 
         <div className='flex item-center gap-4'>
@@ -53,7 +53,7 @@ const Navbar = () => {
                 <Image src={assets.moon_icon} alt="" className='w-6' />
             </button>
             <a href="login" className='hidden lg:flex items-center gap-3 px-10
-            py-2.5 border border-grey-500 rounded-full ml-4 font-Ovo'> Log in</a>
+            py-2.5 border border-grey-500 rounded-full ml-4 font-serif'> Log in</a>
 
             <button className='block md:hidden ml-3' onClick={openMenu}>
             <Image src={assets.menu_black} alt="" className='w-6' />
@@ -65,10 +65,10 @@ const Navbar = () => {
           <div className='absolute right-6 top-6' onClick={closeMenu}>
             <Image src={assets.close_black} alt = '' className='w-5 cursor-pointer'/> 
           </div>
-          <li><a className='font-Ovo text-lg' onClick={closeMenu} href="#top">Home</a></li>
-          <li><a className='font-Ovo text-lg' onClick={closeMenu} href="#features">Features</a></li>
-          <li><a className='font-Ovo text-lg' onClick={closeMenu} href="#about">About Us</a></li>    
-          <li><a className='font-Ovo text-lg' onClick={closeMenu} href="#how">How it Works</a></li>
+          <li><a className='font-serif text-lg' onClick={closeMenu} href="#top">Home</a></li>
+          <li><a className='font-serif text-lg' onClick={closeMenu} href="#features">Features</a></li>
+          <li><a className='font-serif text-lg' onClick={closeMenu} href="#about">About Us</a></li>    
+          <li><a className='font-serif text-lg' onClick={closeMenu} href="#how">How it Works</a></li>
         </ul>
     </nav>
 

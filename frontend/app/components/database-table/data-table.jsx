@@ -161,20 +161,20 @@ const DataTable = ({searchQuery, onSummaryChange}) => {
   const getConditionBadge = (condition) => {
     switch (condition.toLowerCase()) {
       case "good":
-        return <span className="bg-green-100 text-green-800 px-2 py-1 rounded-md text-xs font-semibold font-Ovo">Good</span>;
+        return <span className="bg-green-100 text-green-800 px-2 py-1 rounded-md text-xs font-semibold font-serif">Good</span>;
       case "damaged":
-        return <span className="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-md text-xs font-semibold font-Ovo">Damaged</span>;
+        return <span className="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-md text-xs font-semibold font-serif">Damaged</span>;
       case "missing":
-        return <span className="bg-red-100 text-red-800 px-2 py-1 rounded-md text-xs font-semibold font-Ovo">Missing</span>;
+        return <span className="bg-red-100 text-red-800 px-2 py-1 rounded-md text-xs font-semibold font-serif">Missing</span>;
       default:
-        return <span className="bg-gray-100 text-gray-800 px-2 py-1 rounded-md text-xs font-semibold font-Ovo">Unknown</span>;
+        return <span className="bg-gray-100 text-gray-800 px-2 py-1 rounded-md text-xs font-semibold font-serif">Unknown</span>;
     }
   }; 
 
   const getAssetFoundBadge = (found) => {
     return found === "Yes" ? 
-      <span className="bg-green-100 text-green-800 px-2 py-1 rounded-md text-xs font-semibold font-Ovo">Found</span> :
-      <span className="bg-red-100 text-red-800 px-2 py-1 rounded-md text-xs font-semibold font-Ovo"> Missing</span>;
+      <span className="bg-green-100 text-green-800 px-2 py-1 rounded-md text-xs font-semibold font-serif">Found</span> :
+      <span className="bg-red-100 text-red-800 px-2 py-1 rounded-md text-xs font-semibold font-serif"> Missing</span>;
   };
   
 useEffect(() => {
@@ -199,23 +199,23 @@ return (
         <thead>
           <tr className="bg-[#eceff7]">
             {columns.map((column) => (
-              <th key = {column.accessorKey} className="p-2 border text-[#102258] font-Ovo">{column.header}</th>
+              <th key = {column.accessorKey} className="p-2 border text-[#102258] font-serif">{column.header}</th>
             ))}
             </tr>
         </thead>
         <tbody>
           {filteredData.map((row,index) => (
             <tr key={index} className="hover:bg-gray-50">
-              <td className="p-2 border font-Ovo">{row.product_name}</td>
-              <td className="p-2 border font-Ovo">{row.product_category}</td>
-              <td className="p-2 border font-Ovo">{row.product_description}</td>
-              <td className="p-2 border font-Ovo">{row.location}</td>
-              <td className="p-2 border font-Ovo">{row.quantity}</td>
-              <td className="p-2 border font-Ovo">{getConditionBadge(row.condition)}</td>
-              <td className="p-2 border font-Ovo">{row.date_scanned}</td>
-              <td className="p-2 border font-Ovo">{getAssetFoundBadge(row.asset_found)}</td>
+              <td className="p-2 border font-serif">{row.product_name}</td>
+              <td className="p-2 border font-serif">{row.product_category}</td>
+              <td className="p-2 border font-serif">{row.product_description}</td>
+              <td className="p-2 border font-serif">{row.location}</td>
+              <td className="p-2 border font-serif">{row.quantity}</td>
+              <td className="p-2 border font-serif">{getConditionBadge(row.condition)}</td>
+              <td className="p-2 border font-serif">{row.date_scanned}</td>
+              <td className="p-2 border font-serif">{getAssetFoundBadge(row.asset_found)}</td>
               {/* <td className="p-2 border font-Ovo">{row.price}</td> */}
-              <td className="p-2 border font-Ovo"> 
+              <td className="p-2 border font-serif"> 
                 <div className="flex justify-center items-center">
                   <Button
                   variant={activeView[row.asset_id]  ? "bg-transparent" : "bg-transparent"}
