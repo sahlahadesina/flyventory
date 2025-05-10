@@ -119,7 +119,11 @@ const DataTable = ({searchQuery, onSummaryChange}) => {
         quantity: quantity.TotalQuantity || "0",
         condition: asset.AssetCondition || "-",
         date_scanned: asset.DateAdded || "-",
-        asset_found: asset.AssetFound ? "Yes" : "No",
+        asset_found: asset.AssetDispatched
+        ? "Dispatched"
+        : asset.AssetFound
+          ? "Yes"
+          : "No",
         price: product.ProductPrice || "-",
         asset_dispatched: asset.AssetDispatched || false,
         asset_id: asset.AssetID || "-",
@@ -172,11 +176,17 @@ const DataTable = ({searchQuery, onSummaryChange}) => {
   }; 
 
   const getAssetFoundBadge = (found) => {
-    return found === "Yes" ? 
-      <span className="bg-green-100 text-green-800 px-2 py-1 rounded-md text-xs font-semibold font-serif">Found</span> :
-      <span className="bg-red-100 text-red-800 px-2 py-1 rounded-md text-xs font-semibold font-serif"> Missing</span>;
+    switch (found) {
+      case "Yes":
+        return <span className="bg-green-100 text-green-800 px-2 py-1 rounded-md text-xs font-semibold font-serif">Found</span>;
+      case "Dispatched":
+        return <span className="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-md text-xs font-semibold font-serif">Dispatched</span>;
+      case "No":
+      default:
+        return <span className="bg-red-100 text-red-800 px-2 py-1 rounded-md text-xs font-semibold font-serif">Missing</span>;
+    }
   };
-  
+    
 useEffect(() => {
   if (!data.length) return;
 
@@ -195,27 +205,27 @@ useEffect(() => {
 
 return (
     <div className="overflow-x-auto">
-      <table className="min-w-full border border-gray-300">
+      <table className="min-w-full border border-gray-300 border-collapse">
         <thead>
           <tr className="bg-[#eceff7]">
             {columns.map((column) => (
-              <th key = {column.accessorKey} className="p-2 border text-[#102258] font-serif">{column.header}</th>
+              <th key = {column.accessorKey} className="p-2 border border-gray-300 text-[#102258] font-serif bg-[#eceff7]">{column.header}</th>
             ))}
             </tr>
         </thead>
         <tbody>
           {filteredData.map((row,index) => (
             <tr key={index} className="hover:bg-gray-50">
-              <td className="p-2 border font-serif">{row.product_name}</td>
-              <td className="p-2 border font-serif">{row.product_category}</td>
-              <td className="p-2 border font-serif">{row.product_description}</td>
-              <td className="p-2 border font-serif">{row.location}</td>
-              <td className="p-2 border font-serif">{row.quantity}</td>
-              <td className="p-2 border font-serif">{getConditionBadge(row.condition)}</td>
-              <td className="p-2 border font-serif">{row.date_scanned}</td>
-              <td className="p-2 border font-serif">{getAssetFoundBadge(row.asset_found)}</td>
+              <td className="p-2 border border-gray-300 font-serif">{row.product_name}</td>
+              <td className="p-2 border border-gray-300 font-serif">{row.product_category}</td>
+              <td className="p-2 border border-gray-300 font-serif">{row.product_description}</td>
+              <td className="p-2 border border-gray-300 font-serif">{row.location}</td>
+              <td className="p-2 border border-gray-300 font-serif">{row.quantity}</td>
+              <td className="p-2 border border-gray-300 font-serif">{getConditionBadge(row.condition)}</td>
+              <td className="p-2 border border-gray-300 font-serif">{row.date_scanned}</td>
+              <td className="p-2 border border-gray-300 font-serif">{getAssetFoundBadge(row.asset_found)}</td>
               {/* <td className="p-2 border font-Ovo">{row.price}</td> */}
-              <td className="p-2 border font-serif"> 
+              <td className="p-2 border border-gray-300 font-serif"> 
                 <div className="flex justify-center items-center">
                   <Button
                   variant={activeView[row.asset_id]  ? "bg-transparent" : "bg-transparent"}
