@@ -43,6 +43,8 @@ const config = {
         lightHover: '#fcf4ff',
         darkHover: '#2a004a',
         darkTheme: '#11001F',
+        input: '#d1d5db', // your desired border color
+        ring: '#3b82f6',  // your desired focus ring color (e.g. blue-500)  
         card: {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
