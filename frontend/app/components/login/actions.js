@@ -11,28 +11,23 @@ const loginSchema = z.object({
 });
 
 export async function login(formData) {
-  // Validate the form data with Zod directly
   const result = loginSchema.safeParse(formData);
   if (!result.success) {
-    return { errors: result.error.flatten().fieldErrors };  // Return errors if validation fails
+    return { errors: result.error.flatten().fieldErrors };
   }
 
   const { username, password } = result.data;
 
   try {
     const res = await axios.post("http://localhost:8000/api/login/", {
-      Username: username,  
-      Password: password,  
+      Username: username,
+      Password: password,
     });
 
     const { user } = res.data;
-    console.log("username:",username)
-    // Create session after successful login
     await createSession(user.username);
 
-    const router = useRouter();
-    router.push('/database-table');
-
+    return { success: true };
   } catch (err) {
     console.error("Login failed:", err?.response?.data || err.message);
     return {
@@ -42,7 +37,6 @@ export async function login(formData) {
     };
   }
 }
-
 export async function logout() {
   await deleteSession();  // Remove session on logout
   return redirect("/login");  // Redirect to login page after logout

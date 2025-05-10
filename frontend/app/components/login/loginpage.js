@@ -6,16 +6,16 @@ import Image from "next/image";
 import { z } from "zod";
 import { login } from "./actions";
 
-// Zod validation schema
+// Zod schema for local validation
 const loginSchema = z.object({
   username: z.string().min(1, { message: "Username is required" }),
   password: z.string().min(1, { message: "Password is required" }),
 });
 
 export function Login() {
-  const router = useRouter(); // ✅ Safe! Top-level call
+  const router = useRouter();
   const [formData, setFormData] = useState({ username: "", password: "" });
-  const [errors, setErrors] = useState({ username: "", password: "" });
+  const [errors, setErrors] = useState({});
   const [loginError, setLoginError] = useState("");
 
   const handleSubmit = async (e) => {
@@ -31,18 +31,12 @@ export function Login() {
       return;
     }
 
-    try {
-      const response = await login(formData);
+    const response = await login(formData);
 
-      if (response?.errors) {
-        setLoginError(response.errors.username?.[0] || "Login failed.");
-      } else {
-        console.log("Login successful!");
-        router.push("/database-table"); // ✅ Safe client-side redirect
-      }
-    } catch (error) {
-      console.error("Login error:", error);
-      setLoginError(error.message || "Unexpected error.");
+    if (response?.errors) {
+      setLoginError(response.errors.username?.[0] || "Login failed.");
+    } else {
+      router.push("/database-table");
     }
   };
 
