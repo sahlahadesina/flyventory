@@ -8,120 +8,60 @@ The following resources were used:
 ## **Workflow**
 ![image](https://github.com/user-attachments/assets/661ff0cd-0568-4a17-864f-1f86e8a7894a)
 
+# IMX500 Object Detection on Raspberry Pi
 
-## **Prerequisites**
-- Raspberry Pi 4 with Raspberry Pi OS installed
-- IMX500 camera connected to Raspberry Pi
-- Custom-trained YOLOv8 model (`best.pt`)
-- Basic knowledge of using the terminal
-
-## **1. Convert the YOLOv8 Model to ONNX Format**
-We need to convert the YOLOv8 model from the PyTorch format (`best.pt`) to the ONNX format before proceeding. This conversion is done with **quantization** to ensure compatibility with the IMX500 camera.
-
-Run the following Python code to export the model to ONNX format with quantization enabled:
-
-```python
-import torch
-from ultralytics import YOLO
-```
-### Load the trained model
-```python
-model = YOLO("best.pt")
-```
-### Export to ONNX with quantization (int8)
-```python
-model.export(format="onnx", dynamic=False, int8=True)
-```
-
-## **2. Install IMX500 Converter and Model Compression Toolkit (MCT)**
-
-### Install IMX500 Converter
-To convert the ONNX model to a format suitable for the IMX500 camera, we need to install the IMX500 Converter.
-
-Install it using the following command:
-
-```bash
-pip install imx500-converter[pt]
-```
-### Install Model Compression Toolkit (MCT)
-
-The Model Compression Toolkit (MCT) is needed for quantization. However, it requires TensorFlow/Keras, and since we’ve already quantized the model during the ONNX export, this step is optional.
-
-To install MCT, use:
-
-```bash
-pip install model-compression-toolkit
-```
-## **3. Convert the ONNX Model Using IMX500 Converter**
-
-Now that we have our `best.onnx` file, we will convert it using the IMX500 Converter.
-
-Run the following command to convert the model:
-
-```bash
-imxconv-pt -i best.onnx -o model_output --no-input-persistency
-```
-### Explanation of flags:
-
-*   `-i`: Path to your quantized ONNX model (`best.onnx`)
-*   `-o`: Output directory where the converted model will be stored (you can specify any folder)
-
-The output from the converter will be a `packerOut.zip` file, which contains the model ready for deployment.
-
-## **4. Unzip the Output File**
-
-Once the conversion is complete, unzip the `packerOut.zip` file:
-
-```bash
-unzip packerOut.zip
-```
-## **5. Install the Aitrios SDK on the Raspberry Pi**
-
-To integrate the IMX500 camera with your custom model, you need to install the Aitrios SDK.
-
-### Clone the SDK Repository
-
-```bash
-git clone https://github.com/SonySemiconductorSolutions/aitrios-sdk-vision-sensing-app.git
-```
-### Install Dependencies
-
-Navigate to the cloned repository:
-
-```bash
-cd aitrios-sdk-vision-sensing-app
-```
-Install the required dependencies:
-
-```bash
-pip3 install -r requirements.txt
-```
-Install the SDK
-```bash
-python3 setup.py install
-```
-## **6. Test the Camera**
-
-After installing the SDK, test the IMX500 camera by running:
-
-```bash
-picamera2 -t 1000
-```
-## **7. Deploy the Model on IMX500 Camera***
-
-Now that the SDK is installed, and your model is ready, deploy the model to the IMX500 camera:
-
-```bash
-aitrios-cli deploy --model /home/pi/packerOut.zip
-```
-## **8. Modify Your Code for Inference**
-
-Finally, modify your existing Python code to start running inferences using the IMX500 camera. The camera will process frames using the custom model you just deployed, and you can get results directly from the camera in real time.
+This guide walks you through the process of deploying an object detection model (trained with YOLOv5 or similar) onto a Raspberry Pi with the Sony IMX500 sensor, including quantization and conversion to `.rpk` format for deployment.
 
 ---
+## Steps
 
-## Additional Notes
+### 1. Train and Export Your Model
+- Train your object detection model using your preferred framework (e.g., YOLOv5).
+- Once training is complete, export the model as `best.pt`.
 
-- Ensure that you are using a fully quantized model to avoid errors during conversion.
-- If you encounter any issues with the MCT, you can skip that step and continue with the ONNX conversion.
-- If you have any custom modifications to the object detection code, make sure they align with the model deployment on the IMX500 camera.
+### 2. Prepare Validation Dataset and Configuration
+- Ensure you have a `data.yaml` file configured for your dataset.
+- Collect a validation set with **at least 100-300 images**.
+- This validation set will be used during quantization.
+
+### 3. Upload to Google Drive and Transfer to Raspberry Pi
+- Upload `best.pt`, `data.yaml`, and your validation set to Google Drive.
+- Make the shared link public.
+- On the Raspberry Pi, open the link and download the dataset.
+
+### 4. Quantize and Convert Model on Raspberry Pi
+- On the Raspberry Pi, run the converter script to **quantize** and **convert** the model to IMX format.
+
+### 5. Locate the Output Folder
+- After conversion, you’ll obtain a folder named `best_imx`.
+- Inside it, locate `packagerOut.zip`.
+
+### 6. Extract `.zip` to `.rpk` Format
+Use the following command:
+
+```bash
+imx500-package -i path/to/packagerOut.zip -o path/to/output/folder
+```
+### 7. Install PiCamera2
+Clone and install picamera2:
+
+```bash
+git clone https://github.com/raspberrypi/picamera2
+cd picamera2
+pip install -e . --break-system-packages
+```
+### 8. Run the Object Detection Demo
+Use this command to start inference:
+
+```bash
+python imx500_object_detection_demo.py \
+  --model path/to/network.rpk \
+  --fps 17 \
+  --bbox-normalization \
+  --labels path/to/labels.txt
+```
+- labels.txt is found inside the best_imx folder.
+- network.rpk is the model file generated in Step 6.
+
+### 9. Customize the Detection Code
+If you'd like to extend or customize the object detection behavior (e.g., trigger actions on detection), modify the imx500_object_detection_demo.py script directly.
