@@ -1,4 +1,8 @@
 # Final updated barcode qrcode detection code using YOLOv8 on the Sony IMX 500 camera connected to the database and updating website in real time.
+# Located in (barcode-env) ainav@raspberrypi:~/barcode-env/picamera2/examples/imx500 $ 
+# run: python barcode_qrcode_detection.py --model /home/ainav/barcode-env/network.rpk --fps 17 --bbox-normalization --bbox-order xy --labels /home/ainav/barcode-env/best_imx_model/labels.txt
+
+
 
 import argparse
 import sys
