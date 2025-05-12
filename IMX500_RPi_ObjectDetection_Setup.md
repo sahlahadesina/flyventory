@@ -16,7 +16,7 @@ This guide walks you through the process of deploying an object detection model 
 ## Steps
 
 ### 1. Train and Export Your Model
-- Train your object detection model using your preferred framework (e.g., YOLOv5).
+- Train your object detection model using an object detection framework (e.g., YOLOv8).
 - Once training is complete, export the model as `best.pt`.
 
 ### 2. Prepare Validation Dataset and Configuration
