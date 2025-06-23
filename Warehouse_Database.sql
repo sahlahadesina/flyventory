@@ -79,11 +79,11 @@ INSERT INTO Asset (ProductID, AssetLocation, AssetCondition, DateAdded, AssetFou
 (5, 'Shelf C', 'Missing', '2024-02-09', FALSE, FALSE),
 (6, 'Shelf B', 'Good', '2024-02-11', TRUE, TRUE);
 
-INSERT INTO Employee (Username, Password, FirstName, LastName, Role) VALUES
-('Alice_N', 'Alice12', 'Alice', 'Nguyen', 'Manager'),
-('Robert_S', 'Rober12', 'Robert', 'Smith', 'Worker'),
-('David_H', 'David12', 'David', 'Hernandez', 'Worker'),
-('Sarah_L', 'Sarah12', 'Sarah', 'Lopez', 'Drone Operator');
+INSERT INTO employee (username, password, firstname, lastname, role) VALUES
+('Aaminah_A', 'Aaminah23', 'Aaminah', 'Arif', 'Supervisor'),
+('Sahlah_A', 'Sahlah45', 'Sahlah', 'Adesina', 'Worker'),
+('Tasneem_A', 'Tasneem67', 'Tasneem', 'Ahmed', 'Worker'),
+('Rahika_R', 'Rahika89', 'Rahika', 'Roza', 'Drone Operator');
 
 INSERT INTO Identification (AssetID, IdentifierType, IdentifierValue) VALUES
 (1, 'Barcode', 'OSC123456'),
