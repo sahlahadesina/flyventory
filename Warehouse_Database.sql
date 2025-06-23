@@ -46,16 +46,6 @@ CREATE Table Employee (
     Role ENUM('Manager', 'Worker', 'Drone Operator') NOT NULL 
 );
 
--- Create Product Quantity View
-
-CREATE VIEW ProductQuantities AS
-SELECT 
-    ProductID, 
-    COUNT(*) AS TotalQuantity
-FROM Asset
-WHERE AssetFound = 1 
-GROUP BY ProductID;
-
 -- Loading Data into the Database
 
 INSERT INTO Supplier (SupplierName, ContactInfo) VALUES
