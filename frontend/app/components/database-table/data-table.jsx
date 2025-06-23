@@ -88,7 +88,7 @@ const DataTable = ({searchQuery, onSummaryChange}) => {
       fetchData()
       const interval = setInterval(() => {
         fetchData()
-      }, 5000)
+      }, 3000)
     },[])
 
   // Now merging the data
