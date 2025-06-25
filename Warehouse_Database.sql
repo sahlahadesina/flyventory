@@ -45,7 +45,7 @@ CREATE Table Employee (
     Password VARCHAR(255) NOT NULL, 
     FirstName VARCHAR(255) NOT NULL,
     LastName VARCHAR(255) NOT NULL,
-    Role ENUM('Manager', 'Worker', 'Drone Operator') NOT NULL 
+Role ENUM('Manager', 'Worker', 'Drone Operator', 'Supervisor') NOT NULL
 );
 
 -- Loading Data into the Database
