@@ -1,5 +1,7 @@
 -- Creating the Database
-CREATE DATABASE Warehouse
+CREATE DATABASE Warehouse; 
+
+USE Warehouse;
 
 -- Creating the Tables
 
@@ -53,7 +55,7 @@ INSERT INTO Supplier (SupplierName, ContactInfo) VALUES
 ('Tech Lab Supplies', 'sales@techlabsupplies.com'),
 ('Engineering Tools Co.', 'info@engtools.com');
 
-INSERT INTO Product (SupplierID, ProductName, ProductCategory, ProductDescription, TotalQuantity, ProductPrice) VALUES
+INSERT INTO Product (SupplierID, ProductName, ProductCategory, ProductDescription, ProductPrice) VALUES
 (1, 'Oscilloscope', 'Testing Equipment', '100MHz digital storage oscilloscope',  599.99),
 (1, 'Function Generator', 'Testing Equipment', 'Arbitrary waveform function generator', 349.99),
 (2, 'Soldering Station', 'Assembly Tools', 'Temperature-controlled soldering station', 129.99),
