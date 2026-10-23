@@ -42,9 +42,13 @@ Follow `docs/Flyventory-Brand-Guidelines.pdf`. Summary:
 
 ## Images and media
 
-- Use only files in `public/media/`. These are our real drone photos, detection screenshots and demo video.
-- No stock drone photos and no images of other companies' drones (DJI etc.). If a slot has no real image yet, render a neutral placeholder box labelled `TODO: real photo`.
+- Our drone and software appear only through our own files in `public/media/` (real drone photos, detection screenshots, demo video).
+- Licensed stock photos and videos (Pexels or Unsplash, free commercial licence) are allowed ONLY for warehouse environments: aisles, racks, staging areas, pallets, workers, loading docks.
+- Never use stock images of drones, never other companies' hardware (DJI etc.), and never anything that implies a customer, partner or result we don't have (no visible client branding, no "our customer" framing).
+- Before downloading any stock file, give a shortlist (preview link, licence, where it would go) and wait for approval. Record the source URL and licence of every stock file used.
+- Compress everything: images as AVIF/WebP under 200 KB; background video MP4 under 3 MB, muted, with a poster image.
 - Video: muted, looping, `playsinline`, with a poster image; never autoplay with sound.
+- If a slot has no real or approved file, do not render it.
 
 ## Quality bar
 
