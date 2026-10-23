@@ -1,0 +1,39 @@
+---
+const items = [
+  {
+    title: "Autonomous navigation.",
+    text: "The drone flies set routes and finds specific locations on its own.",
+  },
+  {
+    title: "WMS integration.",
+    text: "Results go straight into the warehouse management system you already use.",
+  },
+  {
+    title: "Off-the-shelf drone support.",
+    text: "Run Flyventory software on commercial drones, not only our own build.",
+  },
+  {
+    title: "Propeller guards.",
+    text: "Protective guards for safer flight around people and racks.",
+  },
+];
+---
+
+<section id="roadmap" class="section-y bg-white" aria-labelledby="roadmap-title">
+  <div class="container-x">
+    <h2 id="roadmap-title" class="text-h2" data-reveal>What&rsquo;s next.</h2>
+
+    <!-- Dashed borders mark work that is not built yet; solid borders elsewhere mean it works today. -->
+    <ul class="mt-10 grid gap-4 md:grid-cols-2 lg:mt-14 lg:gap-6" data-reveal-stagger>
+      {
+        items.map((item) => (
+          <li class="card-hover rounded-panel border border-dashed border-navy/40 p-6 sm:p-8">
+            <p class="text-label text-blue">In development</p>
+            <h3 class="text-h3 mt-3">{item.title}</h3>
+            <p class="text-body mt-2 text-slate">{item.text}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
