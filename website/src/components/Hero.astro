@@ -1,0 +1,168 @@
+---
+import { Picture } from "astro:assets";
+import detectionFrame from "../../public/media/detection-frameout.png";
+---
+
+<section id="top" class="section-y pt-10 lg:pt-20" aria-labelledby="hero-title">
+  <div class="container-x grid items-center gap-10 lg:grid-cols-12 lg:gap-12">
+    <div class="lg:col-span-5">
+      <p class="hero-in text-label text-blue" style="--i: 0">Drone inventory checks</p>
+      <h1 id="hero-title" class="hero-in text-h1 mt-4 text-navy" style="--i: 1">
+        Check every pallet without climbing a single rack.
+      </h1>
+      <p class="hero-in text-lead mt-5 text-slate" style="--i: 2">
+        Flyventory is a drone and software system for warehouses. It scans barcodes and QR codes, confirms each item
+        is there in the right quantity, and logs everything to one dashboard.
+      </p>
+      <div class="hero-in mt-8 flex flex-col gap-3 sm:flex-row" style="--i: 3">
+        <a href="#contact" class="btn btn-primary">Book a pilot</a>
+        <a href="#demo" class="btn btn-secondary">Watch it work</a>
+      </div>
+    </div>
+
+    <div class="lg:col-span-7">
+      <!-- Capped at the image's native 640px so it is never upscaled. -->
+      <figure class="scan-frame relative mx-auto w-full max-w-[640px] p-3 sm:p-4">
+        <span class="corner corner-tl" aria-hidden="true"></span>
+        <span class="corner corner-tr" aria-hidden="true"></span>
+        <span class="corner corner-bl" aria-hidden="true"></span>
+        <span class="corner corner-br" aria-hidden="true"></span>
+
+        <div class="scan-image relative overflow-hidden rounded-[4px] bg-light">
+          <Picture
+            src={detectionFrame}
+            formats={["avif", "webp"]}
+            fallbackFormat="webp"
+            widths={[400, 640]}
+            sizes="(min-width: 1024px) 608px, calc(100vw - 56px)"
+            alt="Camera frame of stacked cartons. Barcodes and QR codes on the labels are outlined as detected, with their codes read out next to them."
+            loading="eager"
+            fetchpriority="high"
+            class="block h-auto w-full"
+          />
+          <div class="scan-sweep" aria-hidden="true"><span class="scan-line"></span></div>
+        </div>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Viewfinder corners: 2px brand-blue L shapes outside the image. */
+  .corner {
+    position: absolute;
+    width: 28px;
+    height: 28px;
+    border-color: var(--color-blue);
+    border-style: solid;
+    border-width: 0;
+  }
+  .corner-tl {
+    top: 0;
+    left: 0;
+    border-top-width: 2px;
+    border-left-width: 2px;
+    --dx: -8px;
+    --dy: -8px;
+  }
+  .corner-tr {
+    top: 0;
+    right: 0;
+    border-top-width: 2px;
+    border-right-width: 2px;
+    --dx: 8px;
+    --dy: -8px;
+  }
+  .corner-bl {
+    bottom: 0;
+    left: 0;
+    border-bottom-width: 2px;
+    border-left-width: 2px;
+    --dx: -8px;
+    --dy: 8px;
+  }
+  .corner-br {
+    bottom: 0;
+    right: 0;
+    border-bottom-width: 2px;
+    border-right-width: 2px;
+    --dx: 8px;
+    --dy: 8px;
+  }
+
+  /* The sweep layer is the image's full height, so translateY(100%) moves the line top to bottom. */
+  .scan-sweep {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0;
+  }
+  .scan-line {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 2px;
+    background-color: var(--color-blue);
+    box-shadow: 0 0 0 1px color-mix(in oklab, var(--color-white), transparent 60%);
+  }
+  .scan-line::before {
+    /* short fading trail above the line */
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 2px;
+    height: 36px;
+    background: linear-gradient(to bottom, transparent, color-mix(in oklab, var(--color-blue), transparent 78%));
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .scan-image {
+      animation: frame-in 600ms ease-out 120ms both;
+    }
+    .corner {
+      animation: corner-settle 700ms var(--ease-out-soft) 380ms both;
+    }
+    .scan-sweep {
+      animation: sweep 1500ms cubic-bezier(0.45, 0, 0.25, 1) 900ms both;
+    }
+  }
+
+  @keyframes frame-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes corner-settle {
+    from {
+      opacity: 0;
+      transform: translate(var(--dx), var(--dy));
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @keyframes sweep {
+    0% {
+      opacity: 0;
+      transform: translateY(0);
+    }
+    8% {
+      opacity: 1;
+    }
+    88% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(100%);
+    }
+  }
+</style>
