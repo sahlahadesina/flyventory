@@ -1,5 +1,6 @@
 ---
 // Illustration of a scan pass. All codes and results are sample data, not real output.
+// The status and cardboard colours below are illustration-only and are not site-wide tokens.
 type Status = "found" | "missing" | "damaged";
 
 interface Slot {
@@ -11,27 +12,32 @@ interface Slot {
   code: "barcode" | "qr" | null;
 }
 
-const BOX_W = 140;
-const BOX_H = 110;
+const BOX_W = 128;
+const BOX_H = 108;
+// Depth offset for the top and side faces.
+const DX = 16;
+const DY = -10;
 
 const slots: Slot[] = [
-  { loc: "A-01", sku: "SKU-10421", x: 40, y: 48, status: "found", code: "barcode" },
-  { loc: "A-02", sku: "SKU-10422", x: 210, y: 48, status: "found", code: "qr" },
+  { loc: "A-01", sku: "SKU-10421", x: 44, y: 48, status: "found", code: "barcode" },
+  { loc: "A-02", sku: "SKU-10422", x: 212, y: 48, status: "found", code: "qr" },
   { loc: "A-03", sku: "SKU-10423", x: 380, y: 48, status: "damaged", code: "barcode" },
-  { loc: "B-01", sku: "SKU-10424", x: 40, y: 212, status: "found", code: "qr" },
-  { loc: "B-02", sku: "SKU-10425", x: 210, y: 212, status: "missing", code: null },
+  { loc: "B-01", sku: "SKU-10424", x: 44, y: 212, status: "found", code: "qr" },
+  { loc: "B-02", sku: "SKU-10425", x: 212, y: 212, status: "missing", code: null },
   { loc: "B-03", sku: "SKU-10426", x: 380, y: 212, status: "found", code: "barcode" },
 ];
 
 const statusLabel: Record<Status, string> = { found: "Found", missing: "Missing", damaged: "Damaged" };
-const totals = {
-  found: slots.filter((s) => s.status === "found").length,
-  missing: slots.filter((s) => s.status === "missing").length,
-  damaged: slots.filter((s) => s.status === "damaged").length,
-};
+const order: Status[] = ["found", "missing", "damaged"];
+const totals = Object.fromEntries(order.map((k) => [k, slots.filter((s) => s.status === k).length])) as Record<
+  Status,
+  number
+>;
 
-// Label target (where the viewfinder locks on) for each slot.
-const target = (s: Slot) => ({ cx: s.x + BOX_W / 2, cy: s.y + (s.code ? 58 : BOX_H / 2) });
+// Label centre, where the viewfinder locks on.
+const target = (s: Slot) => ({ cx: s.x + BOX_W / 2, cy: s.y + (s.code ? 60 : BOX_H / 2) });
+
+const pts = (...p: number[][]) => p.map(([x, y]) => `${x},${y}`).join(" ");
 
 const barWidths = [2, 1, 3, 1, 1, 2, 3, 1, 2, 1, 1, 3, 2, 1, 2];
 const bars = barWidths.reduce<{ x: number; w: number }[]>((acc, w, i) => {
@@ -61,10 +67,24 @@ const barsWidth = bars[bars.length - 1].x + bars[bars.length - 1].w;
     <div class="rounded-btn bg-light p-3 sm:p-4 lg:col-span-7">
       <svg
         class="scene block h-auto w-full"
-        viewBox="0 0 560 350"
+        viewBox="0 0 560 360"
         role="img"
         aria-label="Illustration: a viewfinder moves across six cartons on a two-level rack and reads each label. Four cartons are found, one is damaged and one slot is empty."
       >
+        <defs>
+          <radialGradient id="ls-floor" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#182E52" stop-opacity="0.22"></stop>
+            <stop offset="70%" stop-color="#182E52" stop-opacity="0.06"></stop>
+            <stop offset="100%" stop-color="#182E52" stop-opacity="0"></stop>
+          </radialGradient>
+          <filter id="ls-glow" x="-30%" y="-30%" width="160%" height="160%">
+            <feGaussianBlur stdDeviation="4"></feGaussianBlur>
+          </filter>
+        </defs>
+
+        <!-- Floor shadow -->
+        <ellipse cx="280" cy="338" rx="270" ry="16" fill="url(#ls-floor)"></ellipse>
+
         <!-- Rack -->
         <g fill="var(--color-navy)">
           <rect x="22" y="18" width="7" height="318" rx="1"></rect>
@@ -76,94 +96,84 @@ const barsWidth = bars[bars.length - 1].x + bars[bars.length - 1].w;
         {
           slots.map((s, i) => {
             const t = target(s);
+            const { x, y } = s;
+            const r = x + BOX_W;
+            const b = y + BOX_H;
             return (
-              <g class="slot" data-slot data-status={s.status} data-cx={t.cx} data-cy={t.cy} data-done="true" style={`--i: ${i}`}>
+              <g
+                class="slot"
+                data-slot
+                data-status={s.status}
+                data-cx={t.cx}
+                data-cy={t.cy}
+                data-done="true"
+                style={`--i: ${i}`}
+              >
                 {s.status === "missing" ? (
                   <rect
-                    x={s.x}
-                    y={s.y}
+                    x={x}
+                    y={y}
                     width={BOX_W}
                     height={BOX_H}
-                    rx="3"
+                    rx="2"
                     fill="none"
                     stroke="var(--color-slate)"
                     stroke-width="1.5"
                     stroke-dasharray="6 5"
-                    opacity="0.7"
+                    opacity="0.6"
                   />
                 ) : s.status === "damaged" ? (
-                  <g>
+                  <g class="carton" stroke="var(--ls-edge)" stroke-width="1" stroke-linejoin="round">
+                    {/* crushed top-right corner */}
+                    <polygon class="top" points={pts([x, y], [x + DX, y + DY], [r - 30 + DX, y + DY], [r - 24, y])} />
+                    <polygon class="side" points={pts([r, y + 22], [r + DX, y + 12], [r + DX, b + DY], [r, b])} />
+                    <polygon class="crush" points={pts([r - 24, y], [r - 30 + DX, y + DY], [r + DX, y + 12], [r, y + 22])} />
+                    <polygon class="front" points={pts([x, y], [r - 24, y], [r, y + 22], [r, b], [x, b])} />
                     <path
-                      d={`M${s.x} ${s.y + 3} q0 -3 3 -3 H${s.x + 102} L${s.x + BOX_W} ${s.y + 30} V${s.y + BOX_H} H${s.x} Z`}
-                      fill="var(--color-white)"
-                      stroke="var(--color-navy)"
-                      stroke-width="1.5"
-                      stroke-linejoin="round"
-                    />
-                    <path
-                      d={`M${s.x + 102} ${s.y} L${s.x + 114} ${s.y + 34} L${s.x + BOX_W} ${s.y + 30}`}
+                      d={`M${r - 24} ${y} L${r - 12} ${y + 30} L${r} ${y + 22} M${r - 30} ${b - 22} l7 -9 l6 8 l7 -10`}
                       fill="none"
-                      stroke="var(--color-navy)"
-                      stroke-width="1.25"
-                      stroke-linejoin="round"
-                    />
-                    {/* dent in the front face */}
-                    <path
-                      d={`M${s.x + 108} ${s.y + 88} l7 -9 l6 8 l7 -10`}
-                      fill="none"
-                      stroke="var(--color-navy)"
+                      stroke="var(--ls-crease)"
                       stroke-width="1.25"
                       stroke-linecap="round"
-                      stroke-linejoin="round"
                     />
                   </g>
                 ) : (
-                  <rect
-                    x={s.x}
-                    y={s.y}
-                    width={BOX_W}
-                    height={BOX_H}
-                    rx="3"
-                    fill="var(--color-white)"
-                    stroke="var(--color-navy)"
-                    stroke-width="1.5"
-                  />
-                )}
-
-                {s.status !== "missing" && (
-                  <line
-                    x1={s.x + 50}
-                    y1={s.y}
-                    x2={s.x + 50}
-                    y2={s.y + 22}
-                    stroke="var(--color-navy)"
-                    stroke-width="1"
-                    opacity="0.35"
-                  />
+                  <g class="carton" stroke="var(--ls-edge)" stroke-width="1" stroke-linejoin="round">
+                    <polygon class="top" points={pts([x, y], [x + DX, y + DY], [r + DX, y + DY], [r, y])} />
+                    <polygon class="side" points={pts([r, y], [r + DX, y + DY], [r + DX, b + DY], [r, b])} />
+                    <rect class="front" x={x} y={y} width={BOX_W} height={BOX_H} />
+                    {/* tape across the top */}
+                    <polygon
+                      class="tape"
+                      stroke="none"
+                      points={pts([x + 54, y], [x + 54 + DX, y + DY], [x + 74 + DX, y + DY], [x + 74, y])}
+                    />
+                    <rect class="tape" stroke="none" x={x + 54} y={y} width="20" height="16" />
+                  </g>
                 )}
 
                 {s.code && (
                   <g>
                     <rect
                       class="label"
-                      x={s.x + 35}
-                      y={s.y + 38}
+                      x={x + BOX_W / 2 - 35}
+                      y={y + 40}
                       width="70"
                       height="40"
                       rx="2"
                       fill="var(--color-white)"
-                      stroke="var(--color-navy)"
+                      stroke="var(--ls-edge)"
                       stroke-width="1"
                     />
                     {s.code === "barcode" ? (
-                      <g transform={`translate(${s.x + 70 - barsWidth / 2} ${s.y + 45})`} fill="var(--color-navy)">
-                        {bars.map((b) => (
-                          <rect x={b.x} y="0" width={b.w} height="20" />
+                      <g transform={`translate(${x + BOX_W / 2 - barsWidth / 2} ${y + 47})`} fill="var(--color-navy)">
+                        {bars.map((bar) => (
+                          <rect x={bar.x} y="0" width={bar.w} height="20" />
                         ))}
                         <rect x="0" y="24" width={barsWidth} height="2.5" opacity="0.35" />
                       </g>
                     ) : (
-                      <g transform={`translate(${s.x + 56} ${s.y + 44})`} fill="var(--color-navy)">
+                      <g transform={`translate(${x + BOX_W / 2 - 14} ${y + 46})`} fill="var(--color-navy)">
                         <rect x="0" y="0" width="9" height="9" />
                         <rect x="19" y="0" width="9" height="9" />
                         <rect x="0" y="19" width="9" height="9" />
@@ -178,25 +188,37 @@ const barsWidth = bars[bars.length - 1].x + bars[bars.length - 1].w;
                   </g>
                 )}
 
-                <g class="badge" transform={`translate(${s.x + 18} ${s.y + 18})`}>
+                <g class="badge" transform={`translate(${x + 17} ${y + 17})`}>
                   <g class="badge-inner">
                     {s.status === "found" && (
                       <>
-                        <circle r="10" fill="var(--color-blue)" />
-                        <path d="M-4.5 0.3l3 3 6-6.3" fill="none" stroke="var(--color-white)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        <circle r="10.5" fill="var(--ls-found)" stroke="var(--color-white)" stroke-width="1.5" />
+                        <path
+                          d="M-4.5 0.3l3 3 6-6.3"
+                          fill="none"
+                          stroke="var(--color-white)"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
                       </>
                     )}
                     {s.status === "damaged" && (
                       <>
-                        <circle r="10" fill="var(--color-navy)" />
+                        <circle r="10.5" fill="var(--ls-damaged)" stroke="var(--color-white)" stroke-width="1.5" />
                         <path d="M0 -5v6" stroke="var(--color-white)" stroke-width="2" stroke-linecap="round" />
                         <circle cy="4.5" r="1.3" fill="var(--color-white)" />
                       </>
                     )}
                     {s.status === "missing" && (
                       <>
-                        <circle r="10" fill="var(--color-white)" stroke="var(--color-slate)" stroke-width="1.5" />
-                        <path d="M-3.5 -3.5l7 7M3.5 -3.5l-7 7" stroke="var(--color-slate)" stroke-width="1.75" stroke-linecap="round" />
+                        <circle r="10.5" fill="var(--ls-missing)" stroke="var(--color-white)" stroke-width="1.5" />
+                        <path
+                          d="M-3.5 -3.5l7 7M3.5 -3.5l-7 7"
+                          stroke="var(--color-white)"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                        />
                       </>
                     )}
                   </g>
@@ -208,6 +230,12 @@ const barsWidth = bars[bars.length - 1].x + bars[bars.length - 1].w;
 
         <!-- Viewfinder: hidden unless the animation is running -->
         <g class="reticle" data-reticle aria-hidden="true">
+          <g class="reticle-glow" filter="url(#ls-glow)" fill="none" stroke="var(--color-blue)" stroke-width="7">
+            <path d="M-46 -18 V-30 H-34"></path>
+            <path d="M34 -30 H46 V-18"></path>
+            <path d="M-46 18 V30 H-34"></path>
+            <path d="M34 30 H46 V18"></path>
+          </g>
           <g class="reticle-corners" fill="none" stroke="var(--color-blue)" stroke-width="3" stroke-linecap="square">
             <path d="M-46 -18 V-30 H-34"></path>
             <path d="M34 -30 H46 V-18"></path>
@@ -228,10 +256,10 @@ const barsWidth = bars[bars.length - 1].x + bars[bars.length - 1].w;
 
       <dl class="grid grid-cols-3 border-b border-navy/12 text-center">
         {
-          (["found", "missing", "damaged"] as Status[]).map((k) => (
+          order.map((k) => (
             <div class="border-navy/12 px-2 py-3 [&:not(:last-child)]:border-r">
               <dt class="text-label text-slate">{statusLabel[k]}</dt>
-              <dd class="mt-1 text-2xl font-semibold tabular-nums" data-count={k}>
+              <dd class={`mt-1 text-2xl font-semibold tabular-nums status-text-${k}`} data-count={k}>
                 {totals[k]}
               </dd>
             </div>
@@ -256,8 +284,47 @@ const barsWidth = bars[bars.length - 1].x + bars[bars.length - 1].w;
 </div>
 
 <style>
+  .live-scan {
+    /* Illustration-only status colours. Icons and badges use the base colour (3:1 or better for
+       graphics); text uses a text-safe shade (AA 4.5:1 or better on white). */
+    --ls-found: #1f7a4d;
+    --ls-found-text: #1f7a4d; /* 5.32:1 on white */
+    --ls-damaged: #b7791f;
+    --ls-damaged-text: #8f5e12; /* 5.56:1 on white; #B7791F is only 3.64:1 */
+    --ls-missing: #b42318;
+    --ls-missing-text: #b42318; /* 6.57:1 on white */
+
+    /* Cardboard */
+    --ls-front: #d9b98c;
+    --ls-top: #c9a675;
+    --ls-side: #bb9563;
+    --ls-crush: #a8834f;
+    --ls-tape: #e6d0aa;
+    --ls-edge: #9c7849;
+    --ls-crease: #7d5d34;
+  }
+
+  .carton .front {
+    fill: var(--ls-front);
+  }
+  .carton .top {
+    fill: var(--ls-top);
+  }
+  .carton .side {
+    fill: var(--ls-side);
+  }
+  .carton .crush {
+    fill: var(--ls-crush);
+  }
+  .carton .tape {
+    fill: var(--ls-tape);
+  }
+
   /* ----- Default (final) state: shown without JS and under reduced motion ----- */
   .reticle {
+    opacity: 0;
+  }
+  .reticle-glow {
     opacity: 0;
   }
 
@@ -268,25 +335,7 @@ const barsWidth = bars[bars.length - 1].x + bars[bars.length - 1].w;
     height: 18px;
     border-radius: 9999px;
   }
-  .status-found {
-    background-color: var(--color-blue);
-  }
-  .status-found::after {
-    content: "";
-    position: absolute;
-    left: 6px;
-    top: 3.5px;
-    width: 5px;
-    height: 9px;
-    border: solid var(--color-white);
-    border-width: 0 2px 2px 0;
-    transform: rotate(45deg);
-  }
-  .status-damaged {
-    background-color: var(--color-navy);
-  }
-  .status-damaged::after {
-    content: "!";
+  .status-icon::after {
     position: absolute;
     inset: 0;
     display: grid;
@@ -296,17 +345,51 @@ const barsWidth = bars[bars.length - 1].x + bars[bars.length - 1].w;
     font-weight: 700;
     line-height: 1;
   }
+  .status-found {
+    background-color: var(--ls-found);
+  }
+  .status-found::after {
+    content: "";
+    inset: auto;
+    left: 6px;
+    top: 3.5px;
+    width: 5px;
+    height: 9px;
+    border: solid var(--color-white);
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+  }
+  .status-damaged {
+    background-color: var(--ls-damaged);
+  }
+  .status-damaged::after {
+    content: "!";
+  }
   .status-missing {
-    border: 1.5px dashed var(--color-slate);
+    background-color: var(--ls-missing);
+  }
+  .status-missing::after {
+    content: "\00d7";
+    font-size: 15px;
   }
   .status-text-found {
-    color: var(--color-blue);
+    color: var(--ls-found-text);
   }
   .status-text-missing {
-    color: var(--color-slate);
+    color: var(--ls-missing-text);
   }
   .status-text-damaged {
-    color: var(--color-navy);
+    color: var(--ls-damaged-text);
+  }
+
+  /* Label outline takes the status colour once scanned. */
+  .slot[data-done="true"][data-status="found"] .label {
+    stroke: var(--ls-found);
+    stroke-width: 1.5;
+  }
+  .slot[data-done="true"][data-status="damaged"] .label {
+    stroke: var(--ls-damaged);
+    stroke-width: 1.5;
   }
 
   /* ----- Animated run (JS sets data-state) ----- */
@@ -320,12 +403,6 @@ const barsWidth = bars[bars.length - 1].x + bars[bars.length - 1].w;
   .live-scan[data-state] .slot:not([data-done="true"]) .badge-inner {
     opacity: 0;
     transform: scale(0.4);
-  }
-  .live-scan[data-state] .label {
-    transition: stroke 300ms ease-out;
-  }
-  .live-scan[data-state] .slot[data-done="true"] .label {
-    stroke: var(--color-blue);
   }
 
   .live-scan[data-state] .row {
@@ -349,12 +426,16 @@ const barsWidth = bars[bars.length - 1].x + bars[bars.length - 1].w;
   .reticle.no-transition {
     transition: none;
   }
-  .reticle-corners {
+  .reticle-corners,
+  .reticle-glow {
     transform-box: fill-box;
     transform-origin: center;
   }
   .reticle.is-locking .reticle-corners {
     animation: lock 380ms var(--ease-out-soft) both;
+  }
+  .reticle.is-locking .reticle-glow {
+    animation: glow 700ms ease-out both;
   }
   .reticle-sweep {
     opacity: 0;
@@ -371,6 +452,20 @@ const barsWidth = bars[bars.length - 1].x + bars[bars.length - 1].w;
     to {
       transform: scale(1);
       opacity: 1;
+    }
+  }
+  @keyframes glow {
+    0% {
+      opacity: 0;
+      transform: scale(1.3);
+    }
+    45% {
+      opacity: 0.55;
+      transform: scale(1);
+    }
+    100% {
+      opacity: 0.2;
+      transform: scale(1);
     }
   }
   @keyframes sweep-x {
@@ -438,6 +533,7 @@ const barsWidth = bars[bars.length - 1].x + bars[bars.length - 1].w;
       let t = 300;
       slots.forEach((slot, i) => {
         at(t, () => {
+          reticle.classList.remove("is-locking");
           reticle.classList.add("is-visible");
           reticle.style.transform = place(slot);
         });
