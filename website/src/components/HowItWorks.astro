@@ -1,0 +1,122 @@
+---
+const steps = [
+  { title: "Pilot", text: "An operator flies the drone along the aisle or over the staging area." },
+  { title: "Scan", text: "The onboard camera reads barcodes and QR codes on boxes and pallets." },
+  { title: "Verify", text: "The software checks each item’s presence and quantity against what’s expected." },
+  { title: "Log", text: "Results are saved automatically, with location and time." },
+  { title: "Display", text: "Your team sees what’s found, missing or damaged on a live dashboard." },
+];
+---
+
+<section id="how-it-works" class="section-y bg-white" aria-labelledby="how-title">
+  <div class="container-x">
+    <h2 id="how-title" class="text-h2 max-w-2xl" data-reveal>From flight to dashboard in five steps.</h2>
+
+    <ol class="steps mt-10 grid gap-8 lg:mt-14 lg:grid-cols-5 lg:gap-6" data-observe>
+      {
+        steps.map((step, i) => (
+          <li class="step relative pl-9 lg:pt-9 lg:pl-0" style={`--i: ${i}`}>
+            <span class="dot" aria-hidden="true" />
+            {i < steps.length - 1 && <span class="seg" aria-hidden="true" />}
+            <div class="step-body">
+              <span class="text-label block text-blue">{String(i + 1).padStart(2, "0")}</span>
+              <h3 class="text-h3 mt-2">{step.title}</h3>
+              <p class="text-body mt-2 text-slate">{step.text}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+
+    <p class="mt-10 flex max-w-2xl items-start gap-3 text-sm text-slate lg:mt-14" data-reveal>
+      <svg class="mt-0.5 size-5 shrink-0 text-blue" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+        <circle cx="10" cy="10" r="8.25" stroke="currentColor" stroke-width="1.5"></circle>
+        <path d="M10 9v5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
+        <circle cx="10" cy="6.25" r="1" fill="currentColor"></circle>
+      </svg>
+      <span class="text-pretty">
+        Today the drone is flown by a trained operator. Autonomous flight is in development (see <a
+          href="/#roadmap"
+          class="font-semibold text-blue underline underline-offset-2">Roadmap</a
+        >).
+      </span>
+    </p>
+  </div>
+</section>
+
+<style>
+  .dot {
+    position: absolute;
+    left: 0;
+    top: 0.25rem;
+    width: 12px;
+    height: 12px;
+    border-radius: 9999px;
+    border: 2px solid var(--color-blue);
+    background-color: var(--color-white);
+    z-index: 1;
+  }
+
+  /* Segment from this step's dot to the next one. Vertical on mobile, horizontal on desktop. */
+  .seg {
+    position: absolute;
+    left: 5px;
+    top: calc(0.25rem + 12px);
+    bottom: calc(-2rem - 0.25rem);
+    width: 2px;
+    background-color: var(--color-blue);
+    transform-origin: top;
+  }
+
+  @media (width >= 64rem) {
+    .dot {
+      top: 0;
+    }
+    .seg {
+      left: 12px;
+      right: -1.5rem;
+      top: 5px;
+      bottom: auto;
+      width: auto;
+      height: 2px;
+      transform-origin: left;
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    :global(.js) .seg {
+      transform: scaleY(0);
+      transition: transform 240ms linear;
+      transition-delay: calc(var(--i) * 160ms + 220ms);
+    }
+    :global(.js) .dot,
+    :global(.js) .step-body {
+      opacity: 0;
+      transition:
+        opacity 400ms ease-out,
+        transform 500ms var(--ease-out-soft);
+      transition-delay: calc(var(--i) * 160ms + 80ms);
+    }
+    :global(.js) .dot {
+      transform: scale(0.4);
+    }
+    :global(.js) .step-body {
+      transform: translateY(12px);
+    }
+
+    @media (width >= 64rem) {
+      :global(.js) .seg {
+        transform: scaleX(0);
+      }
+    }
+
+    .steps:global(.is-visible) .seg {
+      transform: none;
+    }
+    .steps:global(.is-visible) .dot,
+    .steps:global(.is-visible) .step-body {
+      opacity: 1;
+      transform: none;
+    }
+  }
+</style>
