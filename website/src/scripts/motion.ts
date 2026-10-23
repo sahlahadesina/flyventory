@@ -10,7 +10,7 @@ window.__fvMotion = true;
 
 // Reveal sections once as they enter the viewport.
 const revealTargets = document.querySelectorAll<HTMLElement>(
-  "[data-reveal], [data-reveal-stagger], [data-observe]",
+  "[data-reveal], [data-reveal-stagger], [data-observe], .img-reveal",
 );
 
 document.querySelectorAll<HTMLElement>("[data-reveal-stagger]").forEach((group) => {

@@ -68,9 +68,9 @@
 }
 
 @utility section-y {
-  padding-block: 4rem;
+  padding-block: 4.5rem;
   @media (width >= 64rem) {
-    padding-block: 6rem;
+    padding-block: 7rem;
   }
 }
 
@@ -269,6 +269,19 @@
   }
   .js [data-reveal].is-visible,
   .js [data-reveal-stagger].is-visible > * {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Photos settle from 1.04 to 1 as they enter (the frame clips the overflow). */
+  .js .img-reveal img {
+    opacity: 0;
+    transform: scale(1.04);
+    transition:
+      opacity 600ms ease-out,
+      transform 900ms var(--ease-out-soft);
+  }
+  .js .img-reveal.is-visible img {
     opacity: 1;
     transform: none;
   }
