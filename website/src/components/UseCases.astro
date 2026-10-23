@@ -1,0 +1,58 @@
+---
+const stagingChecks = [
+  { term: "Quantity", desc: "missing or extra items" },
+  { term: "SKU", desc: "wrong products received" },
+  { term: "Labels", desc: "missing or incorrect labels" },
+  { term: "Packaging", desc: "damaged or compromised cartons" },
+  { term: "Records", desc: "physical stock vs. what your system says" },
+];
+
+const putAway = [
+  "Empty location checks",
+  "Item and location verification",
+  "Package condition checks",
+  "Finding a specific SKU or package",
+];
+---
+
+<section id="use-cases" class="section-y bg-light" aria-labelledby="use-cases-title">
+  <div class="container-x">
+    <h2 id="use-cases-title" class="text-h2" data-reveal>Where Flyventory fits.</h2>
+
+    <div class="mt-10 grid items-start gap-6 lg:mt-14 lg:grid-cols-12 lg:gap-8" data-reveal-stagger>
+      <article class="card-hover rounded-panel border border-navy/12 bg-white p-6 sm:p-8 lg:col-span-7 lg:p-10">
+        <p class="text-label text-blue">Our first focus</p>
+        <h3 class="text-h3 mt-3">Staging area</h3>
+        <p class="text-body mt-3 text-slate">
+          Goods arrive, get unloaded and wait in staging before put-away. That&rsquo;s where receiving errors slip
+          through. Flyventory checks:
+        </p>
+        <dl class="mt-6 border-t border-navy/12">
+          {
+            stagingChecks.map((c) => (
+              <div class="grid gap-1 border-b border-navy/12 py-3.5 sm:grid-cols-[8.5rem_1fr] sm:gap-4">
+                <dt class="font-semibold">{c.term}</dt>
+                <dd class="text-slate">{c.desc}</dd>
+              </div>
+            ))
+          }
+        </dl>
+      </article>
+
+      <article class="card-hover rounded-panel border border-navy/12 p-6 sm:p-8 lg:col-span-5 lg:p-10">
+        <p class="text-label text-slate">Next</p>
+        <h3 class="text-h3 mt-3">Put-away and storage</h3>
+        <ul class="mt-6 space-y-3">
+          {
+            putAway.map((item) => (
+              <li class="flex gap-3 text-slate">
+                <span class="mt-[0.6em] size-1.5 shrink-0 bg-blue" aria-hidden="true" />
+                <span>{item}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </article>
+    </div>
+  </div>
+</section>
