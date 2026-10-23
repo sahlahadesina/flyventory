@@ -1,32 +1,53 @@
 ---
+import { Picture } from "astro:assets";
+import counting from "../../public/media/stock/problem-counting.webp";
+import height from "../../public/media/stock/problem-height.webp";
+import labels from "../../public/media/stock/problem-labels.webp";
+
+// Photos are licensed stock of warehouse environments (see docs/stock-credits.md).
 const problems = [
   {
     title: "Slow and expensive.",
     text: "Manual counts take people off other work, cause downtime, and push labor costs up.",
+    img: counting,
+    alt: "A worker with a clipboard checking stock between tall warehouse shelves.",
   },
   {
     title: "Risky at height.",
     text: "Checking high racks means ladders, lifts and forklifts, which raises the risk of accidents.",
+    img: height,
+    alt: "Pallet racking loaded with goods several levels high.",
   },
   {
     title: "Easy to get wrong.",
     text: "Tired people miss labels, miscount boxes and log the wrong location. Those errors show up later as stock that “should” be there but isn’t.",
+    img: labels,
+    alt: "Cartons covered in handling labels on a warehouse shelf.",
   },
 ];
 ---
 
 <section id="problem" class="section-y bg-white" aria-labelledby="problem-title">
-  <div class="container-x grid gap-8 lg:grid-cols-12 lg:gap-12">
-    <div class="lg:col-span-4">
-      <h2 id="problem-title" class="text-h2 lg:sticky lg:top-28" data-reveal>Inventory checks are still done by hand.</h2>
-    </div>
+  <div class="container-x">
+    <h2 id="problem-title" class="text-h2 max-w-xl" data-reveal>Inventory checks are still done by hand.</h2>
 
-    <ul class="border-t border-navy/12 lg:col-span-8" data-reveal-stagger>
+    <ul class="mt-10 grid gap-10 md:grid-cols-3 md:gap-6 lg:mt-14 lg:gap-8" data-reveal-stagger>
       {
         problems.map((p) => (
-          <li class="grid gap-2 border-b border-navy/12 py-6 md:grid-cols-[15rem_1fr] md:gap-8 lg:py-8">
-            <h3 class="text-h3">{p.title}</h3>
-            <p class="text-body text-slate">{p.text}</p>
+          <li>
+            <figure class="img-reveal aspect-[4/3] overflow-hidden rounded-panel bg-light">
+              <Picture
+                src={p.img}
+                formats={["avif", "webp"]}
+                widths={[480, 800]}
+                sizes="(min-width: 1152px) 352px, (min-width: 768px) 31vw, calc(100vw - 32px)"
+                alt={p.alt}
+                pictureAttributes={{ class: "block size-full" }}
+                class="size-full object-cover"
+              />
+            </figure>
+            <h3 class="text-h3 mt-6">{p.title}</h3>
+            <p class="text-body mt-2 text-slate">{p.text}</p>
           </li>
         ))
       }
