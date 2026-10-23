@@ -1,0 +1,35 @@
+---
+const problems = [
+  {
+    title: "Slow and expensive.",
+    text: "Manual counts take people off other work, cause downtime, and push labor costs up.",
+  },
+  {
+    title: "Risky at height.",
+    text: "Checking high racks means ladders, lifts and forklifts, which raises the risk of accidents.",
+  },
+  {
+    title: "Easy to get wrong.",
+    text: "Tired people miss labels, miscount boxes and log the wrong location. Those errors show up later as stock that “should” be there but isn’t.",
+  },
+];
+---
+
+<section id="problem" class="section-y bg-light" aria-labelledby="problem-title">
+  <div class="container-x grid gap-8 lg:grid-cols-12 lg:gap-12">
+    <div class="lg:col-span-4">
+      <h2 id="problem-title" class="text-h2 lg:sticky lg:top-28" data-reveal>Inventory checks are still done by hand.</h2>
+    </div>
+
+    <ul class="border-t border-navy/12 lg:col-span-8" data-reveal-stagger>
+      {
+        problems.map((p) => (
+          <li class="grid gap-2 border-b border-navy/12 py-6 md:grid-cols-[15rem_1fr] md:gap-8 lg:py-8">
+            <h3 class="text-h3">{p.title}</h3>
+            <p class="text-body text-slate">{p.text}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

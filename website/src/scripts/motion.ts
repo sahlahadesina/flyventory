@@ -9,7 +9,9 @@ declare global {
 window.__fvMotion = true;
 
 // Reveal sections once as they enter the viewport.
-const revealTargets = document.querySelectorAll<HTMLElement>("[data-reveal], [data-reveal-stagger]");
+const revealTargets = document.querySelectorAll<HTMLElement>(
+  "[data-reveal], [data-reveal-stagger], [data-observe]",
+);
 
 document.querySelectorAll<HTMLElement>("[data-reveal-stagger]").forEach((group) => {
   Array.from(group.children).forEach((child, i) => {

@@ -205,10 +205,30 @@
     transform-origin: left;
     transition: transform 180ms var(--ease-out-soft);
   }
+  /* Cards: subtle border colour change on hover. */
+  .card-hover {
+    transition: border-color 180ms ease-out;
+  }
+  .card-hover:hover {
+    border-color: color-mix(in oklab, var(--color-blue), transparent 45%);
+  }
+
   .link-slide:hover::after,
   .link-slide:focus-visible::after,
   .link-slide[aria-current="true"]::after {
     transform: scaleX(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn,
+  .btn:hover,
+  .btn:active {
+    transform: none;
+    transition: none;
+  }
+  .link-slide::after {
+    transition: none;
   }
 }
 
