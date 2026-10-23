@@ -1,0 +1,60 @@
+---
+import { Picture } from "astro:assets";
+import detectionFrame from "../../public/media/detection-frameout.png";
+
+const built = [
+  { text: "Custom drone: Pixhawk flight controller, NVIDIA Jetson Orin Nano onboard computer, camera module" },
+  { text: "Real-time barcode and QR code detection" },
+  { text: "Item presence and quantity verification" },
+  { text: "Package condition detection", tag: "Prototype" },
+  { text: "Inventory dashboard with found, missing and damaged items" },
+];
+
+// Media slots without real files are not rendered (drone photo, dashboard screenshot, demo video).
+---
+
+<section id="built" class="on-dark section-y bg-navy text-white" aria-labelledby="built-title">
+  <div class="container-x grid items-center gap-10 lg:grid-cols-12 lg:gap-12">
+    <div class="lg:col-span-5">
+      <h2 id="built-title" class="text-h2" data-reveal>Working today.</h2>
+      <ul class="mt-8 space-y-4" data-reveal-stagger>
+        {
+          built.map((item) => (
+            <li class="flex gap-3">
+              <svg class="mt-0.5 size-5 shrink-0" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                <circle cx="10" cy="10" r="9" stroke="currentColor" stroke-opacity="0.35" stroke-width="1.5" />
+                <path
+                  d="M6 10.2l2.6 2.6L14 7.4"
+                  stroke="currentColor"
+                  stroke-width="1.75"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+              <span class="text-pretty">
+                {item.text}
+                {item.tag && (
+                  <span class="text-label ml-2 inline-block translate-y-[-1px] rounded-[4px] border border-white/35 px-1.5 py-0.5 align-middle text-[0.75rem]">
+                    {item.tag}
+                  </span>
+                )}
+              </span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <figure id="demo" class="mx-auto w-full max-w-[640px] lg:col-span-7" data-reveal>
+      <Picture
+        src={detectionFrame}
+        formats={["avif", "webp"]}
+        fallbackFormat="webp"
+        widths={[400, 640]}
+        sizes="(min-width: 1024px) 608px, calc(100vw - 32px)"
+        alt="Detection screenshot: barcodes and QR codes on stacked cartons, each outlined, with the decoded codes shown next to them."
+        class="block h-auto w-full rounded-[4px]"
+      />
+    </figure>
+  </div>
+</section>
