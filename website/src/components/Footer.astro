@@ -1,0 +1,46 @@
+---
+const links = [
+  { href: "/#how-it-works", label: "How it works" },
+  { href: "/#use-cases", label: "Use cases" },
+  { href: "/#team", label: "Team" },
+  { href: "/#contact", label: "Contact" },
+  { href: "/privacy", label: "Privacy" },
+];
+// Contact email is hidden until it exists (TODO, e.g. hello@getflyventory.com).
+---
+
+<footer class="on-dark bg-navy text-white">
+  <div class="container-x border-t border-white/15 py-12 lg:py-16">
+    <div class="flex flex-col gap-10 lg:flex-row lg:items-center lg:justify-between">
+      <a href="/#top" class="-m-1 self-start p-1">
+        <img
+          src="/brand/flyventory-logo-horizontal-white.svg"
+          alt="Flyventory home"
+          width="164"
+          height="58"
+          loading="lazy"
+          class="h-[58px] w-[164px]"
+        />
+      </a>
+
+      <nav aria-label="Footer">
+        <ul class="flex flex-col sm:flex-row sm:flex-wrap sm:gap-x-8">
+          {
+            links.map((link) => (
+              <li>
+                <a href={link.href} class="inline-flex min-h-11 items-center text-[0.9375rem] text-white/85 hover:text-white">
+                  <span class="link-slide">{link.label}</span>
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+    </div>
+
+    <div class="mt-10 flex flex-col gap-2 text-sm text-white/70 sm:flex-row sm:justify-between">
+      <p>Abu Dhabi, UAE</p>
+      <p>&copy; 2026 Flyventory</p>
+    </div>
+  </div>
+</footer>

@@ -215,6 +215,8 @@
 
   .link-slide:hover::after,
   .link-slide:focus-visible::after,
+  a:hover > .link-slide::after,
+  a:focus-visible > .link-slide::after,
   .link-slide[aria-current="true"]::after {
     transform: scaleX(1);
   }
