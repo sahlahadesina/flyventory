@@ -1,0 +1,113 @@
+---
+const faqs = [
+  {
+    q: "Who flies the drone?",
+    a: "Right now, a trained operator. We’re working on autonomous flight.",
+  },
+  {
+    q: "Do we need to change our systems?",
+    a: "No. During a pilot, results show on our dashboard. Direct WMS integration is on our roadmap.",
+  },
+  {
+    q: "Is it safe to fly indoors around people?",
+    a: "We fly in controlled areas during agreed time windows and are developing propeller guards for extra protection.",
+  },
+  {
+    q: "What does a pilot involve?",
+    a: "We visit your site, run checks on part of your staging area, and share the results with you.",
+  },
+];
+---
+
+<section id="faq" class="section-y bg-white" aria-labelledby="faq-title">
+  <div class="container-x grid gap-8 lg:grid-cols-12 lg:gap-12">
+    <div class="lg:col-span-4">
+      <h2 id="faq-title" class="text-h2" data-reveal>FAQ</h2>
+    </div>
+
+    <div class="border-t border-navy/12 lg:col-span-8" data-reveal-stagger>
+      {
+        faqs.map((item, i) => (
+          <details class="faq border-b border-navy/12" open={i === 0}>
+            <summary class="flex min-h-14 cursor-pointer list-none items-center justify-between gap-6 py-5 text-left">
+              <h3 class="text-h3">{item.q}</h3>
+              <span class="faq-icon relative size-5 shrink-0 text-blue" aria-hidden="true" />
+            </summary>
+            <div class="faq-answer pb-6">
+              <p class="text-body text-slate">{item.a}</p>
+            </div>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  summary::-webkit-details-marker {
+    display: none;
+  }
+
+  /* Plus that turns into a minus. */
+  .faq-icon::before,
+  .faq-icon::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 14px;
+    height: 2px;
+    margin: -1px 0 0 -7px;
+    background-color: currentColor;
+    border-radius: 1px;
+    transition: transform 200ms var(--ease-out-soft);
+  }
+  .faq-icon::after {
+    transform: rotate(90deg);
+  }
+  .faq[open] .faq-icon::after {
+    transform: rotate(0deg);
+  }
+
+  summary:hover h3 {
+    color: var(--color-blue);
+  }
+  summary h3 {
+    transition: color 180ms ease-out;
+  }
+
+  /* Smooth height where the browser supports animating to auto; others open instantly. */
+  @media (prefers-reduced-motion: no-preference) {
+    .faq {
+      interpolate-size: allow-keywords;
+    }
+    .faq::details-content {
+      block-size: 0;
+      overflow: clip;
+      transition:
+        block-size 280ms var(--ease-out-soft),
+        content-visibility 280ms allow-discrete;
+    }
+    .faq[open]::details-content {
+      block-size: auto;
+    }
+    .faq-answer {
+      opacity: 0;
+      transform: translateY(-4px);
+      transition:
+        opacity 220ms ease-out,
+        transform 280ms var(--ease-out-soft);
+    }
+    .faq[open] .faq-answer {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .faq-icon::before,
+    .faq-icon::after {
+      transition: none;
+    }
+  }
+</style>
