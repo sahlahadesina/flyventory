@@ -78,7 +78,7 @@ Goods arrive, get unloaded and wait in staging before put-away. That's where rec
 
 Section title: Working today.
 
-- Custom drone: Pixhawk flight controller, NVIDIA Jetson Orin Nano onboard computer, camera module
+- Built on a Holybro X500 V2 frame: Pixhawk flight controller running PX4, NVIDIA Jetson Orin Nano onboard computer, ELP 16MP camera
 - Real-time barcode and QR code detection
 - Item presence and quantity verification
 - Package condition detection (prototype) [CONFIRM: is this working well enough to show?]

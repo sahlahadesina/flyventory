@@ -2,11 +2,12 @@
 import { Picture } from "astro:assets";
 import type { ImageMetadata } from "astro";
 
-// Hardware from the copy: "Custom drone: Pixhawk flight controller, NVIDIA Jetson Orin Nano onboard computer, camera module".
+// Hardware from the copy: "Built on a Holybro X500 V2 frame: Pixhawk flight controller running PX4,
+// NVIDIA Jetson Orin Nano onboard computer, ELP 16MP camera".
 const hardware = [
-  { icon: "controller", label: "Flight controller", value: "Pixhawk" },
+  { icon: "controller", label: "Flight controller", value: "Pixhawk running PX4" },
   { icon: "computer", label: "Onboard computer", value: "NVIDIA Jetson Orin Nano" },
-  { icon: "camera", label: "Camera", value: "Camera module" },
+  { icon: "camera", label: "Camera", value: "ELP 16MP camera" },
 ];
 
 const software = [
@@ -46,7 +47,7 @@ const dronePhoto = Object.values(
       }
     </div>
 
-    <p class="text-label mt-12 text-white/70 lg:mt-14" data-reveal>Custom drone</p>
+    <p class="text-label mt-12 text-white/70 lg:mt-14" data-reveal>Built on a Holybro X500 V2 frame</p>
     <ul class="mt-4 grid gap-4 md:grid-cols-3 lg:gap-6" data-reveal-stagger>
       {
         hardware.map((h) => (
