@@ -38,6 +38,18 @@ const ogImage = new URL("/og-image.png", Astro.site).href;
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
     <meta name="theme-color" content="#182E52" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        name: "Flyventory",
+        url: "https://getflyventory.com",
+        logo: "https://getflyventory.com/icon-512.png",
+        address: { "@type": "PostalAddress", addressLocality: "Abu Dhabi", addressCountry: "AE" },
+      })}
+    />
 
     <Font cssVariable="--font-montserrat" preload={[{ weight: 400 }, { weight: 700 }]} />
     <Font cssVariable="--font-antonio" />
