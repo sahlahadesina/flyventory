@@ -74,26 +74,30 @@
   }
 }
 
-/* Type scale (brand guidelines: H1 48/1.15 bold, H2 32/1.25 semibold, body 16 to 18/1.6) */
+/* Type scale. Weights follow the brand guide (H1 bold, H2 semibold); desktop sizes
+   were raised above the guide's 48/32 for the redesign (approved 2026-10-23). */
 @utility text-h1 {
-  font-size: 2.25rem;
-  line-height: 1.15;
+  font-size: 2.5rem;
+  line-height: 1.1;
   font-weight: 700;
   letter-spacing: -0.02em;
   text-wrap: balance;
+  @media (width >= 48rem) {
+    font-size: 3.25rem;
+  }
   @media (width >= 64rem) {
-    font-size: 3rem;
+    font-size: 4rem;
   }
 }
 
 @utility text-h2 {
-  font-size: 1.75rem;
-  line-height: 1.25;
+  font-size: 1.875rem;
+  line-height: 1.2;
   font-weight: 600;
   letter-spacing: -0.02em;
   text-wrap: balance;
   @media (width >= 64rem) {
-    font-size: 2rem;
+    font-size: 2.5rem;
   }
 }
 
@@ -181,6 +185,16 @@
   }
   .btn-accent:hover {
     background-color: color-mix(in oklab, var(--color-blue), black 14%);
+  }
+  /* Secondary on navy: white outline. */
+  .btn-outline-light {
+    background-color: transparent;
+    color: var(--color-white);
+    border-color: color-mix(in oklab, var(--color-white), transparent 30%);
+  }
+  .btn-outline-light:hover {
+    background-color: color-mix(in oklab, var(--color-white), transparent 90%);
+    border-color: var(--color-white);
   }
   .btn-sm {
     min-height: 2.75rem;

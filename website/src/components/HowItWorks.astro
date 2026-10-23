@@ -1,4 +1,6 @@
 ---
+import LiveScan from "./LiveScan.astro";
+
 const steps = [
   { title: "Pilot", text: "An operator flies the drone along the aisle or over the staging area." },
   { title: "Scan", text: "The onboard camera reads barcodes and QR codes on boxes and pallets." },
@@ -8,7 +10,7 @@ const steps = [
 ];
 ---
 
-<section id="how-it-works" class="section-y bg-white" aria-labelledby="how-title">
+<section id="how-it-works" class="section-y bg-light" aria-labelledby="how-title">
   <div class="container-x">
     <h2 id="how-title" class="text-h2 max-w-2xl" data-reveal>From flight to dashboard in five steps.</h2>
 
@@ -41,6 +43,10 @@ const steps = [
         >).
       </span>
     </p>
+
+    <div class="mt-12 lg:mt-16" data-reveal>
+      <LiveScan />
+    </div>
   </div>
 </section>
 
@@ -53,7 +59,7 @@ const steps = [
     height: 12px;
     border-radius: 9999px;
     border: 2px solid var(--color-blue);
-    background-color: var(--color-white);
+    background-color: var(--color-light);
     z-index: 1;
   }
 

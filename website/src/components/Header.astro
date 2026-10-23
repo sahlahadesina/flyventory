@@ -1,4 +1,10 @@
 ---
+interface Props {
+  /** Transparent with the white logo while it sits over the navy hero. */
+  overlay?: boolean;
+}
+const { overlay = false } = Astro.props;
+
 const links = [
   { href: "/#how-it-works", label: "How it works" },
   { href: "/#use-cases", label: "Use cases" },
@@ -8,18 +14,36 @@ const links = [
 ];
 ---
 
-<header class="site-header sticky top-0 z-50 h-16 lg:h-[72px]" data-header data-scrolled="false">
+<header
+  class="site-header sticky top-0 z-50 h-16 lg:h-[72px]"
+  data-header
+  data-scrolled="false"
+  data-overlay={overlay ? "true" : "false"}
+>
   <div class="header-bg" aria-hidden="true"></div>
 
   <div class="header-inner container-x relative flex h-full items-center justify-between gap-6">
     <a href="/#top" class="header-logo -m-1 shrink-0 p-1">
-      <img
-        src="/brand/flyventory-logo-horizontal-color.svg"
-        alt="Flyventory home"
-        width="164"
-        height="58"
-        class="h-[54px] w-[152px] lg:h-[58px] lg:w-[164px]"
-      />
+      <span class="logo-wrap relative block h-[54px] w-[152px] lg:h-[58px] lg:w-[164px]">
+        <img
+          src="/brand/flyventory-logo-horizontal-color.svg"
+          alt="Flyventory home"
+          width="164"
+          height="58"
+          class="logo-color absolute inset-0 size-full"
+        />
+        {
+          overlay && (
+            <img
+              src="/brand/flyventory-logo-horizontal-white.svg"
+              alt=""
+              width="164"
+              height="58"
+              class="logo-white absolute inset-0 size-full"
+            />
+          )
+        }
+      </span>
     </a>
 
     <nav aria-label="Main" class="hidden lg:block">
@@ -27,7 +51,7 @@ const links = [
         {
           links.map((link) => (
             <li>
-              <a href={link.href} class="link-slide py-2 text-[0.9375rem] text-navy">
+              <a href={link.href} class="nav-link link-slide py-2 text-[0.9375rem] text-navy">
                 {link.label}
               </a>
             </li>
@@ -82,14 +106,48 @@ const links = [
     border-bottom: 1px solid transparent;
     transition:
       transform 200ms var(--ease-out-soft),
+      opacity 250ms ease-out,
       border-color 200ms ease-out;
   }
   .header-inner,
-  .header-logo img {
+  .logo-wrap {
     transition: transform 200ms var(--ease-out-soft);
   }
-  .header-logo img {
+  .logo-wrap {
     transform-origin: left center;
+  }
+  .logo-color,
+  .logo-white {
+    transition: opacity 250ms ease-out;
+  }
+  .logo-white {
+    opacity: 0;
+  }
+  .nav-link,
+  .menu-toggle {
+    transition: color 250ms ease-out;
+  }
+
+  /* Over the navy hero: transparent bar, white logo and links. */
+  .site-header[data-overlay="true"]:not([data-scrolled="true"]):not(:has([data-open="true"])) .header-bg {
+    opacity: 0;
+  }
+  .site-header[data-overlay="true"]:not([data-scrolled="true"]):not(:has([data-open="true"])) .logo-color {
+    opacity: 0;
+  }
+  .site-header[data-overlay="true"]:not([data-scrolled="true"]):not(:has([data-open="true"])) .logo-white {
+    opacity: 1;
+  }
+  .site-header[data-overlay="true"]:not([data-scrolled="true"]):not(:has([data-open="true"])) .nav-link,
+  .site-header[data-overlay="true"]:not([data-scrolled="true"]):not(:has([data-open="true"])) .menu-toggle {
+    color: var(--color-white);
+  }
+  .site-header[data-overlay="true"]:not([data-scrolled="true"]):not(:has([data-open="true"])) :focus-visible {
+    outline-color: var(--color-white);
+  }
+  .site-header[data-scrolled="true"] .logo-white,
+  .site-header:has([data-open="true"]) .logo-white {
+    opacity: 0;
   }
 
   .site-header[data-scrolled="true"] .header-bg {
@@ -99,7 +157,7 @@ const links = [
   .site-header[data-scrolled="true"] .header-inner {
     transform: translateY(-4px);
   }
-  .site-header[data-scrolled="true"] .header-logo img {
+  .site-header[data-scrolled="true"] .logo-wrap {
     transform: scale(0.92); /* never below the 140px brand minimum */
   }
 
@@ -153,7 +211,11 @@ const links = [
   @media (prefers-reduced-motion: reduce) {
     .header-bg,
     .header-inner,
-    .header-logo img,
+    .logo-wrap,
+    .logo-color,
+    .logo-white,
+    .nav-link,
+    .menu-toggle,
     .menu-panel,
     .bar {
       transition: none;

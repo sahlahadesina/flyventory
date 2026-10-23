@@ -1,0 +1,477 @@
+---
+// Illustration of a scan pass. All codes and results are sample data, not real output.
+type Status = "found" | "missing" | "damaged";
+
+interface Slot {
+  loc: string;
+  sku: string;
+  x: number;
+  y: number;
+  status: Status;
+  code: "barcode" | "qr" | null;
+}
+
+const BOX_W = 140;
+const BOX_H = 110;
+
+const slots: Slot[] = [
+  { loc: "A-01", sku: "SKU-10421", x: 40, y: 48, status: "found", code: "barcode" },
+  { loc: "A-02", sku: "SKU-10422", x: 210, y: 48, status: "found", code: "qr" },
+  { loc: "A-03", sku: "SKU-10423", x: 380, y: 48, status: "damaged", code: "barcode" },
+  { loc: "B-01", sku: "SKU-10424", x: 40, y: 212, status: "found", code: "qr" },
+  { loc: "B-02", sku: "SKU-10425", x: 210, y: 212, status: "missing", code: null },
+  { loc: "B-03", sku: "SKU-10426", x: 380, y: 212, status: "found", code: "barcode" },
+];
+
+const statusLabel: Record<Status, string> = { found: "Found", missing: "Missing", damaged: "Damaged" };
+const totals = {
+  found: slots.filter((s) => s.status === "found").length,
+  missing: slots.filter((s) => s.status === "missing").length,
+  damaged: slots.filter((s) => s.status === "damaged").length,
+};
+
+// Label target (where the viewfinder locks on) for each slot.
+const target = (s: Slot) => ({ cx: s.x + BOX_W / 2, cy: s.y + (s.code ? 58 : BOX_H / 2) });
+
+const barWidths = [2, 1, 3, 1, 1, 2, 3, 1, 2, 1, 1, 3, 2, 1, 2];
+const bars = barWidths.reduce<{ x: number; w: number }[]>((acc, w, i) => {
+  const prev = acc[acc.length - 1];
+  const x = prev ? prev.x + prev.w + (i % 3 === 0 ? 2 : 1.5) : 0;
+  acc.push({ x, w });
+  return acc;
+}, []);
+const barsWidth = bars[bars.length - 1].x + bars[bars.length - 1].w;
+---
+
+<div id="live-scan" class="live-scan rounded-panel border border-navy/12 bg-white p-4 sm:p-6 lg:p-8" data-live-scan>
+  <div class="mb-5 flex items-center justify-between gap-4">
+    <p class="text-label text-slate">Illustration, sample data</p>
+    <button type="button" class="replay btn btn-secondary btn-sm" data-replay hidden>
+      <svg class="size-4" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+        <path d="M4 10a6 6 0 1 0 1.8-4.3" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"></path>
+        <path d="M4 3.5V7h3.5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"
+        ></path>
+      </svg>
+      Replay
+    </button>
+  </div>
+
+  <div class="grid gap-6 lg:grid-cols-12 lg:gap-8">
+    <!-- Scene -->
+    <div class="rounded-btn bg-light p-3 sm:p-4 lg:col-span-7">
+      <svg
+        class="scene block h-auto w-full"
+        viewBox="0 0 560 350"
+        role="img"
+        aria-label="Illustration: a viewfinder moves across six cartons on a two-level rack and reads each label. Four cartons are found, one is damaged and one slot is empty."
+      >
+        <!-- Rack -->
+        <g fill="var(--color-navy)">
+          <rect x="22" y="18" width="7" height="318" rx="1"></rect>
+          <rect x="531" y="18" width="7" height="318" rx="1"></rect>
+          <rect x="22" y="158" width="516" height="7" rx="1"></rect>
+          <rect x="22" y="322" width="516" height="7" rx="1"></rect>
+        </g>
+
+        {
+          slots.map((s, i) => {
+            const t = target(s);
+            return (
+              <g class="slot" data-slot data-status={s.status} data-cx={t.cx} data-cy={t.cy} data-done="true" style={`--i: ${i}`}>
+                {s.status === "missing" ? (
+                  <rect
+                    x={s.x}
+                    y={s.y}
+                    width={BOX_W}
+                    height={BOX_H}
+                    rx="3"
+                    fill="none"
+                    stroke="var(--color-slate)"
+                    stroke-width="1.5"
+                    stroke-dasharray="6 5"
+                    opacity="0.7"
+                  />
+                ) : s.status === "damaged" ? (
+                  <g>
+                    <path
+                      d={`M${s.x} ${s.y + 3} q0 -3 3 -3 H${s.x + 102} L${s.x + BOX_W} ${s.y + 30} V${s.y + BOX_H} H${s.x} Z`}
+                      fill="var(--color-white)"
+                      stroke="var(--color-navy)"
+                      stroke-width="1.5"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d={`M${s.x + 102} ${s.y} L${s.x + 114} ${s.y + 34} L${s.x + BOX_W} ${s.y + 30}`}
+                      fill="none"
+                      stroke="var(--color-navy)"
+                      stroke-width="1.25"
+                      stroke-linejoin="round"
+                    />
+                    {/* dent in the front face */}
+                    <path
+                      d={`M${s.x + 108} ${s.y + 88} l7 -9 l6 8 l7 -10`}
+                      fill="none"
+                      stroke="var(--color-navy)"
+                      stroke-width="1.25"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </g>
+                ) : (
+                  <rect
+                    x={s.x}
+                    y={s.y}
+                    width={BOX_W}
+                    height={BOX_H}
+                    rx="3"
+                    fill="var(--color-white)"
+                    stroke="var(--color-navy)"
+                    stroke-width="1.5"
+                  />
+                )}
+
+                {s.status !== "missing" && (
+                  <line
+                    x1={s.x + 50}
+                    y1={s.y}
+                    x2={s.x + 50}
+                    y2={s.y + 22}
+                    stroke="var(--color-navy)"
+                    stroke-width="1"
+                    opacity="0.35"
+                  />
+                )}
+
+                {s.code && (
+                  <g>
+                    <rect
+                      class="label"
+                      x={s.x + 35}
+                      y={s.y + 38}
+                      width="70"
+                      height="40"
+                      rx="2"
+                      fill="var(--color-white)"
+                      stroke="var(--color-navy)"
+                      stroke-width="1"
+                    />
+                    {s.code === "barcode" ? (
+                      <g transform={`translate(${s.x + 70 - barsWidth / 2} ${s.y + 45})`} fill="var(--color-navy)">
+                        {bars.map((b) => (
+                          <rect x={b.x} y="0" width={b.w} height="20" />
+                        ))}
+                        <rect x="0" y="24" width={barsWidth} height="2.5" opacity="0.35" />
+                      </g>
+                    ) : (
+                      <g transform={`translate(${s.x + 56} ${s.y + 44})`} fill="var(--color-navy)">
+                        <rect x="0" y="0" width="9" height="9" />
+                        <rect x="19" y="0" width="9" height="9" />
+                        <rect x="0" y="19" width="9" height="9" />
+                        <rect x="12" y="2" width="3" height="3" />
+                        <rect x="12" y="12" width="4" height="4" />
+                        <rect x="19" y="14" width="3" height="3" />
+                        <rect x="24" y="19" width="4" height="3" />
+                        <rect x="15" y="22" width="3" height="6" />
+                        <rect x="20" y="24" width="3" height="4" />
+                      </g>
+                    )}
+                  </g>
+                )}
+
+                <g class="badge" transform={`translate(${s.x + 18} ${s.y + 18})`}>
+                  <g class="badge-inner">
+                    {s.status === "found" && (
+                      <>
+                        <circle r="10" fill="var(--color-blue)" />
+                        <path d="M-4.5 0.3l3 3 6-6.3" fill="none" stroke="var(--color-white)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                      </>
+                    )}
+                    {s.status === "damaged" && (
+                      <>
+                        <circle r="10" fill="var(--color-navy)" />
+                        <path d="M0 -5v6" stroke="var(--color-white)" stroke-width="2" stroke-linecap="round" />
+                        <circle cy="4.5" r="1.3" fill="var(--color-white)" />
+                      </>
+                    )}
+                    {s.status === "missing" && (
+                      <>
+                        <circle r="10" fill="var(--color-white)" stroke="var(--color-slate)" stroke-width="1.5" />
+                        <path d="M-3.5 -3.5l7 7M3.5 -3.5l-7 7" stroke="var(--color-slate)" stroke-width="1.75" stroke-linecap="round" />
+                      </>
+                    )}
+                  </g>
+                </g>
+              </g>
+            );
+          })
+        }
+
+        <!-- Viewfinder: hidden unless the animation is running -->
+        <g class="reticle" data-reticle aria-hidden="true">
+          <g class="reticle-corners" fill="none" stroke="var(--color-blue)" stroke-width="3" stroke-linecap="square">
+            <path d="M-46 -18 V-30 H-34"></path>
+            <path d="M34 -30 H46 V-18"></path>
+            <path d="M-46 18 V30 H-34"></path>
+            <path d="M34 30 H46 V18"></path>
+          </g>
+          <rect class="reticle-sweep" x="-38" y="-24" width="2" height="48" fill="var(--color-blue)"></rect>
+        </g>
+      </svg>
+    </div>
+
+    <!-- Dashboard -->
+    <div class="dash flex flex-col rounded-btn border border-navy/12 lg:col-span-5">
+      <div class="flex items-baseline justify-between gap-3 border-b border-navy/12 px-4 py-3">
+        <p class="font-semibold">Scan results</p>
+        <p class="text-sm text-slate">Aisle A</p>
+      </div>
+
+      <dl class="grid grid-cols-3 border-b border-navy/12 text-center">
+        {
+          (["found", "missing", "damaged"] as Status[]).map((k) => (
+            <div class="border-navy/12 px-2 py-3 [&:not(:last-child)]:border-r">
+              <dt class="text-label text-slate">{statusLabel[k]}</dt>
+              <dd class="mt-1 text-2xl font-semibold tabular-nums" data-count={k}>
+                {totals[k]}
+              </dd>
+            </div>
+          ))
+        }
+      </dl>
+
+      <ol class="flex-1 divide-y divide-navy/8 px-4 py-1">
+        {
+          slots.map((s) => (
+            <li class="row flex items-center gap-3 py-2.5 text-sm" data-row data-shown="true">
+              <span class={`status-icon status-${s.status}`} aria-hidden="true" />
+              <span class="font-semibold tabular-nums">{s.sku}</span>
+              <span class="text-slate tabular-nums">{s.loc}</span>
+              <span class={`ml-auto font-semibold status-text-${s.status}`}>{statusLabel[s.status]}</span>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* ----- Default (final) state: shown without JS and under reduced motion ----- */
+  .reticle {
+    opacity: 0;
+  }
+
+  .status-icon {
+    position: relative;
+    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+    border-radius: 9999px;
+  }
+  .status-found {
+    background-color: var(--color-blue);
+  }
+  .status-found::after {
+    content: "";
+    position: absolute;
+    left: 6px;
+    top: 3.5px;
+    width: 5px;
+    height: 9px;
+    border: solid var(--color-white);
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+  }
+  .status-damaged {
+    background-color: var(--color-navy);
+  }
+  .status-damaged::after {
+    content: "!";
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    color: var(--color-white);
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1;
+  }
+  .status-missing {
+    border: 1.5px dashed var(--color-slate);
+  }
+  .status-text-found {
+    color: var(--color-blue);
+  }
+  .status-text-missing {
+    color: var(--color-slate);
+  }
+  .status-text-damaged {
+    color: var(--color-navy);
+  }
+
+  /* ----- Animated run (JS sets data-state) ----- */
+  .live-scan[data-state] .badge-inner {
+    transform-box: fill-box;
+    transform-origin: center;
+    transition:
+      opacity 300ms ease-out,
+      transform 450ms var(--ease-out-soft);
+  }
+  .live-scan[data-state] .slot:not([data-done="true"]) .badge-inner {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+  .live-scan[data-state] .label {
+    transition: stroke 300ms ease-out;
+  }
+  .live-scan[data-state] .slot[data-done="true"] .label {
+    stroke: var(--color-blue);
+  }
+
+  .live-scan[data-state] .row {
+    transition:
+      opacity 450ms ease-out,
+      transform 500ms var(--ease-out-soft);
+  }
+  .live-scan[data-state] .row[data-shown="false"] {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  .reticle {
+    transition:
+      transform 520ms var(--ease-out-soft),
+      opacity 250ms ease-out;
+  }
+  .reticle.is-visible {
+    opacity: 1;
+  }
+  .reticle.no-transition {
+    transition: none;
+  }
+  .reticle-corners {
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+  .reticle.is-locking .reticle-corners {
+    animation: lock 380ms var(--ease-out-soft) both;
+  }
+  .reticle-sweep {
+    opacity: 0;
+  }
+  .reticle.is-sweeping .reticle-sweep {
+    animation: sweep-x 420ms ease-out both;
+  }
+
+  @keyframes lock {
+    from {
+      transform: scale(1.3);
+      opacity: 0.35;
+    }
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+  @keyframes sweep-x {
+    0% {
+      opacity: 0;
+      transform: translateX(0);
+    }
+    15% {
+      opacity: 1;
+    }
+    85% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+      transform: translateX(74px);
+    }
+  }
+</style>
+
+<script>
+  const root = document.querySelector<HTMLElement>("[data-live-scan]");
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if (root && !reduced) {
+    const slots = Array.from(root.querySelectorAll<SVGGElement>("[data-slot]"));
+    const rows = Array.from(root.querySelectorAll<HTMLElement>("[data-row]"));
+    const reticle = root.querySelector<SVGGElement>("[data-reticle]")!;
+    const replay = root.querySelector<HTMLButtonElement>("[data-replay]")!;
+    const counters = Object.fromEntries(
+      Array.from(root.querySelectorAll<HTMLElement>("[data-count]")).map((el) => [el.dataset.count!, el]),
+    );
+    const counts: Record<string, number> = { found: 0, missing: 0, damaged: 0 };
+    let timers: number[] = [];
+
+    const at = (ms: number, fn: () => void) => timers.push(window.setTimeout(fn, ms));
+    const restartClass = (el: Element, cls: string) => {
+      el.classList.remove(cls);
+      void (el as SVGGElement).getBBox();
+      el.classList.add(cls);
+    };
+    const place = (slot: SVGGElement) => `translate(${slot.dataset.cx}px, ${slot.dataset.cy}px)`;
+
+    const prepare = () => {
+      timers.forEach(clearTimeout);
+      timers = [];
+      root.dataset.state = "idle";
+      slots.forEach((s) => (s.dataset.done = "false"));
+      rows.forEach((r) => (r.dataset.shown = "false"));
+      Object.keys(counts).forEach((k) => {
+        counts[k] = 0;
+        counters[k].textContent = "0";
+      });
+      reticle.classList.add("no-transition");
+      reticle.classList.remove("is-visible", "is-locking", "is-sweeping");
+      reticle.style.transform = place(slots[0]);
+      void reticle.getBBox();
+      reticle.classList.remove("no-transition");
+    };
+
+    const run = () => {
+      prepare();
+      root.dataset.state = "running";
+      replay.disabled = true;
+      let t = 300;
+      slots.forEach((slot, i) => {
+        at(t, () => {
+          reticle.classList.add("is-visible");
+          reticle.style.transform = place(slot);
+        });
+        at(t + 540, () => restartClass(reticle, "is-locking"));
+        at(t + 720, () => restartClass(reticle, "is-sweeping"));
+        at(t + 1080, () => {
+          slot.dataset.done = "true";
+          rows[i].dataset.shown = "true";
+          const status = slot.dataset.status!;
+          counts[status] += 1;
+          counters[status].textContent = String(counts[status]);
+        });
+        t += 1180;
+      });
+      at(t, () => {
+        reticle.classList.remove("is-visible");
+        root.dataset.state = "done";
+        replay.disabled = false;
+      });
+    };
+
+    prepare();
+    replay.hidden = false;
+    replay.addEventListener("click", run);
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          io.disconnect();
+          run();
+        }
+      },
+      { threshold: 0.45 },
+    );
+    io.observe(root);
+  }
+</script>
