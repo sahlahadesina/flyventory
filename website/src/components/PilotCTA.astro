@@ -1,0 +1,295 @@
+---
+// TODO: paste the Formspree form endpoint here, e.g. "https://formspree.io/f/abcdwxyz".
+const FORMSPREE_ENDPOINT = "";
+
+const fields = [
+  { id: "name", label: "Name", type: "text", autocomplete: "name", error: "Enter your name." },
+  { id: "company", label: "Company", type: "text", autocomplete: "organization", error: "Enter your company." },
+  { id: "role", label: "Role", type: "text", autocomplete: "organization-title", error: "Enter your role." },
+  {
+    id: "email",
+    label: "Work email",
+    type: "email",
+    autocomplete: "email",
+    inputmode: "email",
+    error: "Enter a work email address, like name@company.com.",
+  },
+  { id: "phone", label: "Phone", type: "tel", autocomplete: "tel", inputmode: "tel", optional: true },
+  {
+    id: "location",
+    label: "Warehouse location",
+    type: "text",
+    autocomplete: "address-level2",
+    error: "Enter your warehouse location.",
+  },
+];
+---
+
+<section id="contact" class="on-dark section-y bg-navy text-white" aria-labelledby="contact-title">
+  <div class="container-x grid gap-10 lg:grid-cols-12 lg:gap-12">
+    <div class="lg:col-span-5 lg:sticky lg:top-28 lg:self-start" data-reveal>
+      <h2 id="contact-title" class="text-h2">Run a pilot in your warehouse.</h2>
+      <p class="text-lead mt-4 text-white/85">
+        We&rsquo;re looking for a small number of UAE warehouses to test Flyventory on real inventory.
+      </p>
+    </div>
+
+    <div class="lg:col-span-7" data-reveal>
+      <form
+        class="pilot-form rounded-panel bg-white p-6 text-navy sm:p-8"
+        action={FORMSPREE_ENDPOINT || undefined}
+        method="POST"
+        novalidate
+        data-pilot-form
+        data-endpoint={FORMSPREE_ENDPOINT}
+      >
+        {
+          import.meta.env.DEV && !FORMSPREE_ENDPOINT && (
+            <p class="mb-6 rounded-btn border border-dashed border-navy/40 px-4 py-3 text-sm">
+              Dev only: TODO, add the Formspree endpoint in PilotCTA.astro.
+            </p>
+          )
+        }
+
+        <div
+          class="error-summary mb-6 hidden rounded-btn border-2 border-error p-4"
+          role="alert"
+          tabindex="-1"
+          data-error-summary
+        >
+          <p class="flex items-center gap-2 font-semibold text-error">
+            <svg class="size-5 shrink-0" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+              <circle cx="10" cy="10" r="8.25" stroke="currentColor" stroke-width="1.5"></circle>
+              <path d="M10 5.75v5.5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"></path>
+              <circle cx="10" cy="14" r="1" fill="currentColor"></circle>
+            </svg>
+            <span data-error-summary-title>Check the fields below</span>
+          </p>
+          <ul class="mt-2 list-disc space-y-1 pl-9 text-sm" data-error-summary-list></ul>
+        </div>
+
+        <div class="grid gap-5 md:grid-cols-2">
+          {
+            fields.map((f) => (
+              <div class="field" data-field>
+                <label for={f.id} class="block text-sm font-semibold">
+                  {f.label}
+                  {f.optional && <span class="font-normal text-slate"> (optional)</span>}
+                </label>
+                <input
+                  id={f.id}
+                  name={f.id}
+                  type={f.type}
+                  autocomplete={f.autocomplete}
+                  inputmode={f.inputmode as any}
+                  required={!f.optional}
+                  aria-describedby={f.optional ? undefined : `${f.id}-error`}
+                  data-error={f.error}
+                  class="input mt-1.5"
+                />
+                {!f.optional && <p id={`${f.id}-error`} class="field-error" hidden />}
+              </div>
+            ))
+          }
+
+          <div class="field md:col-span-2" data-field>
+            <label for="message" class="block text-sm font-semibold">Message</label>
+            <textarea
+              id="message"
+              name="message"
+              rows="4"
+              required
+              aria-describedby="message-error"
+              data-error="Enter a message."
+              class="input mt-1.5 min-h-28 resize-y"></textarea>
+            <p id="message-error" class="field-error" hidden></p>
+          </div>
+        </div>
+
+        <!-- Spam trap for Formspree. -->
+        <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true" />
+
+        <div class="mt-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <button type="submit" class="btn btn-primary w-full sm:w-auto" data-submit>
+            <span data-submit-label>Request a pilot</span>
+          </button>
+          <a href="/privacy" class="inline-flex min-h-11 items-center self-start text-sm text-slate sm:self-auto">
+            <span class="link-slide">Privacy</span>
+          </a>
+        </div>
+      </form>
+
+      <div class="hidden rounded-panel bg-white p-6 text-navy sm:p-8" role="status" tabindex="-1" data-form-success>
+        <p class="flex items-center gap-2 text-h3">
+          <svg class="size-6 shrink-0 text-blue" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <circle cx="10" cy="10" r="8.25" stroke="currentColor" stroke-width="1.5"></circle>
+            <path
+              d="M6 10.2l2.6 2.6L14 7.4"
+              stroke="currentColor"
+              stroke-width="1.75"
+              stroke-linecap="round"
+              stroke-linejoin="round"></path>
+          </svg>
+          Pilot request sent.
+        </p>
+        <p class="text-body mt-2 text-slate">Thank you. We&rsquo;ll reply to the email address you gave.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .input {
+    display: block;
+    width: 100%;
+    min-height: 3rem;
+    padding: 0.625rem 0.875rem;
+    border: 1px solid color-mix(in oklab, var(--color-navy), transparent 65%);
+    border-radius: var(--radius-btn);
+    background-color: var(--color-white);
+    color: var(--color-navy);
+    font-size: 1rem;
+    transition: border-color 180ms ease-out;
+  }
+  .input:hover {
+    border-color: var(--color-navy);
+  }
+  .input:focus-visible {
+    outline: 2px solid var(--color-blue);
+    outline-offset: 1px;
+    border-color: var(--color-blue);
+  }
+  .input[aria-invalid="true"] {
+    border-color: var(--color-error);
+    border-width: 2px;
+  }
+
+  .field-error:not([hidden]) {
+    display: flex;
+    gap: 0.375rem;
+    align-items: flex-start;
+    margin-top: 0.375rem;
+    font-size: 0.875rem;
+    color: var(--color-error);
+  }
+  .field-error::before {
+    /* warning icon so errors never rely on colour alone */
+    content: "";
+    flex-shrink: 0;
+    width: 1rem;
+    height: 1rem;
+    margin-top: 0.125rem;
+    background-color: currentColor;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M10 1.5a8.5 8.5 0 1 0 0 17 8.5 8.5 0 0 0 0-17Zm-.9 4.25h1.8v6h-1.8v-6Zm.9 9.5a1.1 1.1 0 1 1 0-2.2 1.1 1.1 0 0 1 0 2.2Z'/%3E%3C/svg%3E")
+      center / contain no-repeat;
+  }
+
+  .error-summary :global(a) {
+    color: var(--color-error);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  [data-submit][aria-disabled="true"] {
+    opacity: 0.75;
+    cursor: progress;
+  }
+</style>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>("[data-pilot-form]");
+
+  if (form) {
+    const summary = form.querySelector<HTMLElement>("[data-error-summary]")!;
+    const summaryTitle = form.querySelector<HTMLElement>("[data-error-summary-title]")!;
+    const summaryList = form.querySelector<HTMLUListElement>("[data-error-summary-list]")!;
+    const submit = form.querySelector<HTMLButtonElement>("[data-submit]")!;
+    const submitLabel = form.querySelector<HTMLElement>("[data-submit-label]")!;
+    const success = document.querySelector<HTMLElement>("[data-form-success]")!;
+    const controls = Array.from(form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>("[required]"));
+    const touched = new Set<Element>();
+
+    const validate = (el: HTMLInputElement | HTMLTextAreaElement) => {
+      el.value = el.value.trimStart();
+      const valid = el.checkValidity() && el.value.trim() !== "";
+      const msg = document.getElementById(`${el.id}-error`);
+      el.setAttribute("aria-invalid", String(!valid));
+      if (msg) {
+        msg.textContent = valid ? "" : (el.dataset.error ?? "");
+        msg.hidden = valid;
+      }
+      return valid;
+    };
+
+    const showSummary = (title: string, invalid: (HTMLInputElement | HTMLTextAreaElement)[]) => {
+      summaryTitle.textContent = title;
+      summaryList.replaceChildren(
+        ...invalid.map((el) => {
+          const li = document.createElement("li");
+          const a = document.createElement("a");
+          a.href = `#${el.id}`;
+          a.textContent = el.dataset.error ?? "";
+          a.addEventListener("click", (e) => {
+            e.preventDefault();
+            el.focus();
+          });
+          li.append(a);
+          return li;
+        }),
+      );
+      summary.classList.remove("hidden");
+      summary.focus();
+    };
+
+    controls.forEach((el) => {
+      el.addEventListener("blur", () => {
+        if (el.value.trim() !== "") touched.add(el);
+        if (touched.has(el)) validate(el);
+      });
+      el.addEventListener("input", () => {
+        if (el.getAttribute("aria-invalid") === "true") validate(el);
+      });
+    });
+
+    const setBusy = (busy: boolean) => {
+      submit.setAttribute("aria-disabled", String(busy));
+      submitLabel.textContent = busy ? "Sending…" : "Request a pilot";
+    };
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      if (submit.getAttribute("aria-disabled") === "true") return;
+
+      controls.forEach((el) => touched.add(el));
+      const invalid = controls.filter((el) => !validate(el));
+      if (invalid.length) {
+        showSummary("Check the fields below", invalid);
+        return;
+      }
+      summary.classList.add("hidden");
+
+      const endpoint = form.dataset.endpoint;
+      if (!endpoint) {
+        showSummary("This form is not connected yet. Please try again later.", []);
+        return;
+      }
+
+      setBusy(true);
+      try {
+        const res = await fetch(endpoint, {
+          method: "POST",
+          body: new FormData(form),
+          headers: { Accept: "application/json" },
+        });
+        if (!res.ok) throw new Error(String(res.status));
+        form.classList.add("hidden");
+        success.classList.remove("hidden");
+        success.focus();
+      } catch {
+        showSummary("Your request did not send. Check your connection and try again.", []);
+      } finally {
+        setBusy(false);
+      }
+    });
+  }
+</script>
