@@ -2,11 +2,30 @@
 import LiveScan from "./LiveScan.astro";
 
 const steps = [
-  { title: "Pilot", text: "An operator flies the drone along the aisle or over the staging area." },
+  { title: "Pilot", text: "Our trained operator flies the drone along the aisle or staging area. You don’t provide a pilot." },
   { title: "Scan", text: "The onboard camera reads barcodes and QR codes on boxes and pallets." },
-  { title: "Verify", text: "The software checks each item’s presence and quantity against what’s expected." },
+  {
+    title: "Verify",
+    text: "The software checks each code against your expected stock list and marks the item Found or Missing.",
+  },
   { title: "Log", text: "Results are saved automatically, with location and time." },
-  { title: "Display", text: "Your team sees what’s found, missing or damaged on a live dashboard." },
+  { title: "Display", text: "Your team sees what’s found and what’s missing on a dashboard." },
+];
+
+// Who does what during a pilot.
+const sides = [
+  {
+    title: "Your side",
+    items: ["Access to the area during an agreed time window.", "Your expected stock list.", "No pilot or equipment needed."],
+  },
+  {
+    title: "Our side",
+    items: [
+      "We bring the drone.",
+      "We bring a trained operator.",
+      "We measure the read rate on your own inventory and share it with you.",
+    ],
+  },
 ];
 ---
 
@@ -43,6 +62,35 @@ const steps = [
         >).
       </span>
     </p>
+
+    <div
+      class="mt-10 grid rounded-panel border border-navy/12 bg-white md:grid-cols-2 lg:mt-12"
+      data-reveal
+    >
+      {
+        sides.map((side, i) => (
+          <div class:list={["p-6 sm:p-8", i > 0 && "border-t border-navy/12 md:border-t-0 md:border-l"]}>
+            <h3 class="text-h3">{side.title}</h3>
+            <ul class="mt-4 grid gap-3">
+              {side.items.map((item) => (
+                <li class="flex gap-3 text-slate">
+                  <svg class="mt-0.5 size-5 shrink-0 text-blue" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                    <path
+                      d="M5 10.2l3.2 3.2L15 6.6"
+                      stroke="currentColor"
+                      stroke-width="1.75"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                  <span class="text-pretty">{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
 
     <div class="mt-12 lg:mt-16" data-reveal>
       <LiveScan />

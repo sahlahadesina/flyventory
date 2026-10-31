@@ -3,17 +3,14 @@ import { Picture } from "astro:assets";
 import staging from "../../public/media/stock/usecase-staging.webp";
 
 const stagingChecks = [
-  { term: "Quantity", desc: "missing or extra items" },
   { term: "SKU", desc: "wrong products received" },
   { term: "Labels", desc: "missing or incorrect labels" },
-  { term: "Packaging", desc: "damaged or compromised cartons" },
   { term: "Records", desc: "physical stock vs. what your system says" },
 ];
 
 const putAway = [
   "Empty location checks",
   "Item and location verification",
-  "Package condition checks",
   "Finding a specific SKU or package",
 ];
 ---

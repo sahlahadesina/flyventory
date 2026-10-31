@@ -12,10 +12,18 @@ const hardware = [
 
 const software = [
   { text: "Real-time barcode and QR code detection" },
-  { text: "Item presence and quantity verification" },
-  { text: "Package condition detection", tag: "Prototype" },
-  { text: "Inventory dashboard with found, missing and damaged items" },
+  { text: "Each code checked against your expected stock list" },
+  {
+    text: "Package condition detection",
+    tag: "Prototype",
+    note: "A model that flags damaged cartons in test images, not yet validated for real use.",
+  },
+  { text: "Inventory dashboard with found and missing items" },
 ];
+
+// What it needs: conditions tested so far and not yet tested.
+const tested = ["Indoors, in a university lab", "Stacked cartons", "Normal indoor lighting"];
+const notTested = ["Dim areas", "Glare from shrink-wrap", "Labels facing away from the aisle"];
 
 // Drone photo slot. TODO: add our real drone photo as public/media/drone.webp.
 // Nothing renders until that file exists.
@@ -115,11 +123,78 @@ const dronePhoto = Object.values(
                   {item.tag}
                 </span>
               )}
+              {item.note && <span class="mt-1 block text-sm text-white/70">{item.note}</span>}
             </span>
           </li>
         ))
       }
     </ul>
+
+    <p class="mt-10 flex max-w-2xl items-start gap-3 text-white/80" data-reveal>
+      <svg class="mt-0.5 size-5 shrink-0 text-white" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+        <circle cx="10" cy="10" r="8.25" stroke="currentColor" stroke-width="1.5"></circle>
+        <path d="M10 9v5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
+        <circle cx="10" cy="6.25" r="1" fill="currentColor"></circle>
+      </svg>
+      <span class="text-pretty">
+        We&rsquo;re publishing results from our lab tests soon. During a pilot, we measure the read rate on your own
+        inventory and share it with you.
+      </span>
+    </p>
+
+    <div class="mt-12 rounded-panel border border-white/15 p-6 sm:p-8 lg:mt-14 lg:p-10" data-reveal>
+      <h3 class="text-h3">What it needs</h3>
+      <div class="mt-6 grid gap-8 md:grid-cols-2">
+        <div>
+          <p class="text-label text-white/70">Tested</p>
+          <ul class="mt-4 grid gap-3">
+            {
+              tested.map((item) => (
+                <li class="flex gap-3">
+                  <svg class="mt-0.5 size-5 shrink-0" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                    <circle cx="10" cy="10" r="9" stroke="currentColor" stroke-opacity="0.35" stroke-width="1.5" />
+                    <path
+                      d="M6 10.2l2.6 2.6L14 7.4"
+                      stroke="currentColor"
+                      stroke-width="1.75"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                  <span>{item}</span>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+        <div>
+          <p class="text-label text-white/70">Not tested yet</p>
+          <ul class="mt-4 grid gap-3">
+            {
+              notTested.map((item) => (
+                <li class="flex gap-3 text-white/80">
+                  <svg class="mt-0.5 size-5 shrink-0" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                    <circle
+                      cx="10"
+                      cy="10"
+                      r="9"
+                      stroke="currentColor"
+                      stroke-opacity="0.35"
+                      stroke-width="1.5"
+                      stroke-dasharray="3 3"
+                    />
+                  </svg>
+                  <span>{item}</span>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </div>
+      <p class="mt-8 border-t border-white/15 pt-6 text-white/80">
+        Testing these conditions in a real warehouse is the purpose of the pilot.
+      </p>
+    </div>
   </div>
 </section>
 

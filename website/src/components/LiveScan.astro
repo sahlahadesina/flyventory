@@ -27,7 +27,7 @@ const slots: Slot[] = [
   { loc: "B-03", sku: "SKU-10426", x: 380, y: 212, status: "found", code: "barcode" },
 ];
 
-const statusLabel: Record<Status, string> = { found: "Found", missing: "Missing", damaged: "Damaged" };
+const statusLabel: Record<Status, string> = { found: "Found", missing: "Missing", damaged: "Damaged (prototype)" };
 const order: Status[] = ["found", "missing", "damaged"];
 const totals = Object.fromEntries(order.map((k) => [k, slots.filter((s) => s.status === k).length])) as Record<
   Status,
@@ -69,7 +69,7 @@ const barsWidth = bars[bars.length - 1].x + bars[bars.length - 1].w;
         class="scene block h-auto w-full"
         viewBox="0 0 560 360"
         role="img"
-        aria-label="Illustration: a viewfinder moves across six cartons on a two-level rack and reads each label. Four cartons are found, one is damaged and one slot is empty."
+        aria-label="Illustration: a viewfinder moves across six cartons on a two-level rack and reads each label. Four cartons are found, one is flagged as damaged by the prototype check, and one slot is empty."
       >
         <defs>
           <radialGradient id="ls-floor" cx="50%" cy="50%" r="50%">
@@ -257,9 +257,17 @@ const barsWidth = bars[bars.length - 1].x + bars[bars.length - 1].w;
       <dl class="grid grid-cols-3 border-b border-navy/12 text-center">
         {
           order.map((k) => (
-            <div class="border-navy/12 px-2 py-3 [&:not(:last-child)]:border-r">
-              <dt class="text-label text-slate">{statusLabel[k]}</dt>
-              <dd class={`mt-1 text-2xl font-semibold tabular-nums status-text-${k}`} data-count={k}>
+            <div class="flex flex-col border-navy/12 px-2 py-3 [&:not(:last-child)]:border-r">
+              <dt class="text-label text-slate">
+                {k === "damaged" ? (
+                  <>
+                    Damaged <span class="block text-[0.6875rem]">(prototype)</span>
+                  </>
+                ) : (
+                  statusLabel[k]
+                )}
+              </dt>
+              <dd class={`mt-auto pt-1 text-2xl font-semibold tabular-nums status-text-${k}`} data-count={k}>
                 {totals[k]}
               </dd>
             </div>
@@ -272,9 +280,17 @@ const barsWidth = bars[bars.length - 1].x + bars[bars.length - 1].w;
           slots.map((s) => (
             <li class="row flex items-center gap-3 py-2.5 text-sm" data-row data-shown="true">
               <span class={`status-icon status-${s.status}`} aria-hidden="true" />
-              <span class="font-semibold tabular-nums">{s.sku}</span>
-              <span class="text-slate tabular-nums">{s.loc}</span>
-              <span class={`ml-auto font-semibold status-text-${s.status}`}>{statusLabel[s.status]}</span>
+              <span class="font-semibold whitespace-nowrap tabular-nums">{s.sku}</span>
+              <span class="whitespace-nowrap text-slate tabular-nums">{s.loc}</span>
+              <span class={`ml-auto text-right font-semibold status-text-${s.status}`}>
+                {s.status === "damaged" ? (
+                  <>
+                    Damaged <span class="block text-xs font-normal sm:inline">(prototype)</span>
+                  </>
+                ) : (
+                  statusLabel[s.status]
+                )}
+              </span>
             </li>
           ))
         }
