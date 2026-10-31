@@ -91,7 +91,7 @@ Section title: Working today.
 - Package condition detection (prototype): a model that flags damaged cartons in test images, not yet validated for real use
 - Inventory dashboard with found and missing items
 
-Performance line: We're publishing results from our lab tests soon. During a pilot, we measure the read rate on your own inventory and share it with you.
+Performance line: We're running a lab test that measures read rate, false reads, time per pass and flight time per battery. We're publishing results from our lab tests soon. During a pilot, we measure the read rate on your own inventory and share it with you.
 
 Block beside "Working today": What it needs
 
