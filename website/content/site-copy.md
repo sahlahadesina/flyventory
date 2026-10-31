@@ -44,7 +44,7 @@ Section title: Inventory checks are still done by hand.
 
 Section title: From flight to dashboard in five steps.
 
-1. **Pilot.** Our trained operator flies the drone along the aisle or staging area. You don't provide a pilot.
+1. **Pilot.** A trained operator flies the drone along the aisle or over the staging area.
 2. **Scan.** The onboard camera reads barcodes and QR codes on boxes and pallets.
 3. **Verify.** The software checks each code against your expected stock list and marks the item Found or Missing.
 4. **Log.** Results are saved automatically, with location and time.
@@ -56,13 +56,11 @@ Block under the steps: Your side / Our side
 
 Our side:
 - We bring the drone.
-- We bring a trained operator.
 - We measure the read rate on your own inventory and share it with you.
 
 Your side:
 - Access to the area during an agreed time window.
 - Your expected stock list.
-- No pilot or equipment needed.
 
 ---
 
@@ -143,7 +141,7 @@ Cards (TODO: names, roles, photos, LinkedIn):
 ## FAQ
 
 **Who flies the drone?**
-During a pilot, our team brings the drone and a trained operator. You don't need to provide a pilot or any equipment. Autonomous flight, which removes the need for an operator, is on our roadmap.
+Today, a trained operator. Autonomous flight, which removes the need for an operator, is on our roadmap. [CONFIRM: who provides the operator during a pilot and after]
 
 **Do we need to change our systems?**
 No. During a pilot, results show on our dashboard. Direct WMS integration is on our roadmap.
@@ -152,7 +150,7 @@ No. During a pilot, results show on our dashboard. Direct WMS integration is on 
 We fly in controlled areas during agreed time windows and are developing propeller guards for extra protection. [CONFIRM: team to agree on safety wording]
 
 **What does a pilot involve?**
-Our team brings the drone and a trained operator. You give us access to the area during an agreed time window, and your expected stock list. We measure the read rate on your own inventory and share it with you. [CONFIRM: length, cost]
+Our team brings the drone. You give us access to the area during an agreed time window, and your expected stock list. We measure the read rate on your own inventory and share it with you. [CONFIRM: length, cost, who provides the operator]
 
 **What conditions does it work in?**
 So far we've tested indoors, in a university lab, on stacked cartons under normal indoor lighting. We haven't yet tested dim areas, glare from shrink-wrap, or labels facing away from the aisle. Testing these conditions in a real warehouse is the purpose of the pilot.
