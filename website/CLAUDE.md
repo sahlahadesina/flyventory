@@ -1,6 +1,6 @@
 # Flyventory website
 
-Marketing site for Flyventory, a drone and software system that checks warehouse inventory. The site has one job: get warehouse and logistics managers in the UAE to request a pilot. Every section should move a visitor toward the "Book a pilot" button.
+Marketing site for Flyventory, a drone and software system that checks warehouse inventory. The site has one job: get warehouse and logistics managers in the UAE to join the pilot list (pilots open in a later phase). Every section should move a visitor toward the "Join the pilot list" button.
 
 ## Stack
 

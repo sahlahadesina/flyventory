@@ -28,9 +28,9 @@ const fields = [
 <section id="contact" class="on-dark section-y bg-navy text-white" aria-labelledby="contact-title">
   <div class="container-x grid gap-10 lg:grid-cols-12 lg:gap-12">
     <div class="lg:col-span-5 lg:sticky lg:top-28 lg:self-start" data-reveal>
-      <h2 id="contact-title" class="text-h2">Run a pilot in your warehouse.</h2>
+      <h2 id="contact-title" class="text-h2">Join the pilot list.</h2>
       <p class="text-lead mt-4 text-white/85">
-        We&rsquo;re looking for a small number of UAE warehouses to test Flyventory on real inventory.
+        Pilots open in a later phase. Add your warehouse to the list and we&rsquo;ll contact you when they start.
       </p>
     </div>
 
@@ -111,7 +111,7 @@ const fields = [
 
         <div class="mt-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <button type="submit" class="btn btn-primary w-full sm:w-auto" data-submit>
-            <span data-submit-label>Request a pilot</span>
+            <span data-submit-label>Join the pilot list</span>
           </button>
           <a href="/privacy" class="inline-flex min-h-11 items-center self-start text-sm text-slate sm:self-auto">
             <span class="link-slide">Privacy</span>
@@ -130,9 +130,9 @@ const fields = [
               stroke-linecap="round"
               stroke-linejoin="round"></path>
           </svg>
-          Pilot request sent.
+          You&rsquo;re on the pilot list.
         </p>
-        <p class="text-body mt-2 text-slate">Thank you. We&rsquo;ll reply to the email address you gave.</p>
+        <p class="text-body mt-2 text-slate">Thank you. We&rsquo;ll contact you at the email address you gave when pilots open.</p>
       </div>
     </div>
   </div>
@@ -253,7 +253,7 @@ const fields = [
 
     const setBusy = (busy: boolean) => {
       submit.setAttribute("aria-disabled", String(busy));
-      submitLabel.textContent = busy ? "Sending…" : "Request a pilot";
+      submitLabel.textContent = busy ? "Sending…" : "Join the pilot list";
     };
 
     form.addEventListener("submit", async (e) => {

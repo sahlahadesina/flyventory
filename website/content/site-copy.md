@@ -15,7 +15,7 @@ Lines marked [CONFIRM] are guesses or need a team decision before launch.
 ## Header
 
 - Nav: How it works · Use cases · Roadmap · Team · Contact
-- Button: Book a pilot
+- Button: Join the pilot list
 
 ---
 
@@ -24,7 +24,7 @@ Lines marked [CONFIRM] are guesses or need a team decision before launch.
 - Eyebrow: DRONE INVENTORY CHECKS
 - Headline: Check every pallet without climbing a single rack.
 - Subheadline: Flyventory is a drone and software system for warehouses. It reads barcodes and QR codes on cartons, checks each code against your expected stock list, and marks every item Found or Missing with its shelf location on one dashboard.
-- Primary button: Book a pilot
+- Primary button: Join the pilot list
 - Secondary button: Watch it work (scrolls to the demo)
 - Media: demo video or detection screenshot from `public/media/` (TODO: real footage)
 
@@ -44,18 +44,18 @@ Section title: Inventory checks are still done by hand.
 
 Section title: From flight to dashboard in five steps.
 
-1. **Pilot.** A trained operator flies the drone along the aisle or over the staging area.
+1. **Pilot.** Our team flies the drone along the aisle or over the staging area.
 2. **Scan.** The onboard camera reads barcodes and QR codes on boxes and pallets.
 3. **Verify.** The software checks each code against your expected stock list and marks the item Found or Missing.
 4. **Log.** Results are saved automatically, with location and time.
 5. **Display.** Your team sees what's found and what's missing on a dashboard.
 
-Note under the steps: Today the drone is flown by a trained operator. Autonomous flight is in development (see Roadmap).
+Note under the steps: Today our team flies the drone. Autonomous flight is in development (see Roadmap).
 
 Block under the steps: Your side / Our side
 
 Our side:
-- We bring the drone.
+- We bring the drone and fly it.
 - We measure the read rate on your own inventory and share it with you.
 
 Your side:
@@ -141,7 +141,10 @@ Cards (TODO: names, roles, photos, LinkedIn):
 ## FAQ
 
 **Who flies the drone?**
-Today, a trained operator. Autonomous flight, which removes the need for an operator, is on our roadmap. [CONFIRM: who provides the operator during a pilot and after]
+During testing and pilots, our team flies the drone. Autonomous flight, which removes the need for an operator, is on our roadmap.
+
+**How do you make sure every label is read?**
+We're testing how to confirm every label was read: comparing results with your latest inventory count and with saved camera footage. We'll share the accuracy we measure.
 
 **Do we need to change our systems?**
 No. During a pilot, results show on our dashboard. Direct WMS integration is on our roadmap.
@@ -150,7 +153,7 @@ No. During a pilot, results show on our dashboard. Direct WMS integration is on 
 We fly in controlled areas during agreed time windows and are developing propeller guards for extra protection. [CONFIRM: team to agree on safety wording]
 
 **What does a pilot involve?**
-Our team brings the drone. You give us access to the area during an agreed time window, and your expected stock list. We measure the read rate on your own inventory and share it with you. [CONFIRM: length, cost, who provides the operator]
+Pilots open in a later phase. When they do, our team brings and flies the drone. You give us access to the area during an agreed time window, and your expected stock list. We measure the read rate on your own inventory and share it with you. [CONFIRM: length, cost]
 
 **What conditions does it work in?**
 So far we've tested indoors, in a university lab, on stacked cartons under normal indoor lighting. We haven't yet tested dim areas, glare from shrink-wrap, or labels facing away from the aisle. Testing these conditions in a real warehouse is the purpose of the pilot.
@@ -159,10 +162,11 @@ So far we've tested indoors, in a university lab, on stacked cartons under norma
 
 ## Pilot call to action
 
-- Title: Run a pilot in your warehouse.
-- Text: We're looking for a small number of UAE warehouses to test Flyventory on real inventory. [CONFIRM]
+- Title: Join the pilot list.
+- Text: Pilots open in a later phase. Add your warehouse to the list and we'll contact you when they start.
+- Success message: You're on the pilot list. Thank you. We'll contact you at the email address you gave when pilots open.
 - Form fields: Name, Company, Role, Work email, Phone (optional), Warehouse location, Message
-- Button: Request a pilot
+- Button: Join the pilot list
 - Form: TODO (Tally or Formspree embed)
 
 ---
