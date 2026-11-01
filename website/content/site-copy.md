@@ -131,10 +131,12 @@ Section title: The team.
 
 Line: We're engineers from Khalifa University building Flyventory through the KUEC Incubator. [CONFIRM wording]
 
-Cards (TODO: names, roles, photos, LinkedIn):
-- Name, role
-- Name, role
-- Name, role
+Cards (TODO: roles, photos, LinkedIn):
+- Dr. Reyad El-Khazali
+- Omar Yousef
+- Sahlah Adesina
+- Nour Abed Alhaq
+- Maha Alhammadi
 
 ---
 

@@ -1,9 +1,11 @@
 ---
-// TODO: replace with real names and roles before launch. Photos and LinkedIn links are hidden until provided.
-const members = [
-  { name: "TODO: Name", role: "TODO: Role" },
-  { name: "TODO: Name", role: "TODO: Role" },
-  { name: "TODO: Name", role: "TODO: Role" },
+// TODO: add roles. A role line, photos and LinkedIn links stay hidden until provided.
+const members: { name: string; role?: string }[] = [
+  { name: "Dr. Reyad El-Khazali" },
+  { name: "Omar Yousef" },
+  { name: "Sahlah Adesina" },
+  { name: "Nour Abed Alhaq" },
+  { name: "Maha Alhammadi" },
 ];
 ---
 
@@ -28,12 +30,12 @@ const members = [
         </p>
       </div>
 
-      <ul class="mt-8 grid gap-4 sm:grid-cols-3 lg:gap-6" data-reveal-stagger>
+      <ul class="mt-8 grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:gap-6" data-reveal-stagger>
         {
           members.map((m) => (
             <li class="card-hover rounded-panel border border-navy/12 bg-white p-6">
               <p class="font-semibold">{m.name}</p>
-              <p class="mt-1 text-sm text-slate">{m.role}</p>
+              {m.role && <p class="mt-1 text-sm text-slate">{m.role}</p>}
             </li>
           ))
         }
