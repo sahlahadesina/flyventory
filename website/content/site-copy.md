@@ -8,13 +8,13 @@ Lines marked [CONFIRM] are guesses or need a team decision before launch.
 ## Meta
 
 - Title: Flyventory | Drone inventory checks for warehouses
-- Description: Flyventory drones scan barcodes and QR codes across your staging area and racks, check what's there against what should be, and log the results. No ladders, no forklifts.
+- Description: Flyventory drones scan barcodes and QR codes across your racks and staging area, check what's there against what should be, and log the results. No ladders, no forklifts.
 
 ---
 
 ## Header
 
-- Nav: How it works · Use cases · Roadmap · Team · Contact
+- Nav: How it works · Use cases · Roadmap · Team · FAQ
 - Button: Join the pilot list
 
 ---
@@ -68,16 +68,16 @@ Your side:
 
 Section title: Where Flyventory fits.
 
-**Staging area** (our first focus)
-Goods arrive, get unloaded and wait in staging before put-away. That's where receiving errors slip through. Flyventory checks:
-- SKU: wrong products received
-- Labels: missing or incorrect labels
-- Records: physical stock vs. what your system says
-
-**Put-away and storage** (next)
+**Put-away and storage** (our first focus)
 - Empty location checks
 - Item and location verification
 - Finding a specific SKU or package
+
+**Staging area** (next)
+Goods arrive, get unloaded and wait in staging before put-away. That's where receiving errors slip through. Flyventory will check:
+- SKU: wrong products received
+- Labels: missing or incorrect labels
+- Records: physical stock vs. what your system says
 
 ---
 
