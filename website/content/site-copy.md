@@ -129,10 +129,10 @@ Label every item "In development".
 
 Section title: The team.
 
-Line: We're engineers from Khalifa University building Flyventory through the KUEC Incubator. [CONFIRM wording]
+Line: We're a team of Khalifa University engineers building Flyventory through the KUEC Incubator.
 
-Cards (TODO: roles, photos, LinkedIn):
-- Dr. Reyad El-Khazali
+Cards (TODO: roles for the other members, photos, LinkedIn):
+- Dr. Reyad El-Khazali, Faculty advisor
 - Omar Yousef
 - Sahlah Adesina
 - Nour Abed Alhaq
