@@ -134,8 +134,8 @@ Line: We're a team of Khalifa University engineers building Flyventory through t
 Cards (TODO: roles for the other members, photos, LinkedIn):
 - Dr. Reyad El-Khazali, Faculty advisor
 - Omar Yousef
-- Sahlah Adesina
 - Nour Abed Alhaq
+- Sahlah Adesina
 - Maha Alhammadi
 - Rahika Roza
 
