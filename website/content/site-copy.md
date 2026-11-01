@@ -137,6 +137,7 @@ Cards (TODO: roles for the other members, photos, LinkedIn):
 - Sahlah Adesina
 - Nour Abed Alhaq
 - Maha Alhammadi
+- Rahika Roza
 
 ---
 
