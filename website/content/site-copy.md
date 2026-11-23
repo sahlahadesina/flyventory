@@ -129,15 +129,15 @@ Label every item "In development".
 
 Section title: The team.
 
-Line: We're a team of Khalifa University engineers building Flyventory through the KUEC Incubator.
+Line: We're a Khalifa University team building Flyventory through the KUEC Incubator.
 
-Cards (TODO: roles for the other members, photos, LinkedIn):
+Cards (TODO: photos, LinkedIn):
 - Dr. Reyad El-Khazali, Faculty advisor
-- Omar Yousef
-- Nour Abed Alhaq
-- Sahlah Adesina
-- Maha Alhammadi
-- Rahika Roza
+- Omar Yousef, Engineering & Software
+- Nour Abed Alhaq, Business & Industry Relations
+- Sahlah Adesina, Business & Industry Relations
+- Maha Alhammadi, Business & Industry Relations
+- Rahika Roza, Engineering & Software
 
 ---
 
